@@ -1,0 +1,28 @@
+/* VARIABLES FOR COLORS */
+/* FONT-SIZE MOBILE */
+/* FONT-SIZE DESKTOP */
+header.main-header {
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  align-items: center; }
+  @media (min-width: 45em) {
+    header.main-header {
+      flex-direction: row; } }
+  header.main-header > h1 {
+    color: white; }
+    header.main-header > h1::before {
+      color: #fff266; }
+    header.main-header > h1::after {
+      color: #fff266; }
+  header.main-header > .budgie {
+    width: 100%; }
+    @media (min-width: 45em) {
+      header.main-header > .budgie {
+        width: 13rem; } }
+  header.main-header :last-child {
+    display: none;
+    transform: scaleX(-1); }
+    @media (min-width: 45em) {
+      header.main-header :last-child {
+        display: block; } }

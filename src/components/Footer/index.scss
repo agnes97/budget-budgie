@@ -1,0 +1,9 @@
+@import '../../themes/variables.scss';
+
+footer {
+    & > p {
+        color: $text-secondary-color;
+        text-align: center;
+        font-weight: bold;
+    }
+}
