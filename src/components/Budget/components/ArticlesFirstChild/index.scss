@@ -1,0 +1,32 @@
+@import '../../../../themes/variables.scss';
+@import '../../index.scss';
+
+article.have-month {
+    background-color: $have-month-background;
+
+    & * h2, * h3 { color: $have-month-titles; }
+
+    & > .content {
+        & * .name {
+            font-weight: bold;
+        }
+    
+        & * .wage {
+            padding-right: 2rem;
+            text-align: right;
+    
+            &::after {
+                content: ' czk';
+                font-size: 1.2rem;
+            }
+            
+            @include phone-view { padding: 0; }
+        }
+    
+        & * .name, .wage {
+            @include phone-view { min-width: 30%; }
+            @include ipad-view { min-width: 20%; }
+            @include desktop-view { min-width: 50%; }
+        }
+    }
+}

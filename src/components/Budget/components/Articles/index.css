@@ -1,0 +1,64 @@
+/* VARIABLES FOR COLORS */
+/* FONT-SIZE MOBILE */
+/* FONT-SIZE DESKTOP */
+/* VARIABLES FOR COLORS */
+/* FONT-SIZE MOBILE */
+/* FONT-SIZE DESKTOP */
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 auto; }
+  @media (min-width: 45em) {
+    section {
+      width: 85%; } }
+  @media (min-width: 77em) {
+    section {
+      width: 100%;
+      padding: 0 3rem;
+      flex-direction: row; } }
+
+article {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1.5rem 0; }
+  article > h1::before, article h2::before {
+    color: white; }
+  article > h1::after, article h2::after {
+    color: white; }
+  article > .content {
+    line-height: 1.7; }
+    @media (max-width: 44em) {
+      article > .content {
+        margin: 2rem 1rem; } }
+    @media (min-width: 45em) {
+      article > .content {
+        margin: 2rem 10rem; } }
+    @media (min-width: 77em) {
+      article > .content {
+        margin: 2rem; } }
+    article > .content .emoji {
+      margin-right: 0.5rem; }
+    article > .content .content-one-column-row:hover, article > .content .content-two-columns:hover {
+      background-color: rgba(0, 0, 0, 0.1); }
+
+article.need-month {
+  background-color: #e06767; }
+  article.need-month * h2, article.need-month * h3 {
+    color: #732626; }
+
+article.need-year {
+  background-color: #f6b26a; }
+  article.need-year * h2, article.need-year * h3 {
+    color: #734e26; }
+
+article.want {
+  background-color: #b0cded; }
+  article.want * h2, article.want * h3 {
+    color: #264a73; }
+
+article.goals {
+  background-color: #b5a8d6; }
+  article.goals * h2, article.goals * h3 {
+    color: #3c2673; }

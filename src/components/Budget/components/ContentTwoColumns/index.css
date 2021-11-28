@@ -1,0 +1,35 @@
+/* VARIABLES FOR COLORS */
+/* FONT-SIZE MOBILE */
+/* FONT-SIZE DESKTOP */
+.content > .content-two-columns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  cursor: pointer; }
+  @media (min-width: 77em) {
+    .content > .content-two-columns {
+      justify-content: space-between; } }
+  .content > .content-two-columns > .cost::after {
+    content: ' czk';
+    font-size: 1.2rem; }
+  .content > .content-two-columns > .cost, .content > .content-two-columns .undefined-cost {
+    text-align: right; }
+    @media (max-width: 44em) {
+      .content > .content-two-columns > .cost, .content > .content-two-columns .undefined-cost {
+        min-width: 25%; } }
+    @media (min-width: 45em) {
+      .content > .content-two-columns > .cost, .content > .content-two-columns .undefined-cost {
+        min-width: 20%; } }
+    @media (min-width: 77em) {
+      .content > .content-two-columns > .cost, .content > .content-two-columns .undefined-cost {
+        min-width: 30%; } }
+  @media (max-width: 44em) {
+    .content > .content-two-columns > div, .content > .content-two-columns * .item {
+      min-width: 55%; } }
+  @media (min-width: 45em) {
+    .content > .content-two-columns > div, .content > .content-two-columns * .item {
+      min-width: 30%; } }
+  @media (min-width: 77em) {
+    .content > .content-two-columns > div, .content > .content-two-columns * .item {
+      min-width: 60%; } }

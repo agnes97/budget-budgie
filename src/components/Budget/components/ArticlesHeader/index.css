@@ -1,0 +1,13 @@
+/* VARIABLES FOR COLORS */
+/* FONT-SIZE MOBILE */
+/* FONT-SIZE DESKTOP */
+header.atricles-header {
+  display: flex;
+  flex-direction: column; }
+  header.atricles-header > h3 {
+    font-style: italic;
+    margin: -0.5rem 0; }
+    header.atricles-header > h3::before {
+      content: '~ '; }
+    header.atricles-header > h3::after {
+      content: ' ~'; }

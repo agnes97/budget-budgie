@@ -1,0 +1,14 @@
+@import '../../../../themes/variables.scss';
+
+header.atricles-header {
+    display: flex;
+    flex-direction: column;
+
+    & > h3 {
+        font-style: italic;
+        margin: -0.5rem 0;
+
+        &::before { content: '~ '; }
+        &::after { content: ' ~'; }
+    }
+}

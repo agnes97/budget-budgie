@@ -1,0 +1,50 @@
+/* VARIABLES FOR COLORS */
+/* FONT-SIZE MOBILE */
+/* FONT-SIZE DESKTOP */
+.total {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: flex-end;
+  font-weight: bold; }
+  .total > .column-total {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem; }
+    .total > .column-total:hover {
+      background-color: rgba(0, 0, 0, 0.1); }
+    .total > .column-total::after {
+      content: ' czk';
+      font-size: 1.2rem; }
+  .total > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+    margin: 0.5rem; }
+    .total > div:hover {
+      background-color: rgba(0, 0, 0, 0.1); }
+    .total > div > .title:after {
+      content: ' (czk)';
+      font-size: 1.2rem; }
+    .total > div > .numbers-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem; }
+      .total > div > .numbers-container > .earnings {
+        color: #3e7326; }
+        .total > div > .numbers-container > .earnings::before {
+          content: '\002B';
+          margin-right: 0.2rem; }
+      .total > div > .numbers-container > .expenses {
+        color: #cc1e1e; }
+        .total > div > .numbers-container > .expenses::before {
+          content: '\208B';
+          margin-right: 0.2rem; }
+      .total > div > .numbers-container > .savings {
+        color: #6d20e9; }
+        .total > div > .numbers-container > .savings::before {
+          content: '\0221E';
+          margin-right: 0.2rem; }
