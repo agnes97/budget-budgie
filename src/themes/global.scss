@@ -1,0 +1,79 @@
+@import 'variables.scss';
+
+html {
+	box-sizing: border-box;
+
+	// Hack for easily read font sizing (now 1rem = 10px, 1.1rem = 11px and so on)!
+	font-size: 62.5%;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+body {
+    @include styled-scrollbar;
+    
+    margin: 0;
+
+    & > #root {
+        min-height: 100vh;
+        
+        display: flex;
+        flex-direction: column;
+
+        background-color: $background-primary-color;
+
+        & h1, h2, h3, h4 {
+            text-align: center;
+        }
+
+        & h1, h2 {
+            &::before { content: '$$$ '; }
+            &::after { content: ' $$$'; }
+        }
+
+        & .done {
+            color: $text-transparent-color;
+            text-decoration: line-through;
+        }
+
+        & a {
+            color: $text-primary-color;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        & p {
+            padding: 0 3rem;
+        }
+
+        & .italic {
+            font-style: italic;
+        }
+
+        @include phone-view {
+            font-size: $default-phone;
+
+            & h1 { font-size: $h1-phone; }
+            & h2 { font-size: $h2-phone; }
+            & h3 { font-size: $h3-phone; }
+            & h4 { font-size: $h4-phone; }
+        }
+
+        @include ipad-view {
+            font-size: $default-desktop;
+            
+            & h1 { font-size: $h1-desktop; }
+            & h2 { font-size: $h2-desktop; }
+            & h3 { font-size: $h3-desktop; }
+            & h4 { font-size: $h4-desktop; }
+        }
+    }
+}
+
+main {
+    flex-grow: 1;
+}

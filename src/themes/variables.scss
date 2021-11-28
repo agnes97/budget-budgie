@@ -1,0 +1,50 @@
+/* VARIABLES FOR COLORS */
+$background-primary-color: hsl(0, 0%, 13%);
+$background-transparent-color: hsla(0, 0%, 0%, 0.1);
+
+$text-primary-color: hsl(0, 0%, 0%);
+$text-secondary-color: hsl(0, 0%, 100%);
+$text-transparent-color: hsla(0, 0%, 0%, 0.35);
+
+/* FONT-SIZE MOBILE */
+$default-phone: 2rem;
+
+$h1-phone: 3rem;
+$h2-phone: 2.5rem;
+$h3-phone: 2.5rem;
+$h4-phone: 2rem;
+
+/* FONT-SIZE DESKTOP */
+$default-desktop: 1.3rem;
+
+$h1-desktop: 5rem;
+$h2-desktop: 1.5rem;
+$h3-desktop: 1.5rem;
+$h4-desktop: 1.3rem;
+
+@mixin styled-scrollbar {
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+        width: 0;
+    } 
+}
+
+// MEDIA QUERIES VIA MIXINS
+@mixin phone-view {
+	@media (max-width: 44em) {
+		@content;
+	}
+}
+
+@mixin ipad-view {
+	@media (min-width: 45em) {
+		@content;
+	}
+}
+
+@mixin desktop-view {
+	@media (min-width: 77em) {
+		@content;
+	}
+}

@@ -1,0 +1,193 @@
+{
+    "data" : [
+        {
+            "class": "have-month",
+            "title": "WHAT WE HAVE",
+            "subtitle": "per month",
+            "content": [
+                {
+                    "emoji": "🧔",
+                    "name": "person 1",
+                    "wage": 35000,
+                    "note": null
+                },
+                {
+                    "emoji": "🧚‍♀️",
+                    "name": "person 2",
+                    "wage": 30000,
+                    "note": null
+                },
+                {
+                    "emoji": "🥷",
+                    "name": "person 3",
+                    "wage": 0,
+                    "note": null
+                }
+            ],
+            "total": {
+                "month": null,
+                "year": null,
+                "note": null
+            }
+        },
+        {
+            "class": "need-month",
+            "title": "WHAT WE NEED",
+            "subtitle": "per month",
+            "content": [
+                {
+                    "emoji": "🏠",
+                    "item": "apartment rent",
+                    "cost": 15000,
+                    "note": null
+                },
+                {
+                    "emoji": "🏠",
+                    "item": "water, electricity",
+                    "cost": 5000,
+                    "note": null
+                },
+                {
+                    "emoji": "💻",
+                    "item": "internet",
+                    "cost": 1000,
+                    "note": null
+                },
+                {
+                    "emoji": "🍆",
+                    "item": "groceries",
+                    "cost": 6000,
+                    "note": null
+                },
+                {
+                    "emoji": "🥷",
+                    "item": "ninja training",
+                    "cost": 4000,
+                    "note": "Temporarily canceled!",
+                    "done": 1
+                },
+                {
+                    "emoji": "🐈‍⬛",
+                    "item": "cat",
+                    "cost": 3000,
+                    "note": null
+                },
+                {
+                    "emoji": "🍿",
+                    "item": "netflix subscription",
+                    "cost": 500,
+                    "note": null
+                }
+            ],
+            "total": {
+                "sum": null,
+                "note": null
+            }
+        },
+        {
+            "class": "need-year",
+            "title": "WHAT WE NEED",
+            "subtitle": "per year",
+            "content": [
+                {
+                    "emoji": "🚋",
+                    "item": "public transport",
+                    "cost": 4000,
+                    "note": null
+                },
+                {
+                    "emoji": "☀️",
+                    "item": "clothes/shoes",
+                    "cost": null,
+                    "note": null,
+                    "done": 0
+                },
+                {
+                    "emoji": "❄️",
+                    "item": "clothes/shoes",
+                    "cost": null,
+                    "note": null,
+                    "done": 0
+                }
+            ],
+            "total": {
+                "sum": null,
+                "note": null
+            }
+        },
+        {
+            "class": "want",
+            "title": "WHAT WE WANT",
+            "subtitle": "2021 - 2023",
+            "content": [
+                {
+                    "emoji": "🏖️",
+                    "item": "vacation",
+                    "cost": 35000,
+                    "date": 2022,
+                    "note": null,
+                    "done": 1
+                },
+                {
+                    "emoji": "🖋️",
+                    "item": "new tattoo",
+                    "cost": 10000,
+                    "date": 2021,
+                    "note": null,
+                    "done": 0
+                },
+                {
+                    "emoji": "🎁",
+                    "item": "christmas gifts",
+                    "cost": 4000,
+                    "date": 2021,
+                    "note": null,
+                    "done": 0
+                }
+            ],
+            "total": {
+                "sum": null,
+                "note": null
+            }
+        },
+        {
+            "class": "goals",
+            "title": "LONG-TERM GOALS",
+            "subtitle": "future",
+            "content": [
+                {
+                    "emoji": "💰",
+                    "item": "get into crypto",
+                    "cost": null,
+                    "note": null,
+                    "done": 0
+                },
+                {
+                    "emoji": "🚗",
+                    "item": "buy a car",
+                    "cost": null,
+                    "note": null,
+                    "done": 0
+                },
+                {
+                    "emoji": "✈️",
+                    "item": "travel to Uruguay",
+                    "cost": null,
+                    "note": null,
+                    "done": 0
+                },
+                {
+                    "emoji": "🗝️",
+                    "item": "retirenment savings",
+                    "cost": null,
+                    "note": null,
+                    "done": 0
+                }
+            ],
+            "total": {
+                "sum": null,
+                "note": null
+            }
+        }
+    ]
+}
