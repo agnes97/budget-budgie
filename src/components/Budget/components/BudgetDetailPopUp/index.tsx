@@ -1,14 +1,14 @@
 import Button from 'components/Button'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Data, KindaEverything } from '../../../../../public/data/types'
+import { Data, DataContentOptions } from '../../../../../public/data/types'
 import ButtonContainer from '../ButtonContainer'
 import './index.css'
 
 export type PopUpData = {
     className?: Data["class"]
-    emoji?: KindaEverything["emoji"]
-    item?: KindaEverything["item"]
+    emoji?: DataContentOptions["emoji"]
+    item?: DataContentOptions["item"]
     note?: any
 }
 

@@ -1,4 +1,4 @@
-import { Data, KindaEverything } from "../../../public/data/types"
+import { Data, DataContentOptions } from "../../../public/data/types"
 
 export const getData = ():Promise<Data[]> => 
   fetch("./data/showcase.json")
@@ -12,7 +12,7 @@ export const countMonthlyWage = (data: Data[], key: number) => {
 
   if (location) {
     return location
-      .map((contentItem: KindaEverything) => contentItem.wage)
+      .map((contentItem: DataContentOptions) => contentItem.wage)
       .reduce((acc: number, contentItem: number | undefined) => acc + (contentItem ?? 0), 0)
   }
 }
@@ -23,14 +23,14 @@ export const countCost = (data: Data[], key: number, column: "wage" | "cost") =>
 
   if (location) {
     return location
-      .map((contentItem: KindaEverything) => contentItem[column])
-      .reduce((acc: number, contentItem: KindaEverything[typeof column]) => acc + (contentItem ?? 0), 0)
+      .map((contentItem: DataContentOptions) => contentItem[column])
+      .reduce((acc: number, contentItem: DataContentOptions[typeof column]) => acc + (contentItem ?? 0), 0)
   }
 }
 
 // SORT ITEMS
-export const sortItemsBy = (arrayToSort: KindaEverything[], sortBy: keyof KindaEverything) => 
-  arrayToSort.sort((a: KindaEverything, b: KindaEverything) => {
+export const sortItemsBy = (arrayToSort: DataContentOptions[], sortBy: keyof DataContentOptions) => 
+  arrayToSort.sort((a: DataContentOptions, b: DataContentOptions) => {
     let one = a[sortBy]?.toString()?.trim()?.toLowerCase() ?? ""
     let two = b[sortBy]?.toString()?.trim()?.toLowerCase() ?? ""
 
@@ -38,8 +38,8 @@ export const sortItemsBy = (arrayToSort: KindaEverything[], sortBy: keyof KindaE
 })
 
 // SORT CERTAIN EMOJI LAST
-export const sortByEmoji = (arrayToSort: KindaEverything[], emoji: string) => 
-  arrayToSort.sort((a: KindaEverything, b: KindaEverything) => {
+export const sortByEmoji = (arrayToSort: DataContentOptions[], emoji: string) => 
+  arrayToSort.sort((a: DataContentOptions, b: DataContentOptions) => {
     let one = a.emoji?.indexOf(emoji) ?? -1
     let two = b.emoji?.indexOf(emoji) ?? -1
 

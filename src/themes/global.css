@@ -61,4 +61,5 @@ body {
           font-size: 1.3rem; } }
 
 main {
-  flex-grow: 1; }
+  flex-grow: 1;
+  display: flex; }

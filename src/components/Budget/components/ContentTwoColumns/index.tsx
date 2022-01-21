@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Data, KindaEverything } from '../../../../../public/data/types'
+import { Data, DataContentOptions } from '../../../../../public/data/types'
 import BudgetDetailPopUp, { PopUpData } from '../BudgetDetailPopUp'
 import './index.css'
 
 type Props = {
-    article: KindaEverything[],
+    article: DataContentOptions[],
     column: Data["class"]
 }
 
@@ -19,11 +19,11 @@ const ContentTwoColumns: React.FC<Props> = ({ article, column }) => {
     setPopUpVisibility(!popUpVisibility)
   }
 
-  // const jsonEscape = (str: KindaEverything["note"]) => (str ?? "").replace(/[\n]/g, '\\n')
+  // const jsonEscape = (str: DataContentOptions["note"]) => (str ?? "").replace(/[\n]/g, '\\n')
 
   return (
     <>
-      {article.map((item: KindaEverything, index: number) => (
+      {article.map((item: DataContentOptions, index: number) => (
         <div
           key={index}
           title={item?.note}

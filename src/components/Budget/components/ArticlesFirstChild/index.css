@@ -28,6 +28,7 @@ article {
   article > h1::after, article h2::after {
     color: white; }
   article > .content {
+    height: 100%;
     line-height: 1.7; }
     @media (max-width: 44em) {
       article > .content {

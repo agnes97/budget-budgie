@@ -44,6 +44,7 @@ article {
     }
 
     & > .content {
+        height: 100%;
         line-height: 1.7;
 
         @include phone-view { margin: 2rem 1rem; }

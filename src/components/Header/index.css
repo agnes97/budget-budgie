@@ -5,12 +5,14 @@ header.main-header {
   display: flex;
   align-self: center;
   flex-direction: column;
-  align-items: center; }
+  align-items: center;
+  padding: 1rem; }
   @media (min-width: 45em) {
     header.main-header {
       flex-direction: row; } }
   header.main-header > h1 {
-    color: white; }
+    color: white;
+    margin: 0; }
     header.main-header > h1::before {
       color: #fff266; }
     header.main-header > h1::after {

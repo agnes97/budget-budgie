@@ -1,4 +1,4 @@
-export type KindaEverything = {
+export type DataContentOptions = {
     cost?: number,
     date?: string,
     done?: number,
@@ -14,7 +14,7 @@ export type Data = {
 	title: string
 	subtitle: string
 
-	content: KindaEverything[]
+	content: DataContentOptions[]
 
     total: {
         month?: number

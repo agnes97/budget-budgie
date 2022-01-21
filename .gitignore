@@ -3,5 +3,5 @@
 # Dependencies
 node_modules/
 
-# Build
-build/
+# Personal Data
+personal-data.json

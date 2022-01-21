@@ -5,11 +5,13 @@ header.main-header {
     align-self: center;
     flex-direction: column;
     align-items: center;
+    padding: 1rem;
 
     @include ipad-view { flex-direction: row; }
 
     & > h1 {  
         color: $text-secondary-color;
+        margin: 0;
             
         &::before { color: hsl(55, 100%, 70%); }
         &::after { color: hsl(55, 100%, 70%); }

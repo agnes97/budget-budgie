@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Data, KindaEverything } from '../../../../../public/data/types'
+import { Data, DataContentOptions } from '../../../../../public/data/types'
 import ArticlesHeader from '../ArticlesHeader'
 import { ArticlesTotalFirstChild } from '../ArticlesTotal'
 import BudgetDetailPopUp, { PopUpData } from '../BudgetDetailPopUp'
@@ -28,7 +28,7 @@ const ArticlesFirstChild: React.FC<Props> = ({ budgetData, index }) => {
         <article className={articleData.class}>
             <ArticlesHeader title={articleData.title} subtitle={articleData.subtitle} />
             <div className="content">
-                {articleData.content.map((person: KindaEverything, index: number) => (
+                {articleData.content.map((person: DataContentOptions, index: number) => (
                     // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a 
                         key={index} 

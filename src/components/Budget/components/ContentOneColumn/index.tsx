@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { sortByEmoji, sortItemsBy } from 'services/budget'
-import { Data, KindaEverything } from '../../../../../public/data/types'
+import { Data, DataContentOptions } from '../../../../../public/data/types'
 import BudgetDetailPopUp, { PopUpData } from '../BudgetDetailPopUp'
 import ButtonContainer from '../ButtonContainer'
 import './index.css'
 
 type Props = {
-    article: KindaEverything[],
+    article: DataContentOptions[],
     column: Data["class"]
 }
 
@@ -15,7 +15,7 @@ const ContentOneColumn: React.FC<Props> = ({ article, column }) => {
   const [popUpVisibility, setPopUpVisibility] = useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
 
-  const handleSortItemsBy = (sortBy: keyof KindaEverything) => () =>
+  const handleSortItemsBy = (sortBy: keyof DataContentOptions) => () =>
     setSortedArticle(sortItemsBy([...article], sortBy))
 
   const handleSortItemsByEmoji = () => () =>
@@ -30,21 +30,23 @@ const ContentOneColumn: React.FC<Props> = ({ article, column }) => {
   
   return (
     <div className="content-one-column">
-      {sortedArticle.map((item: KindaEverything, index: number) => (
-        <div 
-          key={index} 
-          title={item.note}
-          className={`content-one-column-row ${(item?.done === 1) ? "done" : undefined}`}
-          onClick={() => handlePopUp({emoji: item.emoji, item: item.item, note: item.note})}  
-        >
-          <span className="emoji">{item.emoji}</span>
-          <span className={item.note
-            ? "item italic"
-            : "item"}>
-            {item.item}
-          </span>
-        </div>
-      ))}
+      <div>
+        {sortedArticle.map((item: DataContentOptions, index: number) => (
+          <div 
+            key={index} 
+            title={item.note}
+            className={`content-one-column-row ${(item?.done === 1) ? "done" : undefined}`}
+            onClick={() => handlePopUp({emoji: item.emoji, item: item.item, note: item.note})}  
+          >
+            <span className="emoji">{item.emoji}</span>
+            <span className={item.note
+              ? "item italic"
+              : "item"}>
+              {item.item}
+            </span>
+          </div>
+        ))}
+      </div>
       <ButtonContainer 
         title="SORT BY:"
         buttonsParameters={[

@@ -4,4 +4,8 @@
 .content > .content-one-column {
   max-width: 80%;
   margin: 0 auto;
-  cursor: pointer; }
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  place-content: space-between; }
