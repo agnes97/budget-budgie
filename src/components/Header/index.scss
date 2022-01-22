@@ -2,31 +2,37 @@
 
 header.main-header {
     display: flex;
-    align-self: center;
     flex-direction: column;
-    align-items: center;
-    padding: 1rem;
+    width: 100%;
 
-    @include ipad-view { flex-direction: row; }
+    & > section.page-title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2.5rem;
+        place-content: center;
 
-    & > h1 {  
-        color: $text-secondary-color;
-        margin: 0;
-            
-        &::before { color: hsl(55, 100%, 70%); }
-        &::after { color: hsl(55, 100%, 70%); }
-    }
+        @include ipad-view { flex-direction: row; }
+
+        & > h1 {  
+            color: $text-secondary-color;
+            margin: 0;
+                
+            &::before { color: hsl(55, 100%, 70%); }
+            &::after { color: hsl(55, 100%, 70%); }
+        }
+        
+        & > .budgie {
+            width: 100%;
     
-    & > .budgie {
-        width: 100%;
+            @include ipad-view { width: 13rem; }
+        }
 
-        @include ipad-view { width: 13rem; }
-    }
-
-    & :last-child {
-        display: none;
-        transform: scaleX(-1);
-
-        @include ipad-view { display: block; }
+        & :last-child {
+            display: none;
+            transform: scaleX(-1);
+    
+            @include ipad-view { display: block; }
+        }
     }
 }
