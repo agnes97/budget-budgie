@@ -4,7 +4,7 @@
 button {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: baseline;
   color: black;
   background-color: inherit;
   border: 0.2rem dashed rgba(0, 0, 0, 0.1);

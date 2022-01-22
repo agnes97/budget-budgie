@@ -3,28 +3,32 @@
 /* FONT-SIZE DESKTOP */
 header.main-header {
   display: flex;
-  align-self: center;
   flex-direction: column;
-  align-items: center;
-  padding: 1rem; }
-  @media (min-width: 45em) {
-    header.main-header {
-      flex-direction: row; } }
-  header.main-header > h1 {
-    color: white;
-    margin: 0; }
-    header.main-header > h1::before {
-      color: #fff266; }
-    header.main-header > h1::after {
-      color: #fff266; }
-  header.main-header > .budgie {
-    width: 100%; }
+  width: 100%; }
+  header.main-header > section.page-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem;
+    place-content: center; }
     @media (min-width: 45em) {
-      header.main-header > .budgie {
-        width: 13rem; } }
-  header.main-header :last-child {
-    display: none;
-    transform: scaleX(-1); }
-    @media (min-width: 45em) {
-      header.main-header :last-child {
-        display: block; } }
+      header.main-header > section.page-title {
+        flex-direction: row; } }
+    header.main-header > section.page-title > h1 {
+      color: white;
+      margin: 0; }
+      header.main-header > section.page-title > h1::before {
+        color: #fff266; }
+      header.main-header > section.page-title > h1::after {
+        color: #fff266; }
+    header.main-header > section.page-title > .budgie {
+      width: 100%; }
+      @media (min-width: 45em) {
+        header.main-header > section.page-title > .budgie {
+          width: 13rem; } }
+    header.main-header > section.page-title :last-child {
+      display: none;
+      transform: scaleX(-1); }
+      @media (min-width: 45em) {
+        header.main-header > section.page-title :last-child {
+          display: block; } }
