@@ -1,5 +1,5 @@
+import { FC } from 'react'
 import Button from 'components/Button'
-import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Data, DataContentOptions } from '../../../../../public/data/types'
 import ButtonContainer from '../ButtonContainer'
@@ -17,7 +17,7 @@ type Props = PopUpData & {
     onClose: () => void
 }
 
-const BudgetDetailPopUp: React.FC<Props> = ({ className, emoji, item, note, visibility, onClose }) => {
+const BudgetDetailPopUp: FC<Props> = ({ className, emoji, item, note, visibility, onClose }) => {
     const handlePopUpClosing = () => (
         onClose()
     )

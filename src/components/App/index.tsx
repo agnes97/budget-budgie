@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 import '../../themes/global.css'
@@ -6,13 +6,13 @@ import '../../themes/variables.css'
 
 import Home from 'pages/Home'
 
-const Routes: React.FC = () => (
+const Routes: FC = () => (
 	<Switch>
 		<Route path="/" component={Home} />
 	</Switch>
 )
 
-const App: React.FC = () => (
+const App: FC = () => (
     <Routes />
 )
 

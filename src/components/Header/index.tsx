@@ -1,9 +1,9 @@
-import React from 'react'
+import { FC } from 'react'
 import budgie from '../../assets/budgie.png'
 import Nav from 'components/Nav'
 import './index.css'
 
-const Header: React.FC = () => (
+const Header: FC = () => (
     <header className="main-header">
         <Nav />
         <section className='page-title'>

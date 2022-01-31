@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import Button from 'components/Button'
 import './index.css'
 
@@ -12,7 +12,7 @@ type Props = {
     title?: string 
 }
 
-const ButtonContainer: React.FC<Props> = ({ buttonsParameters, title }) => (
+const ButtonContainer: FC<Props> = ({ buttonsParameters, title }) => (
     <div className="button-container">
         {title ? <h2>{title}</h2> : null}
         <div className="button-list">

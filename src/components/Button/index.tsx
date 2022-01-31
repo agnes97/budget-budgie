@@ -1,14 +1,14 @@
-import React from 'react'
+import { FC, MouseEventHandler, ReactElement } from 'react'
 import './index.css'
 
 type Props = {
     className?: string
     type: "circular" | "rectangular"
-    value?: string
-    onClick?: () => void
+    value?: string | ReactElement
+    onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-const Button: React.FC<Props> = ({ className, type, onClick, value }) => (
+const Button: FC<Props> = ({ className, type, onClick, value }) => (
     <button className={`${type} ${className}`} onClick={onClick}>
         {value}
     </button>

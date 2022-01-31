@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import { Data } from '../../../../../public/data/types'
 import ArticlesHeader from '../ArticlesHeader'
 import { ArticlesTotal } from '../ArticlesTotal'
@@ -11,7 +11,7 @@ type Props = {
     index: number
 }
 
-const Articles: React.FC<Props> = ({ budgetData, index }) => {
+const Articles: FC<Props> = ({ budgetData, index }) => {
     const articlesData = budgetData[index]
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { Data, DataContentOptions } from '../../../../../public/data/types'
 import ArticlesHeader from '../ArticlesHeader'
 import { ArticlesTotalFirstChild } from '../ArticlesTotal'
@@ -10,7 +10,7 @@ type Props = {
     index: number
 }
 
-const ArticlesFirstChild: React.FC<Props> = ({ budgetData, index }) => {
+const ArticlesFirstChild: FC<Props> = ({ budgetData, index }) => {
     const articleData = budgetData[index]
     const column = budgetData[0].class
     
