@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import { Data } from '../../../../../public/data/types'
 import './index.css'
 
@@ -7,7 +7,7 @@ type Props = {
     subtitle: Data["subtitle"]
 }
 
-const ArticlesHeader: React.FC<Props> = ({ title, subtitle }) => (
+const ArticlesHeader: FC<Props> = ({ title, subtitle }) => (
     <header className="atricles-header">
         <h2>{title}</h2>
         <h3>{subtitle}</h3>

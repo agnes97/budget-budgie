@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { sortByEmoji, sortItemsBy } from 'services/budget'
 import { Data, DataContentOptions } from '../../../../../public/data/types'
 import BudgetDetailPopUp, { PopUpData } from '../BudgetDetailPopUp'
@@ -10,7 +10,7 @@ type Props = {
     column: Data["class"]
 }
 
-const ContentOneColumn: React.FC<Props> = ({ article, column }) => {
+const ContentOneColumn: FC<Props> = ({ article, column }) => {
   const [sortedArticle, setSortedArticle] = useState(article)
   const [popUpVisibility, setPopUpVisibility] = useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()

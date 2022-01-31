@@ -6,22 +6,18 @@ nav.header-nav {
   display: flex;
   padding: 1rem 3rem;
   width: 100%;
-  align-items: self-end;
+  justify-content: flex-end;
   background: #94c57d;
-  background: linear-gradient(90deg, #94c57d 0%, #e06767 25%, #f6b26a 50%, #b0ceed 75%, #b5a8d6 100%);
-  justify-content: space-between; }
+  background: linear-gradient(90deg, #94c57d 0%, #e06767 25%, #f6b26a 50%, #b0ceed 75%, #b5a8d6 100%); }
   @media (max-width: 44em) {
     nav.header-nav {
       flex-direction: column;
       align-items: center; } }
-  nav.header-nav > button:first-child::before {
-    content: '📝';
-    padding: 0 1rem; }
-  nav.header-nav > button:first-child::after {
-    content: '📝';
-    padding: 0 1rem; }
+  nav.header-nav * .user-name {
+    color: white; }
   nav.header-nav > button {
-    font-weight: bold; }
+    font-weight: bold;
+    text-transform: uppercase; }
     nav.header-nav > button::before {
       content: '🗝️';
       padding: 0 1rem; }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import { FC, useState, useEffect} from "react";
 import "./index.css"
 
 import { getData } from "services/budget";
@@ -6,7 +6,7 @@ import { Data } from '../../../public/data/types'
 import ArticlesFirstChild from "./components/ArticlesFirstChild";
 import Articles from "./components/Articles";
 
-const Budget: React.FC = () => {
+const Budget: FC = () => {
   const [budgetData, setBudgetData] = useState<Data[]>([])
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { Data, DataContentOptions } from '../../../../../public/data/types'
 import BudgetDetailPopUp, { PopUpData } from '../BudgetDetailPopUp'
 import './index.css'
@@ -8,7 +8,7 @@ type Props = {
     column: Data["class"]
 }
 
-const ContentTwoColumns: React.FC<Props> = ({ article, column }) => {
+const ContentTwoColumns: FC<Props> = ({ article, column }) => {
   const [popUpVisibility, setPopUpVisibility] = useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
 
