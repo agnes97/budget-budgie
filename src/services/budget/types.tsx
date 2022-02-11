@@ -9,17 +9,10 @@ export type DataContentOptions = {
     wage?: number,
 }
 
-export type Data = {
-	class: string
+export type DataCategory = {
+    class: string
 	title: string
 	subtitle: string
-
-	content: DataContentOptions[]
-
-    total: {
-        month?: number
-        note?: string
-        year?: number
-        sum?: number
-    }
 }
+
+export type Data = DataCategory & { content: DataContentOptions[] }

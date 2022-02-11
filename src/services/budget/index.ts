@@ -1,10 +1,17 @@
-import { Data, DataContentOptions } from "../../../public/data/types"
+import { doc, getDoc } from "firebase/firestore"
+import { firestore } from "services/firebase"
+import { Data, DataContentOptions } from "./types"
+import { categories, initialCategories } from "./categories"
 
-export const getData = ():Promise<Data[]> => 
-  fetch("./data/showcase.json")
-    .then((response) => response.json())
-    .then((data) => data.data)
-    .catch((error) => console.error(error))
+export const getData = async (documentId: string): Promise<Data[]> => {
+  const snapshot = await getDoc(doc(firestore, "budgets", documentId))
+
+  if (!snapshot.exists()) return initialCategories
+
+  const data: Record<string, DataContentOptions[]> = snapshot.data().categories
+
+  return categories.map((category) => ({ ...category, content: data[category.class] ?? [] }))
+}
 
 // COUNT WAGES
 export const countMonthlyWage = (data: Data[], key: number) => {
