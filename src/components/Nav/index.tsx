@@ -21,7 +21,9 @@ export const Nav: FC = () => {
 
     return (
         <nav className='header-nav'>
-            <Button type={'rectangular'} value={isLoggedIn ? <LogOut /> : 'LOG IN'} onClick={handleOnClick} />
+            {/* // TODO: Option to switch budgets or create a new one! */}
+            <Button type={'rectangular'} value='MY BUDGETS' />
+            <Button type={'rectangular'} value={isLoggedIn ? <LogOut /> : 'LOG IN WITH GOOGLE'} onClick={handleOnClick} />
         </nav>
     )
 }
