@@ -1,8 +1,8 @@
 import { FC, useState } from 'react'
 import { sortByEmoji, sortItemsBy } from 'services/budget'
 import { Data, DataContentOptions } from '../../../../services/budget/types'
-import BudgetDetailPopUp, { PopUpData } from '../BudgetDetailPopUp'
-import ButtonContainer from '../ButtonContainer'
+import { BudgetDetailPopUp, PopUpData } from '../BudgetDetailPopUp'
+import { ButtonContainer } from '../ButtonContainer'
 import './index.css'
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
     column: Data["class"]
 }
 
-const ContentOneColumn: FC<Props> = ({ article, column }) => {
+export const ContentOneColumn: FC<Props> = ({ article, column }) => {
   const [sortedArticle, setSortedArticle] = useState(article)
   const [popUpVisibility, setPopUpVisibility] = useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
@@ -67,5 +67,3 @@ const ContentOneColumn: FC<Props> = ({ article, column }) => {
     </div>
   )
 }
-
-export default ContentOneColumn

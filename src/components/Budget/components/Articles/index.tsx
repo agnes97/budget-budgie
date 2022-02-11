@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import { Data } from '../../../../services/budget/types'
-import ArticlesHeader from '../ArticlesHeader'
+import { ArticlesHeader } from '../ArticlesHeader'
 import { ArticlesTotal } from '../ArticlesTotal'
-import ContentOneColumn from '../ContentOneColumn'
-import ContentTwoColumns from '../ContentTwoColumns'
+import { ContentOneColumn } from '../ContentOneColumn'
+import { ContentTwoColumns } from '../ContentTwoColumns'
 import "./index.css"
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
     index: number
 }
 
-const Articles: FC<Props> = ({ budgetData, index }) => {
+export const Articles: FC<Props> = ({ budgetData, index }) => {
     const articlesData = budgetData[index]
 
     return (
@@ -30,5 +30,3 @@ const Articles: FC<Props> = ({ budgetData, index }) => {
         </article>
     )
 }
-
-export default Articles

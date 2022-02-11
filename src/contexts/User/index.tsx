@@ -12,7 +12,7 @@ const UserContext = createContext<UserContextType>({
 	isLoggedIn: false,
 })
 
-const UserProvider: FC = ({ children }) => {
+export const UserProvider: FC = ({ children }) => {
     const [user, setUser] = useState<UserContextType['user']>(firebaseAuth.currentUser)
     
     useEffect(() => onAuthStateChanged(firebaseAuth, (user) => setUser(user)), [setUser])
@@ -30,5 +30,3 @@ const UserProvider: FC = ({ children }) => {
 }
 
 export const useUser = (): UserContextType => useContext(UserContext)
-
-export default UserProvider

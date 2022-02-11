@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Button from 'components/Button'
+import { Button } from 'components/Button'
 import './index.css'
 
 type ButtonParameters = {
@@ -12,7 +12,7 @@ type Props = {
     title?: string 
 }
 
-const ButtonContainer: FC<Props> = ({ buttonsParameters, title }) => (
+export const ButtonContainer: FC<Props> = ({ buttonsParameters, title }) => (
     <div className="button-container">
         {title ? <h2>{title}</h2> : null}
         <div className="button-list">
@@ -27,5 +27,3 @@ const ButtonContainer: FC<Props> = ({ buttonsParameters, title }) => (
         </div>
     </div>
 )
-
-export default ButtonContainer

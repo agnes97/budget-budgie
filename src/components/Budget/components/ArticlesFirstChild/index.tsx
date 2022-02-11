@@ -1,8 +1,8 @@
 import { FC, useState } from 'react'
 import { Data, DataContentOptions } from '../../../../services/budget/types'
-import ArticlesHeader from '../ArticlesHeader'
+import { ArticlesHeader } from '../ArticlesHeader'
 import { ArticlesTotalFirstChild } from '../ArticlesTotal'
-import BudgetDetailPopUp, { PopUpData } from '../BudgetDetailPopUp'
+import { BudgetDetailPopUp, PopUpData } from '../BudgetDetailPopUp'
 import "./index.css"
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
     index: number
 }
 
-const ArticlesFirstChild: FC<Props> = ({ budgetData, index }) => {
+export const ArticlesFirstChild: FC<Props> = ({ budgetData, index }) => {
     const articleData = budgetData[index]
     const column = budgetData[0].class
     
@@ -57,5 +57,3 @@ const ArticlesFirstChild: FC<Props> = ({ budgetData, index }) => {
         </article>
     )
 }
-
-export default ArticlesFirstChild
