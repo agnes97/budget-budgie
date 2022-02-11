@@ -1,17 +1,16 @@
-import { doc, getDoc } from "firebase/firestore"
+import { doc, onSnapshot, Unsubscribe } from "firebase/firestore"
 import { firestore } from "services/firebase"
 import { Data, DataContentOptions } from "./types"
 import { categories, initialCategories } from "./categories"
 
-export const getData = async (documentId: string): Promise<Data[]> => {
-  const snapshot = await getDoc(doc(firestore, "budgets", documentId))
+export const subscribeData = (documentId: string, onDataChange: (data: Data[]) => void): Unsubscribe => 
+  onSnapshot(doc(firestore, "budgets", documentId), (document) => {
+    if (!document.exists()) return void onDataChange(initialCategories)
 
-  if (!snapshot.exists()) return initialCategories
+    const data: Record<string, DataContentOptions[]> = document.data().categories
 
-  const data: Record<string, DataContentOptions[]> = snapshot.data().categories
-
-  return categories.map((category) => ({ ...category, content: data[category.class] ?? [] }))
-}
+    onDataChange(categories.map((category) => ({ ...category, content: data[category.class] ?? [] })))
+  })
 
 // COUNT WAGES
 export const countMonthlyWage = (data: Data[], key: number) => {
