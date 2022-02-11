@@ -4,7 +4,8 @@ nav.header-nav {
     display: flex;
     padding: 1rem 3rem;
     width: 100%;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     background: rgb(148,197,125);
     // TODO: Make this gradient global!
     background: linear-gradient(90deg, 
@@ -16,7 +17,7 @@ nav.header-nav {
 
     @include phone-view {
         flex-direction: column;
-        align-items: center;
+        justify-content: center;
     }
 
     & * .user-name {
@@ -27,14 +28,28 @@ nav.header-nav {
         font-weight: bold;
         text-transform: uppercase;
 
-        &::before {
-            content: '🗝️';
-            padding: 0 1rem;
+        &:first-child {
+            &::before {
+                content: '📜';
+                padding: 0 1rem;
+            }
+    
+            &::after {
+                content: '📜';
+                padding: 0 1rem;
+            }
         }
 
-        &::after {
-            content: '🗝️';
-            padding: 0 1rem;
+        &:nth-child(2) {
+            &::before {
+                content: '🗝️';
+                padding: 0 1rem;
+            }
+    
+            &::after {
+                content: '🗝️';
+                padding: 0 1rem;
+            }
         }
     }
 }
