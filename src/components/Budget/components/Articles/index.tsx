@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Data } from '../../../../../public/data/types'
+import { Data } from '../../../../services/budget/types'
 import ArticlesHeader from '../ArticlesHeader'
 import { ArticlesTotal } from '../ArticlesTotal'
 import ContentOneColumn from '../ContentOneColumn'

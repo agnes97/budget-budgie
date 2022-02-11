@@ -6,6 +6,3 @@ node_modules/
 # Environment Variables
 .env*
 !.env.example
-
-# Personal Data
-personal-data.json

@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { countCost, countMonthlyWage } from 'services/budget'
-import { Data } from '../../../../../public/data/types'
+import { Data } from '../../../../services/budget/types'
 import './index.css'
 
 type Props = {

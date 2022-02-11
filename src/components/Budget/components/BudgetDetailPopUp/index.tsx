@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import Button from 'components/Button'
 import ReactMarkdown from 'react-markdown'
-import { Data, DataContentOptions } from '../../../../../public/data/types'
+import { Data, DataContentOptions } from '../../../../services/budget/types'
 import ButtonContainer from '../ButtonContainer'
 import './index.css'
 

@@ -2,15 +2,16 @@ import { FC, useState, useEffect} from "react";
 import "./index.css"
 
 import { getData } from "services/budget";
-import { Data } from '../../../public/data/types'
+import { Data } from '../../services/budget/types'
 import ArticlesFirstChild from "./components/ArticlesFirstChild";
 import Articles from "./components/Articles";
+import { initialCategories } from "services/budget/categories";
 
 const Budget: FC = () => {
-  const [budgetData, setBudgetData] = useState<Data[]>([])
+  const [budgetData, setBudgetData] = useState<Data[]>(initialCategories)
 
   useEffect(() => {
-    getData().then((budgetData) => setBudgetData(budgetData))
+    getData("showcase").then((budgetData) => setBudgetData(budgetData))
   }, [setBudgetData])
 
   return (

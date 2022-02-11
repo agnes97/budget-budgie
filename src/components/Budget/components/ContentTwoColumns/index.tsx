@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Data, DataContentOptions } from '../../../../../public/data/types'
+import { Data, DataContentOptions } from '../../../../services/budget/types'
 import BudgetDetailPopUp, { PopUpData } from '../BudgetDetailPopUp'
 import './index.css'
 

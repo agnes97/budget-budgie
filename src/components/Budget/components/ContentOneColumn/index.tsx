@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { sortByEmoji, sortItemsBy } from 'services/budget'
-import { Data, DataContentOptions } from '../../../../../public/data/types'
+import { Data, DataContentOptions } from '../../../../services/budget/types'
 import BudgetDetailPopUp, { PopUpData } from '../BudgetDetailPopUp'
 import ButtonContainer from '../ButtonContainer'
 import './index.css'
