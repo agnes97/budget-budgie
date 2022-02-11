@@ -8,11 +8,9 @@ type Props = {
     onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-const Button: FC<Props> = ({ className, type, onClick, value }) => (
+export const Button: FC<Props> = ({ className, type, onClick, value }) => (
     <button className={`${type} ${className}`} onClick={onClick}>
         {value}
     </button>
 )
-
-export default Button
 

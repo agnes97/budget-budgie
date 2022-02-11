@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { Data, DataContentOptions } from '../../../../services/budget/types'
-import BudgetDetailPopUp, { PopUpData } from '../BudgetDetailPopUp'
+import { BudgetDetailPopUp, PopUpData } from '../BudgetDetailPopUp'
 import './index.css'
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
     column: Data["class"]
 }
 
-const ContentTwoColumns: FC<Props> = ({ article, column }) => {
+export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
   const [popUpVisibility, setPopUpVisibility] = useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
 
@@ -58,5 +58,3 @@ const ContentTwoColumns: FC<Props> = ({ article, column }) => {
     </>
   )
 }
-
-export default ContentTwoColumns

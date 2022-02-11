@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import budgie from '../../assets/budgie.png'
-import Nav from 'components/Nav'
+import { Nav } from 'components/Nav'
 import './index.css'
 
-const Header: FC = () => (
+export const Header: FC = () => (
     <header className="main-header">
         <Nav />
         <section className='page-title'>
@@ -13,5 +13,3 @@ const Header: FC = () => (
         </section>
     </header>
 )
-
-export default Header

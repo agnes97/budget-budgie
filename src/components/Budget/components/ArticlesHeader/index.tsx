@@ -7,11 +7,9 @@ type Props = {
     subtitle: Data["subtitle"]
 }
 
-const ArticlesHeader: FC<Props> = ({ title, subtitle }) => (
+export const ArticlesHeader: FC<Props> = ({ title, subtitle }) => (
     <header className="atricles-header">
         <h2>{title}</h2>
         <h3>{subtitle}</h3>
     </header>
 )
-
-export default ArticlesHeader

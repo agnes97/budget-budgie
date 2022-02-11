@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import Button from 'components/Button'
+import { Button } from 'components/Button'
 import ReactMarkdown from 'react-markdown'
 import { Data, DataContentOptions } from '../../../../services/budget/types'
-import ButtonContainer from '../ButtonContainer'
+import { ButtonContainer } from '../ButtonContainer'
 import './index.css'
 
 export type PopUpData = {
@@ -17,7 +17,7 @@ type Props = PopUpData & {
     onClose: () => void
 }
 
-const BudgetDetailPopUp: FC<Props> = ({ className, emoji, item, note, visibility, onClose }) => {
+export const BudgetDetailPopUp: FC<Props> = ({ className, emoji, item, note, visibility, onClose }) => {
     const handlePopUpClosing = () => (
         onClose()
     )
@@ -56,5 +56,3 @@ const BudgetDetailPopUp: FC<Props> = ({ className, emoji, item, note, visibility
         </section>
     )
 }
-
-export default BudgetDetailPopUp

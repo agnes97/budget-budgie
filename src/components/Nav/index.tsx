@@ -1,11 +1,11 @@
 import { FC, MouseEvent } from 'react'
-import Button from 'components/Button'
+import { Button } from 'components/Button'
 import { signUser, signUserOut } from 'services/firebase/auth'
 import './index.css'
 import { useUser } from 'contexts/User'
 
 
-const Nav: FC = () => {
+export const Nav: FC = () => {
     const {user, isLoggedIn} = useUser()
     
     // USER SIGN UP / SIGN IN
@@ -25,5 +25,3 @@ const Nav: FC = () => {
         </nav>
     )
 }
-
-export default Nav

@@ -3,11 +3,11 @@ import "./index.css"
 
 import { getData } from "services/budget";
 import { Data } from '../../services/budget/types'
-import ArticlesFirstChild from "./components/ArticlesFirstChild";
-import Articles from "./components/Articles";
+import { ArticlesFirstChild } from "./components/ArticlesFirstChild";
+import { Articles } from "./components/Articles";
 import { initialCategories } from "services/budget/categories";
 
-const Budget: FC = () => {
+export const Budget: FC = () => {
   const [budgetData, setBudgetData] = useState<Data[]>(initialCategories)
 
   useEffect(() => {
@@ -27,5 +27,3 @@ const Budget: FC = () => {
     </>
   )
 }
-
-export default Budget
