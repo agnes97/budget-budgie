@@ -9,7 +9,7 @@ export type PopUpData = {
     className?: Data["class"]
     emoji?: DataContentOptions["emoji"]
     item?: DataContentOptions["item"]
-    note?: any
+    note?: DataContentOptions["note"]
 }
 
 type Props = PopUpData & {
