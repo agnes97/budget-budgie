@@ -1,19 +1,15 @@
 import { FC, useState } from 'react'
-import { Data, DataContentOptions } from '../../../../services/budget/types'
+import { DataContentOptions } from '../../../../services/budget/types'
 import { ArticlesHeader } from '../ArticlesHeader'
 import { ArticlesTotalFirstChild } from '../ArticlesTotal'
 import { BudgetDetailPopUp, PopUpData } from '../BudgetDetailPopUp'
 import "./index.css"
 
-type Props = {
-    budgetData: Data[]
-    index: number
+type IncomeProps = {
+    incomeData: any
 }
 
-export const ArticlesFirstChild: FC<Props> = ({ budgetData, index }) => {
-    const articleData = budgetData[index]
-    const column = budgetData[0].class
-    
+export const Income: FC<IncomeProps> = ({ incomeData }) => {  
     const [popUpVisibility, setPopUpVisibility] = useState(false)
     const [popUpData, setPopUpData] = useState<PopUpData>()
 
@@ -25,10 +21,10 @@ export const ArticlesFirstChild: FC<Props> = ({ budgetData, index }) => {
     }
 
     return (
-        <article className={articleData.class}>
-            <ArticlesHeader title={articleData.title} subtitle={articleData.subtitle} />
+        <article className={incomeData.class}>
+            <ArticlesHeader title={incomeData.title} subtitle={incomeData.subtitle} />
             <div className="content">
-                {articleData.content.map((person: DataContentOptions, index: number) => (
+                {incomeData.content.map((person: DataContentOptions, index: number) => (
                     // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a 
                         key={index} 
@@ -43,7 +39,7 @@ export const ArticlesFirstChild: FC<Props> = ({ budgetData, index }) => {
                     </a>
                 ))}
             </div>
-            <ArticlesTotalFirstChild budgetData={budgetData} />
+            <ArticlesTotalFirstChild />
 
             {/* HIDDEN POP-UP */}
             {/* TODO: Implement:
@@ -57,7 +53,7 @@ export const ArticlesFirstChild: FC<Props> = ({ budgetData, index }) => {
             }
             */}
             <BudgetDetailPopUp 
-                    className={column}
+                    className={incomeData.class}
                     visibility={popUpVisibility} 
                     onClose={handlePopUpClosing} 
                     emoji={popUpData?.emoji} 

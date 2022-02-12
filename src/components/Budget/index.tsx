@@ -1,20 +1,18 @@
 import { FC } from "react";
 import "./index.css"
 
-import { ArticlesFirstChild } from "./components/ArticlesFirstChild";
-import { Articles } from "./components/Articles";
+import { Income } from "./components/Income";
+import { Expense } from "./components/Expense";
 import { useBudgetData } from "contexts/Budget";
 
 export const Budget: FC = () => {
-  const { budgetData } = useBudgetData();
+  const { expensesData, incomeData } = useBudgetData();
 
   return (
     <section>
-      {budgetData.map((_, index: number) =>
-        /* DISPLAY EITHER FIRST OR ALL OTHER ARTICLES */
-        (index === 0)
-          ? <ArticlesFirstChild key={index} budgetData={budgetData} index={index} />
-          : <Articles key={index} budgetData={budgetData} index={index} />
+      <Income incomeData={incomeData} />
+      {expensesData.map((expenseCategoryData, index: number) =>
+        <Expense key={index} expenseCategoryData={expenseCategoryData} />
       )}
     </section>
   )

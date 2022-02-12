@@ -1,13 +1,11 @@
+import { useBudgetData } from 'contexts/Budget';
 import { FC } from 'react'
 import { countCost, countMonthlyWage } from 'services/budget'
-import { Data } from '../../../../services/budget/types'
 import './index.css'
 
-type Props = {
-    budgetData: Data[]
-}
+export const ArticlesTotalFirstChild: FC = () => {
+    const { budgetData } = useBudgetData()
 
-export const ArticlesTotalFirstChild: FC<Props> = ({ budgetData }) => {
     const monthlyEarnings = countMonthlyWage(budgetData, 0)
     const yearlyEarning = ((countMonthlyWage(budgetData, 0) ?? 0) * 12)
     const monthlyExpenses = countCost(budgetData, 1, "cost") ?? 0
@@ -15,8 +13,7 @@ export const ArticlesTotalFirstChild: FC<Props> = ({ budgetData }) => {
     const yearlySavings = yearlyEarning - (monthlyExpenses * 12)
 
     return (
-        (budgetData[0].class === "have-month")
-            ? // DISPLAY TOTAL OF WAGES IN THE FIRST COLUMN
+        // DISPLAY TOTAL OF WAGES IN THE FIRST COLUMN
             <section className="total">
                 <div>
                     <span className="title">MONTHLY:</span>
@@ -34,13 +31,16 @@ export const ArticlesTotalFirstChild: FC<Props> = ({ budgetData }) => {
                     </div>
                 </div>
             </section>
-            : null
-    )
+        )
 }
 
-export const ArticlesTotal: FC<Props> = ({ budgetData }) => (
-    // DISPLAY TOTAL COST OF MONTHLY NEEDS IN THE SECOND COLUMN
-    <section className="total">
-        <span className="column-total">{countCost(budgetData, 1, "cost")?.toLocaleString()}</span>
-    </section>
-)
+export const ArticlesTotal: FC = () => {
+    const { budgetData } = useBudgetData();
+    
+    return (
+        // DISPLAY TOTAL COST OF MONTHLY NEEDS IN THE SECOND COLUMN
+        <section className="total">
+            <span className="column-total">{countCost(budgetData, 1, "cost")?.toLocaleString()}</span>
+        </section>
+    )
+}
