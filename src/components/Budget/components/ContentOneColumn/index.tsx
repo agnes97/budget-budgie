@@ -56,6 +56,16 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
       ]} />
 
       {/* HIDDEN POP-UP */}
+      {/* TODO: Implement:
+        const handleNoteEdit = async (newNote: string) => {
+          const noteRef = doc(firestore, "budgets", "showcase")
+
+          await updateDoc(noteRef, {
+              // TODO: Classname should not be undefined!
+              [`categories.${className}`]: [...orinal array without replaced element, replaced element with new note value]
+          })
+      }
+      */}
       <BudgetDetailPopUp 
             className={column}
             visibility={popUpVisibility} 

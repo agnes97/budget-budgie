@@ -46,6 +46,16 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
         </div>
       ))}
 
+      {/* TODO: Implement:
+        const handleNoteEdit = async (newNote: string) => {
+          const noteRef = doc(firestore, "budgets", "showcase")
+
+          await updateDoc(noteRef, {
+              // TODO: Classname should not be undefined!
+              [`categories.${className}`]: [...orinal array without replaced element, replaced element with new note value]
+          })
+      }
+      */}
       {/* HIDDEN POP-UP */}
       <BudgetDetailPopUp
         className={column}
