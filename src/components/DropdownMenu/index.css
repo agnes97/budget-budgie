@@ -1,0 +1,51 @@
+@charset "UTF-8";
+/* VARIABLES FOR COLORS */
+/* FONT-SIZE MOBILE */
+/* FONT-SIZE DESKTOP */
+div.dropdown-menu-container {
+  position: relative; }
+  div.dropdown-menu-container > button {
+    font-weight: bold;
+    text-transform: uppercase; }
+    div.dropdown-menu-container > button::before {
+      content: '📜';
+      padding: 0 1rem; }
+    div.dropdown-menu-container > button::after {
+      content: '📜';
+      padding: 0 1rem; }
+  div.dropdown-menu-container > ul.dropdown-menu-list {
+    position: absolute;
+    padding-inline-start: 0;
+    margin: 0;
+    display: none;
+    width: 100%; }
+    div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item {
+      min-width: 100%;
+      list-style: none;
+      background-color: white;
+      padding: 1rem;
+      z-index: 1;
+      text-align: center;
+      transition: letter-spacing 1s; }
+      div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item > a {
+        display: block; }
+      div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item:hover {
+        background-color: #cccccc;
+        letter-spacing: 0.2rem; }
+      div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item:last-child {
+        font-weight: bold;
+        background-color: #212121;
+        border-top: 0.5rem solid #212121; }
+      div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item > a.gradient-text {
+        background-color: #212121;
+        background-image: linear-gradient(90deg, #94c57d 0%, #e06767 25%, #f6b26a 50%, #b0ceed 75%, #b5a8d6 100%);
+        background-size: 100%;
+        background-repeat: repeat;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -moz-background-clip: text;
+        -moz-text-fill-color: transparent; }
+  div.dropdown-menu-container:hover > ul.dropdown-menu-list {
+    display: flex;
+    flex-direction: column; }

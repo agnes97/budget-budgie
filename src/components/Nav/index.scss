@@ -16,7 +16,7 @@ nav.header-nav {
         hsl(257, 36%, 75%) 100%);
 
     @include phone-view {
-        flex-direction: column;
+        flex-direction: column-reverse;
         justify-content: center;
     }
 
@@ -28,28 +28,14 @@ nav.header-nav {
         font-weight: bold;
         text-transform: uppercase;
 
-        &:first-child {
-            &::before {
-                content: '📜';
-                padding: 0 1rem;
-            }
-    
-            &::after {
-                content: '📜';
-                padding: 0 1rem;
-            }
+        &::before {
+            content: '🗝️';
+            padding: 0 1rem;
         }
 
-        &:nth-child(2) {
-            &::before {
-                content: '🗝️';
-                padding: 0 1rem;
-            }
-    
-            &::after {
-                content: '🗝️';
-                padding: 0 1rem;
-            }
+        &::after {
+            content: '🗝️';
+            padding: 0 1rem;
         }
     }
 }

@@ -12,22 +12,16 @@ nav.header-nav {
   background: linear-gradient(90deg, #94c57d 0%, #e06767 25%, #f6b26a 50%, #b0ceed 75%, #b5a8d6 100%); }
   @media (max-width: 44em) {
     nav.header-nav {
-      flex-direction: column;
+      flex-direction: column-reverse;
       justify-content: center; } }
   nav.header-nav * .user-name {
     color: white; }
   nav.header-nav > button {
     font-weight: bold;
     text-transform: uppercase; }
-    nav.header-nav > button:first-child::before {
-      content: '📜';
-      padding: 0 1rem; }
-    nav.header-nav > button:first-child::after {
-      content: '📜';
-      padding: 0 1rem; }
-    nav.header-nav > button:nth-child(2)::before {
+    nav.header-nav > button::before {
       content: '🗝️';
       padding: 0 1rem; }
-    nav.header-nav > button:nth-child(2)::after {
+    nav.header-nav > button::after {
       content: '🗝️';
       padding: 0 1rem; }
