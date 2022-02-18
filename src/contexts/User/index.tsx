@@ -2,9 +2,12 @@ import { onAuthStateChanged, User } from 'firebase/auth'
 import { createContext, FC, useContext, useEffect, useState } from 'react'
 import { firebaseAuth } from 'services/firebase'
 
-type UserContextType = {
-    user: User | null,
-    isLoggedIn: boolean,
+export type UserContextType = {
+    user: User,
+    isLoggedIn: true,
+} | {
+    user: null,
+    isLoggedIn: false,
 }
 
 const UserContext = createContext<UserContextType>({
@@ -19,10 +22,7 @@ export const UserProvider: FC = ({ children }) => {
 
     return (
         <UserContext.Provider
-            value={{
-                user,
-                isLoggedIn: user !== null,
-            }}
+            value={user !== null ? { user, isLoggedIn: true } : { user: null, isLoggedIn: false }}
         >
             {children}
         </UserContext.Provider>

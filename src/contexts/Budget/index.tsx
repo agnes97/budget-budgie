@@ -5,7 +5,8 @@ import {
     useState,
     useEffect
 } from 'react'
-import { subscribeData } from 'services/budget'
+import { useUser } from 'contexts/User'
+import { getBudgetIdsByUser, subscribeData } from 'services/budget'
 import { initialCategories } from 'services/budget/categories'
 import { Data } from 'services/budget/types'
 
@@ -22,12 +23,25 @@ const BudgetContext = createContext<BudgetContextType>({
 })
 
 export const BudgetDataProvider: FC = ({ children }) => {
+    const {user} = useUser()
     const [budgetData, setBudgetData] = useState<Data[]>(initialCategories)
+    
+    const defaultBudgetId = 'showcase'
+    const [budgetId, setBudgetId] = useState(defaultBudgetId)
 
     useEffect(() => {
-        const unsubscribe = subscribeData("showcase", (budgetData) => setBudgetData(budgetData))
+        const getBudgetByUser = async (): Promise<string> => {
+            if (!user) return defaultBudgetId 
+            return (await getBudgetIdsByUser(user.uid))[0] ?? defaultBudgetId
+        }
+
+        getBudgetByUser().then((budgetId) => setBudgetId(budgetId))
+    }, [user, setBudgetId])
+
+    useEffect(() => {
+        const unsubscribe = subscribeData(budgetId, (budgetData) => setBudgetData(budgetData))
         return () => unsubscribe()
-    }, [setBudgetData])
+    }, [setBudgetData, budgetId])
 
     // TODO: Reduce to get both in one loop of budgetData!
     const incomeData = budgetData.find(categories => (categories.class === 'have-month'))
