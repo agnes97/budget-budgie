@@ -1,4 +1,4 @@
-import { doc, onSnapshot, Unsubscribe } from "firebase/firestore"
+import { collection, doc, getDocs, onSnapshot, query, Unsubscribe, where } from "firebase/firestore"
 import { firestore } from "services/firebase"
 import { Data, DataContentOptions } from "./types"
 import { categories, initialCategories } from "./categories"
@@ -11,6 +11,17 @@ export const subscribeData = (documentId: string, onDataChange: (data: Data[]) =
 
     onDataChange(categories.map((category) => ({ ...category, content: data[category.class] ?? [] })))
   })
+
+// FIND BUDGET BY USER
+export const getBudgetIdsByUser = async (userId: string): Promise<string[]> => {
+  const budgetsReference = collection(firestore, "budgets")
+
+  const budgetOwnersQuery = query(budgetsReference, where("owners", "array-contains", userId))
+
+  const querySnapshot = await getDocs(budgetOwnersQuery)
+
+  return querySnapshot.docs.map((budget) => budget.id)
+}
 
 // COUNT WAGES
 export const countMonthlyWage = (data: Data[], key: number) => {
