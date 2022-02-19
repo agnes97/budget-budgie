@@ -1,19 +1,19 @@
-import { FC } from "react";
-import "./index.css"
+import type { FC } from 'react'
+import './index.css'
 
-import { Income } from "./components/Income";
-import { Expense } from "./components/Expense";
-import { useBudgetData } from "contexts/Budget";
+import { useBudgetData } from 'contexts/Budget'
+
+import { Expense } from './components/Expense'
+import { Income } from './components/Income'
 
 export const Budget: FC = () => {
-  const { expensesData, incomeData } = useBudgetData();
+  const { expensesData, incomeData } = useBudgetData()
 
   return (
     <section>
       <Income incomeData={incomeData} />
-      {expensesData.map((expenseCategoryData, index: number) =>
-        <Expense key={index} expenseCategoryData={expenseCategoryData} />
-      )}
+      {expensesData.map(expenseCategoryData =>
+        <Expense key={expenseCategoryData.title} expenseCategoryData={expenseCategoryData} />)}
     </section>
   )
 }
