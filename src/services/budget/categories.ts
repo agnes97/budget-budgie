@@ -1,5 +1,8 @@
 import { DataCategory } from "./types";
 
+const wantStartYear = new Date().getFullYear()
+const wantEndYear = +wantStartYear + 2
+
 export const categories: DataCategory[] = [
    {
     class: "have-month",
@@ -19,7 +22,7 @@ export const categories: DataCategory[] = [
    {
     class: "want",
     title: "WHAT WE WANT",
-    subtitle: "2021 - 2023",
+    subtitle: `${wantStartYear} - ${wantEndYear}`,
    },
    {
     class: "goals",
