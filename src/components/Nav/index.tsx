@@ -38,7 +38,11 @@ export const Nav: FC = () => {
             {/* TODO: Create new budget onClick */}
             {/* TODO: Show active budget! */}
             {/* TODO: Set active budget onClick! */}
-            <DropdownMenu value='MY BUDGETS' menuItems={usersBudgets ?? []} lastItem='➕ NEW BUDGET ➕'/>
+            <DropdownMenu 
+                    hidden={!user}
+                    value='MY BUDGETS'
+                    menuItems={usersBudgets ?? []} 
+                    lastItem={user ? '➕ NEW BUDGET ➕' : undefined}/>
             <Button type={'rectangular'} value={isLoggedIn ? <LogOut /> : 'LOG IN WITH GOOGLE'} onClick={handleOnClick} />
         </nav>
     )
