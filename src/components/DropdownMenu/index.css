@@ -4,6 +4,8 @@
 /* FONT-SIZE DESKTOP */
 div.dropdown-menu-container {
   position: relative; }
+  div.dropdown-menu-container.hidden {
+    visibility: hidden; }
   div.dropdown-menu-container > button {
     font-weight: bold;
     text-transform: uppercase; }
@@ -32,7 +34,7 @@ div.dropdown-menu-container {
       div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item:hover {
         background-color: #cccccc;
         letter-spacing: 0.2rem; }
-      div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item:last-child {
+      div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item.last-dropdown-menu-item {
         font-weight: bold;
         background-color: #212121;
         border-top: 0.5rem solid #212121; }

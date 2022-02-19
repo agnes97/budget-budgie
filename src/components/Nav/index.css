@@ -17,6 +17,7 @@ nav.header-nav {
   nav.header-nav * .user-name {
     color: white; }
   nav.header-nav > button {
+    float: right;
     font-weight: bold;
     text-transform: uppercase; }
     nav.header-nav > button::before {

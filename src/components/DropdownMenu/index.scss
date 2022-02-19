@@ -3,6 +3,10 @@
 div.dropdown-menu-container {
     position: relative;
 
+    &.hidden {
+        visibility: hidden;
+    }
+
     & > button {
         font-weight: bold;
         text-transform: uppercase;
@@ -41,7 +45,8 @@ div.dropdown-menu-container {
                 letter-spacing: 0.2rem;
             }
 
-            &:last-child {
+            // :last-child applies incorrect styles here, hence special class!
+            &.last-dropdown-menu-item {
                 font-weight: bold;
                 background-color: $background-primary-color;
                 border-top: 0.5rem solid $background-primary-color;
