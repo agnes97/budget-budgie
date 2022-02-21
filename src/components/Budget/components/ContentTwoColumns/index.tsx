@@ -30,11 +30,16 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
 
   return (
     <>
-      {article.map((item: DataContentOptions) => (
+      {article.map((item: DataContentOptions, index) => (
         <div
           key={item.name}
           title={item?.note}
-          onClick={() => handlePopUp({ emoji: item.emoji, item: item.item, note: item.note })}
+          onClick={() => handlePopUp({
+            index,
+            emoji: item.emoji,
+            item: item.item,
+            note: item.note,
+          })}
           className={item?.done === 1
             ? 'content-two-columns done'
             : 'content-two-columns'}
@@ -55,22 +60,12 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
         </div>
       ))}
 
-      {/* TODO: Implement:
-        const handleNoteEdit = async (newNote: string) => {
-          const noteRef = doc(firestore, "budgets", "showcase")
-
-          await updateDoc(noteRef, {
-              // TODO: Classname should not be undefined!
-              [`categories.${className}`]:
-              [...orinal array without replaced element, replaced element with new note value]
-          })
-      }
-      */}
       {/* HIDDEN POP-UP */}
       <BudgetDetailPopUp
         className={column}
         visibility={isPopUpVisible}
         onClose={handlePopUpClosing}
+        index={popUpData?.index}
         emoji={popUpData?.emoji}
         item={popUpData?.item}
         note={popUpData?.note}
