@@ -1,5 +1,5 @@
 import type { Unsubscribe } from 'firebase/firestore'
-import { collection, doc, getDocs, onSnapshot, query, where } from 'firebase/firestore'
+import { collection, doc, getDocs, onSnapshot, runTransaction, query, updateDoc, where } from 'firebase/firestore'
 
 import { firestore } from 'services/firebase'
 
@@ -32,6 +32,51 @@ export const getBudgetIdsByUser = async (userId: string): Promise<string[]> => {
   const querySnapshot = await getDocs(budgetOwnersQuery)
 
   return querySnapshot.docs.map(budget => budget.id)
+}
+
+// SET NOTE TO BUDGET CATEGORY ITEM
+export const setNoteToBudgetCategoryItem = async (
+  budgetId: string,
+  className: string,
+  categoryItemIndex: number,
+  newNote: string | null,
+): Promise<void> => {
+  const budgetRef = doc(firestore, 'budgets', budgetId)
+
+  try {
+    await runTransaction(firestore, async transaction => {
+      const document = await transaction.get(budgetRef)
+      if (!document.exists()) {
+        return
+      }
+
+      // eslint-disable-next-line no-warning-comments
+      // TODO: Fix following linting problem:
+      // eslint-disable-next-line max-len
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      const category: DataContentOptions[] | undefined = document.data().categories?.[className]
+
+      if (!category) {
+        return
+      }
+
+      const categoryItem = category[categoryItemIndex]
+
+      if (!categoryItem) {
+        return
+      }
+
+      const newCategoryItem = { ...categoryItem, note: newNote }
+
+      await updateDoc(budgetRef, {
+        [`categories.${className}`]: category.map((item, index) =>
+          index === categoryItemIndex ? newCategoryItem : item),
+      })
+    })
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Transaction failed: ', error)
+  }
 }
 
 // COUNT WAGES
