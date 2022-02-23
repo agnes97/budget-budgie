@@ -13,7 +13,7 @@ export const Budget: FC = () => {
     <section>
       <Income incomeData={incomeData} />
       {expensesData.map(expenseCategoryData =>
-        <Expense key={expenseCategoryData.title} expenseCategoryData={expenseCategoryData} />)}
+        <Expense key={expenseCategoryData.class} expenseCategoryData={expenseCategoryData} />)}
     </section>
   )
 }

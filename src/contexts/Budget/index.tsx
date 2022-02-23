@@ -1,21 +1,24 @@
+/* eslint-disable no-empty-function */
 import type { FC } from 'react'
 import {
   createContext,
   useCallback,
   useContext,
-  useState,
   useEffect,
+  useMemo,
+  useState,
 } from 'react'
 
 import { useUser } from 'contexts/User'
-import { getBudgetIdsByUser, setNoteToBudgetCategoryItem, subscribeData } from 'services/budget'
+import { addNewItemToBudget, getBudgetIdsByUser, setNoteToBudgetCategoryItem, subscribeData } from 'services/budget'
 import { initialCategories } from 'services/budget/categories'
-import type { Data } from 'services/budget/types'
+import type { Data, DataContentOptions } from 'services/budget/types'
 
 type BudgetContextType = {
   budgetData: Data[]
   expensesData: Data[]
   incomeData: Data | undefined
+  addNewItem: (className: string, newItem: DataContentOptions) => Promise<void>
   setNoteToCategoryItem: (
     className: string,
     categoryItemIndex: number,
@@ -27,7 +30,7 @@ const BudgetContext = createContext<BudgetContextType>({
   budgetData: initialCategories,
   expensesData: [],
   incomeData: { class: 'have-month', title: 'WHAT WE HAVE', subtitle: 'per month', content: [] },
-  // eslint-disable-next-line no-empty-function
+  addNewItem: async () => { },
   setNoteToCategoryItem: async () => { },
 })
 
@@ -60,6 +63,12 @@ export const BudgetDataProvider: FC = ({ children }) => {
   const incomeData = budgetData.find(categories => categories.class === 'have-month')
   const expensesData = budgetData.filter(categories => categories.class !== 'have-month')
 
+  const addNewItem = useCallback(
+    async (className: string, newItem: DataContentOptions) =>
+      await addNewItemToBudget(budgetId, className, newItem),
+    [budgetId],
+  )
+
   const setNoteToCategoryItem = useCallback(
     async (
       className: string,
@@ -69,11 +78,19 @@ export const BudgetDataProvider: FC = ({ children }) => {
     [budgetId],
   )
 
+  const value = useMemo(() => ({
+    budgetData,
+    expensesData,
+    incomeData,
+    setNoteToCategoryItem,
+    addNewItem,
+  }), [addNewItem, budgetData, expensesData, incomeData, setNoteToCategoryItem])
+
   return (
     // eslint-disable-next-line no-warning-comments
     // TODO: Fix the following linting problem:
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <BudgetContext.Provider value={{ budgetData, expensesData, incomeData, setNoteToCategoryItem }}>
+    <BudgetContext.Provider value={value}>
       {children}
     </BudgetContext.Provider>
   )

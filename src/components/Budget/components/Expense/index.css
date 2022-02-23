@@ -46,20 +46,20 @@ article {
 
 article.need-month {
   background-color: #e06767; }
-  article.need-month * h2, article.need-month * h3 {
+  article.need-month * h2, article.need-month * h3, article.need-month .add-items {
     color: #732626; }
 
 article.need-year {
   background-color: #f6b26a; }
-  article.need-year * h2, article.need-year * h3 {
+  article.need-year * h2, article.need-year * h3, article.need-year .add-items {
     color: #734e26; }
 
 article.want {
   background-color: #b0cded; }
-  article.want * h2, article.want * h3 {
+  article.want * h2, article.want * h3, article.want .add-items {
     color: #264a73; }
 
 article.goals {
   background-color: #b5a8d6; }
-  article.goals * h2, article.goals * h3 {
+  article.goals * h2, article.goals * h3, article.goals .add-items {
     color: #3c2673; }

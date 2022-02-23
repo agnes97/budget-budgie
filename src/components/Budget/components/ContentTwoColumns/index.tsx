@@ -6,8 +6,10 @@ import type { FC } from 'react'
 import { useState } from 'react'
 
 import type { Data, DataContentOptions } from '../../../../services/budget/types'
+import { AddItemToCategory } from '../AddItemToCategory'
 import type { PopUpData } from '../BudgetNotePopUp'
 import { BudgetNotePopUp } from '../BudgetNotePopUp'
+
 import './index.css'
 
 type Props = {
@@ -32,14 +34,8 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
     <>
       {article.map((item: DataContentOptions, index) => (
         <div
-          key={item.name}
+          key={item.item}
           title={item?.note}
-          onClick={() => handlePopUp({
-            index,
-            emoji: item.emoji,
-            item: item.item,
-            note: item.note,
-          })}
           className={item?.done === 1
             ? 'content-two-columns done'
             : 'content-two-columns'}
@@ -53,12 +49,21 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
               className={item?.note
                 ? 'item italic'
                 : 'item'}
+              onClick={() => handlePopUp({
+                index,
+                emoji: item.emoji,
+                item: item.item,
+                note: item.note,
+              })}
             >
               {item?.item}
             </span>
           </div>
         </div>
       ))}
+
+      {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
+      <AddItemToCategory category={column} />
 
       {/* HIDDEN POP-UP */}
       <BudgetNotePopUp
