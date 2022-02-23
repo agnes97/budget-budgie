@@ -8,8 +8,8 @@ import { useState } from 'react'
 import { sortByEmoji, sortItemsBy } from 'services/budget'
 
 import type { Data, DataContentOptions } from '../../../../services/budget/types'
-import type { PopUpData } from '../BudgetDetailPopUp'
-import { BudgetDetailPopUp } from '../BudgetDetailPopUp'
+import type { PopUpData } from '../BudgetNotePopUp'
+import { BudgetNotePopUp } from '../BudgetNotePopUp'
 import { ButtonContainer } from '../ButtonContainer'
 import './index.css'
 
@@ -78,7 +78,7 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
           })
       }
       */}
-      <BudgetDetailPopUp
+      <BudgetNotePopUp
         className={column}
         visibility={isPopUpVisible}
         onClose={handlePopUpClosing}
