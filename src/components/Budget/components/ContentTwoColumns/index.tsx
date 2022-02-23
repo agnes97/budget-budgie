@@ -6,8 +6,8 @@ import type { FC } from 'react'
 import { useState } from 'react'
 
 import type { Data, DataContentOptions } from '../../../../services/budget/types'
-import type { PopUpData } from '../BudgetDetailPopUp'
-import { BudgetDetailPopUp } from '../BudgetDetailPopUp'
+import type { PopUpData } from '../BudgetNotePopUp'
+import { BudgetNotePopUp } from '../BudgetNotePopUp'
 import './index.css'
 
 type Props = {
@@ -61,7 +61,7 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
       ))}
 
       {/* HIDDEN POP-UP */}
-      <BudgetDetailPopUp
+      <BudgetNotePopUp
         className={column}
         visibility={isPopUpVisible}
         onClose={handlePopUpClosing}

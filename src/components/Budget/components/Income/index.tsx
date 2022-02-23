@@ -12,8 +12,8 @@ import { useState } from 'react'
 import type { DataContentOptions } from '../../../../services/budget/types'
 import { ArticlesHeader } from '../ArticlesHeader'
 import { ArticlesTotalFirstChild } from '../ArticlesTotal'
-import type { PopUpData } from '../BudgetDetailPopUp'
-import { BudgetDetailPopUp } from '../BudgetDetailPopUp'
+import type { PopUpData } from '../BudgetNotePopUp'
+import { BudgetNotePopUp } from '../BudgetNotePopUp'
 import './index.css'
 
 type IncomeProps = {
@@ -66,7 +66,7 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
                 })
             }
             */}
-      <BudgetDetailPopUp
+      <BudgetNotePopUp
         className={incomeData.class}
         visibility={isPopUpVisible}
         onClose={handlePopUpClosing}
