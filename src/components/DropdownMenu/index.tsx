@@ -15,7 +15,7 @@ type DropdownMenuProps = {
 
 export const DropdownMenu: FC<DropdownMenuProps> = ({ hidden, menuItems, lastItem, value }) => (
   <div className={`dropdown-menu-container ${hidden && 'hidden'}`}>
-    <Button type="rectangular" value={value} />
+    <Button shape="rectangular" value={value} />
     <ul className='dropdown-menu-list'>
       {menuItems.map((item: string) => (
         <li key={item} className='dropdown-menu-item'>

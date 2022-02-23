@@ -29,7 +29,7 @@ export const PopUp: FC<PopUpProps> = ({
           <Button
             className="close"
             onClick={handlePopUpClosing}
-            type="circular"
+            shape="circular"
             value="X"
           />
         </header>

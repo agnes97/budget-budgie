@@ -57,7 +57,7 @@ export const Nav: FC = () => {
         lastItem={user ? '➕ NEW BUDGET ➕' : undefined}
       />
       <Button
-        type="rectangular"
+        shape="rectangular"
         value={isLoggedIn ? <LogOut /> : 'LOG IN WITH GOOGLE'}
         onClick={handleOnClick}
       />

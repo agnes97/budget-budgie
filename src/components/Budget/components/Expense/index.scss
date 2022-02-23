@@ -5,24 +5,24 @@ article {
     &.need-month {
         background-color: $need-month-background;
     
-        & * h2, * h3 { color: $need-month-titles; }
+        & * h2, * h3, .add-items { color: $need-month-titles; }
     }
 
     &.need-year {
         background-color: $need-year-background;
 
-        & * h2, * h3 { color: $need-year-titles; }
+        & * h2, * h3, .add-items { color: $need-year-titles; }
     }
 
     &.want {
         background-color: $want-background;
 
-        & * h2, * h3 { color: $want-titles; }
+        & * h2, * h3, .add-items { color: $want-titles; }
     }
 
     &.goals {
         background-color: $goals-background;
 
-        & * h2, * h3 { color: $goals-titles; }
+        & * h2, * h3, .add-items { color: $goals-titles; }
     }
 }

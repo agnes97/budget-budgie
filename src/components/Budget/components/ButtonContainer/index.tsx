@@ -1,11 +1,12 @@
-import type { FC } from 'react'
+import type { ButtonHTMLAttributes, FC } from 'react'
 
 import { Button } from 'components/Button'
 import './index.css'
 
 type ButtonParameters = {
   value: string
-  onClick: () => void
+  onClick?: () => void
+  type?: ButtonHTMLAttributes<HTMLButtonElement>['type']
 }
 
 type Props = {
@@ -20,12 +21,13 @@ export const ButtonContainer: FC<Props> = ({ buttonsParameters, title }) => (
   <div className="button-container">
     {title && <h2>{title}</h2>}
     <div className="button-list">
-      {buttonsParameters.map(({ value, onClick }) => (
+      {buttonsParameters.map(({ value, type, onClick }) => (
         <Button
           key={value}
           value={value}
+          type={type}
           onClick={onClick}
-          type="rectangular"
+          shape="rectangular"
         />
       ))}
     </div>
