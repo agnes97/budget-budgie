@@ -69,6 +69,41 @@ export const addNewItemToBudget = async (
   }
 }
 
+// DELETE ITEM FROM BUDGET
+export const deleteItemFromBudget = async (
+  budgetId: string,
+  className: string,
+  deletedItemIndex: number,
+): Promise<void> => {
+  const budgetRef = doc(firestore, 'budgets', budgetId)
+
+  try {
+    await runTransaction(firestore, async transaction => {
+      const document = await transaction.get(budgetRef)
+      if (!document.exists()) {
+        return
+      }
+
+      // eslint-disable-next-line no-warning-comments
+      // TODO: Fix following linting problem:
+      // eslint-disable-next-line max-len
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      const category: DataContentOptions[] | undefined = document.data().categories?.[className]
+
+      if (!category) {
+        return
+      }
+
+      transaction.update(budgetRef, {
+        [`categories.${className}`]: category.filter((_, index) => index !== deletedItemIndex),
+      })
+    })
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Transaction failed: ', error)
+  }
+}
+
 // SET NOTE TO BUDGET CATEGORY ITEM
 export const setNoteToBudgetCategoryItem = async (
   budgetId: string,

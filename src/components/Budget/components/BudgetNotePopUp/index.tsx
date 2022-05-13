@@ -30,7 +30,7 @@ type Props = PopUpData & {
 export const BudgetNotePopUp: FC<Props> = ({
   className, index, emoji, item, note, visibility, onClose,
 }) => {
-  const { setNoteToCategoryItem } = useBudgetData()
+  const { setNoteToCategoryItem, deleteItem } = useBudgetData()
   const [currentNote, setCurrentNote] = useState<string | null | undefined>(note)
 
   useEffect(() => {
@@ -44,6 +44,15 @@ export const BudgetNotePopUp: FC<Props> = ({
     }
 
     void setNoteToCategoryItem(className, index, newNote).then(() => setCurrentNote(newNote))
+  }
+
+  // HANDLE ITEM DELETE
+  const handleItemDelete = (): Promise<void> | undefined => {
+    if (!index) {
+      return
+    }
+
+    void deleteItem(className, index).then(onClose)
   }
 
   // HANDLE NOTE DELETE
@@ -85,7 +94,7 @@ export const BudgetNotePopUp: FC<Props> = ({
           },
           { value: '🚫 ERASE NOTE', onClick: () => handleNoteDelete() },
           { value: '✔️ MARK ITEM AS DONE', onClick: () => console.log('Hello world!') },
-          { value: '⛔ DELETE ITEM', onClick: () => console.log('Hello world!') },
+          { value: '⛔ DELETE ITEM', onClick: () => handleItemDelete() },
         ]}
       />
     </PopUp>

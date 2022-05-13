@@ -10,7 +10,7 @@ import {
 } from 'react'
 
 import { useUser } from 'contexts/User'
-import { addNewItemToBudget, getBudgetIdsByUser, setNoteToBudgetCategoryItem, subscribeData } from 'services/budget'
+import { addNewItemToBudget, deleteItemFromBudget, getBudgetIdsByUser, setNoteToBudgetCategoryItem, subscribeData } from 'services/budget'
 import { initialCategories } from 'services/budget/categories'
 import type { Data, DataContentOptions } from 'services/budget/types'
 
@@ -19,6 +19,7 @@ type BudgetContextType = {
   expensesData: Data[]
   incomeData: Data | undefined
   addNewItem: (className: string, newItem: DataContentOptions) => Promise<void>
+  deleteItem: (className: string, deletedItemIndex: number) => Promise<void>
   setNoteToCategoryItem: (
     className: string,
     categoryItemIndex: number,
@@ -31,6 +32,7 @@ const BudgetContext = createContext<BudgetContextType>({
   expensesData: [],
   incomeData: { class: 'have-month', title: 'WHAT WE HAVE', subtitle: 'per month', content: [] },
   addNewItem: async () => { },
+  deleteItem: async () => { },
   setNoteToCategoryItem: async () => { },
 })
 
@@ -69,6 +71,12 @@ export const BudgetDataProvider: FC = ({ children }) => {
     [budgetId],
   )
 
+  const deleteItem = useCallback(
+    async (className: string, deletedItemIndex: number) =>
+      await deleteItemFromBudget(budgetId, className, deletedItemIndex),
+    [budgetId],
+  )
+
   const setNoteToCategoryItem = useCallback(
     async (
       className: string,
@@ -84,7 +92,8 @@ export const BudgetDataProvider: FC = ({ children }) => {
     incomeData,
     setNoteToCategoryItem,
     addNewItem,
-  }), [addNewItem, budgetData, expensesData, incomeData, setNoteToCategoryItem])
+    deleteItem,
+  }), [addNewItem, deleteItem, budgetData, expensesData, incomeData, setNoteToCategoryItem])
 
   return (
     // eslint-disable-next-line no-warning-comments

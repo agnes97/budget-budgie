@@ -6,6 +6,7 @@ import './index.css'
 import { Button } from 'components/Button'
 import { useBudgetData } from 'contexts/Budget'
 import type { DataCategory, DataContentOptions } from 'services/budget/types'
+import { listEmoji } from 'services/emoji'
 
 import { ButtonContainer } from '../ButtonContainer'
 
@@ -20,13 +21,13 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
 
   // HANDLE ADDING ITEMS
   const handleAddItem = (category: string) => {
-    // eslint-disable-next-line no-console
-    console.log(newItem)
     void addNewItem(category, newItem).then(() => {
       setIsEditMode(false)
       setNewItem({})
     })
   }
+
+  const emojis = listEmoji()
 
   return (
     <section className='add-items-container'>
@@ -46,6 +47,19 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
                   name="cost"
                   onChange={event => setNewItem({ ...newItem, cost: Number(event.target.value) })}
                 />
+              </div>
+              <div>
+                <label htmlFor="cost">EMOJI:</label>
+                <select
+                  name="cost"
+                  onChange={event => setNewItem({
+                    ...newItem, emoji: event.target.value.toLocaleString(),
+                  })}
+                >
+                  {emojis.map((emoji, index) =>
+                    // eslint-disable-next-line react/no-array-index-key
+                    <option key={index} value={emoji}>{emoji}</option>)}
+                </select>
               </div>
               <div>
                 <label htmlFor="item">ITEM:</label>
