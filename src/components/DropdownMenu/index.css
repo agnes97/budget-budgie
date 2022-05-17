@@ -28,8 +28,9 @@ div.dropdown-menu-container {
       padding: 1rem;
       z-index: 1;
       text-align: center;
-      transition: letter-spacing 1s; }
-      div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item > a {
+      transition: letter-spacing 1s;
+      cursor: pointer; }
+      div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item > div {
         display: block; }
       div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item:hover {
         background-color: #cccccc;
@@ -38,7 +39,7 @@ div.dropdown-menu-container {
         font-weight: bold;
         background-color: #212121;
         border-top: 0.5rem solid #212121; }
-      div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item > a.gradient-text {
+      div.dropdown-menu-container > ul.dropdown-menu-list > li.dropdown-menu-item > div.gradient-text {
         background-color: #212121;
         background-image: linear-gradient(90deg, #94c57d 0%, #e06767 25%, #f6b26a 50%, #b0ceed 75%, #b5a8d6 100%);
         background-size: 100%;

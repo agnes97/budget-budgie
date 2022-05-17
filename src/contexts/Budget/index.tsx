@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable no-empty-function */
 import type { FC } from 'react'
 import {
@@ -15,7 +13,8 @@ import { useUser } from 'contexts/User'
 import {
   addNewItemToBudget,
   deleteItemFromBudget,
-  getBudgetIdsByUserId,
+  getActiveBudgetByUserId,
+  setActiveBudgetByUserId,
   setNoteToBudgetCategoryItem,
   subscribeData,
 } from 'services/budget'
@@ -28,6 +27,7 @@ type BudgetContextType = {
   incomeData: Data | undefined
   addNewItem: (className: string, newItem: DataContentOptions) => Promise<void>
   deleteItem: (className: string, deletedItemIndex: number) => Promise<void>
+  setActiveBudget: (newActiveBudgetId: string) => Promise<void>
   setNoteToCategoryItem: (
     className: string,
     categoryItemIndex: number,
@@ -46,6 +46,7 @@ const BudgetContext = createContext<BudgetContextType>({
   },
   addNewItem: async () => {},
   deleteItem: async () => {},
+  setActiveBudget: async () => {},
   setNoteToCategoryItem: async () => {},
 })
 
@@ -62,11 +63,10 @@ export const BudgetDataProvider: FC = ({ children }) => {
         return defaultBudgetId
       }
 
-      return (await getBudgetIdsByUserId(user.uid))[0] ?? defaultBudgetId
+      return await getActiveBudgetByUserId(user.uid) ?? defaultBudgetId
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getBudgetByUser().then(budgetId => setBudgetId(budgetId))
+    void getBudgetByUser().then(budgetId => setBudgetId(budgetId))
   }, [user, setBudgetId])
 
   useEffect(() => {
@@ -78,6 +78,22 @@ export const BudgetDataProvider: FC = ({ children }) => {
   // TODO: Reduce to get both in one loop of budgetData!
   const incomeData = budgetData.find(categories => categories.class === 'have-month')
   const expensesData = budgetData.filter(categories => categories.class !== 'have-month')
+
+  const setActiveBudget = useCallback(async (newActiveBudgetId: string) => {
+    if (!user) {
+      return
+    }
+
+    if (budgetId === newActiveBudgetId) {
+      return
+    }
+
+    await setActiveBudgetByUserId(user.uid, newActiveBudgetId)
+    setBudgetId(newActiveBudgetId)
+  }, [budgetId, user])
+
+  // void setActiveBudgetByUserId(user?.uid, 'showcase')
+  // void setActiveBudget('showcase')
 
   const addNewItem = useCallback(
     async (className: string, newItem: DataContentOptions) =>
@@ -111,6 +127,7 @@ export const BudgetDataProvider: FC = ({ children }) => {
       budgetData,
       expensesData,
       incomeData,
+      setActiveBudget,
       setNoteToCategoryItem,
       addNewItem,
       deleteItem,
@@ -121,14 +138,12 @@ export const BudgetDataProvider: FC = ({ children }) => {
       budgetData,
       expensesData,
       incomeData,
+      setActiveBudget,
       setNoteToCategoryItem,
     ],
   )
 
   return (
-    // eslint-disable-next-line no-warning-comments
-    // TODO: Fix the following linting problem:
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
     <BudgetContext.Provider value={value}>
       {children}
     </BudgetContext.Provider>

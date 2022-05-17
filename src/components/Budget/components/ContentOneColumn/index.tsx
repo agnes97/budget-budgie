@@ -41,7 +41,7 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
       <div>
         {sortedArticle.map((item: DataContentOptions) => (
           <div
-            key={item.name}
+            key={item.item}
             title={item.note}
             className={`content-one-column-row ${item?.done === 1 ? 'done' : undefined}`}
             onClick={() => handlePopUp({ emoji: item.emoji, item: item.item, note: item.note })}

@@ -6,14 +6,11 @@ import { Header } from 'components/Header'
 import { BudgetDataProvider } from 'contexts/Budget'
 
 export const Home: FC = () => (
-  <>
+  <BudgetDataProvider>
     <Header />
     <main>
-      <BudgetDataProvider>
-        <Budget />
-      </BudgetDataProvider>
+      <Budget />
     </main>
     <Footer />
-  </>
+  </BudgetDataProvider>
 )
-

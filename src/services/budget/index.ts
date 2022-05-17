@@ -40,6 +40,45 @@ export const getBudgetIdsByUserId = async (userId: string): Promise<string[]> =>
   return budgets.map(({ id }) => id)
 }
 
+// FIND ACTIVE BUDGET
+export const getActiveBudgetByUserId = async (userId: string): Promise<string> => {
+  const profileCollectionReference = doc(profilesCollection, userId)
+  const profileDocumentSnapshot = await getDoc(profileCollectionReference)
+
+  if (!profileDocumentSnapshot.exists()) {
+    return ''
+  }
+
+  const activeBudgetId = profileDocumentSnapshot.data()['active-budget'].id
+
+  return activeBudgetId
+}
+
+// UPDATE ACTIVE BUDGET
+export const setActiveBudgetByUserId = async (
+  userId: string,
+  newActiveBudgetId: string,
+): Promise<void> => {
+  const profileRef = doc(profilesCollection, userId)
+  const budgetRef = doc(budgetsCollection, newActiveBudgetId)
+
+  try {
+    await runTransaction(firestore, async transaction => {
+      const document = await transaction.get(profileRef)
+      if (!document.exists()) {
+        return
+      }
+
+      transaction.update(profileRef, {
+        'active-budget': budgetRef,
+      })
+    })
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Transaction failed: ', error)
+  }
+}
+
 // FIND BUDGET BY USER
 // export const getBudgetIdsByUser = async (userId: string): Promise<string[]> => {
 //   const budgetsReference = collection(firestore, 'budgets')
