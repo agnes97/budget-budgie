@@ -11,21 +11,40 @@ type DropdownMenuProps = {
   menuItems: string[]
   lastItem?: string
   value: string
+  menuItemsOnClick: (budgetId: string) => void
+  lastItemOnClick: (lastItem: string) => void
 }
 
-export const DropdownMenu: FC<DropdownMenuProps> = ({ hidden, menuItems, lastItem, value }) => (
+export const DropdownMenu: FC<DropdownMenuProps> = ({
+  hidden,
+  menuItems,
+  menuItemsOnClick,
+  lastItem,
+  lastItemOnClick,
+  value,
+}) => (
   <div className={`dropdown-menu-container ${hidden && 'hidden'}`}>
     <Button shape="rectangular" value={value} />
     <ul className='dropdown-menu-list'>
       {menuItems.map((item: string) => (
         <li key={item} className='dropdown-menu-item'>
-          <a href=".">{item}</a>
+          {/* eslint-disable-next-line no-warning-comments */}
+          {/* TODO: Handle click-events-have-key-event by adding onKeyPress handlerer */}
+          <div onClick={() => menuItemsOnClick(item)} aria-hidden="true">{item}</div>
         </li>
       ))}
 
       {lastItem && (
         <li className='dropdown-menu-item last-dropdown-menu-item'>
-          <a href="." className='gradient-text'>{lastItem}</a>
+          {/* eslint-disable-next-line no-warning-comments */}
+          {/* TODO: Onclick has different function! */}
+          <div
+            onClick={() => lastItemOnClick(lastItem)}
+            aria-hidden="true"
+            className='gradient-text'
+          >
+            {lastItem}
+          </div>
         </li>
       )}
     </ul>

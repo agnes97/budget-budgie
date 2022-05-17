@@ -5,33 +5,33 @@ import { useEffect, useState } from 'react'
 import { Button } from 'components/Button'
 import './index.css'
 import { DropdownMenu } from 'components/DropdownMenu'
+import { useBudgetData } from 'contexts/Budget'
 import { useUser } from 'contexts/User'
 import { getBudgetIdsByUserId } from 'services/budget'
 import { signUser, signUserOut } from 'services/firebase/auth'
 
 export const Nav: FC = () => {
   const { user, isLoggedIn } = useUser()
+  const { setActiveBudget } = useBudgetData()
   const [usersBudgets, setUsersBudgets] = useState<string[]>()
 
   // USER SIGN UP / SIGN IN
-  // eslint-disable-next-line consistent-return
-  const handleOnClick = (event: MouseEvent) => {
+  const handleOnClick = async (event: MouseEvent): Promise<void> => {
     event.preventDefault()
 
     if (isLoggedIn) {
-      return signUserOut()
+      return await signUserOut()
     }
 
-    void signUser()
+    return await signUser()
   }
 
   useEffect(() => {
-    const getBudgetByUser = async (): Promise<string[]> => {
+    const getBudgetsByUserList = async (): Promise<string[]> => {
       if (!user) {
         return ['You have no budgets yet. :(']
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       return (
         await getBudgetIdsByUserId(user.uid) ?? [
           'You have no budgets yet. :(',
@@ -39,7 +39,7 @@ export const Nav: FC = () => {
       )
     }
 
-    void getBudgetByUser().then(budgetId => setUsersBudgets(budgetId))
+    void getBudgetsByUserList().then(budgetId => setUsersBudgets(budgetId))
   }, [user])
 
   const LogOut: FC = () => (
@@ -52,12 +52,16 @@ export const Nav: FC = () => {
     <nav className="header-nav">
       {/* TODO: Create new budget onClick */}
       {/* TODO: Show active budget! */}
-      {/* TODO: Set active budget onClick! */}
       <DropdownMenu
         hidden={!user}
         value="MY BUDGETS"
         menuItems={usersBudgets ?? []}
+        menuItemsOnClick={budgetId => {
+          void setActiveBudget(budgetId)
+        }}
         lastItem={user ? '➕ NEW BUDGET ➕' : undefined}
+        // eslint-disable-next-line no-console
+        lastItemOnClick={lastItem => console.log(lastItem)}
       />
       <Button
         shape="rectangular"
