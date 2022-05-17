@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable no-console */
 import type { EmojiArrayContent } from './data'
 import { emojis } from './data'
 
