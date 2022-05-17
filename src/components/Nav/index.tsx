@@ -6,9 +6,8 @@ import { Button } from 'components/Button'
 import './index.css'
 import { DropdownMenu } from 'components/DropdownMenu'
 import { useUser } from 'contexts/User'
-import { getBudgetIdsByUser } from 'services/budget'
+import { getBudgetIdsByUserId } from 'services/budget'
 import { signUser, signUserOut } from 'services/firebase/auth'
-
 
 export const Nav: FC = () => {
   const { user, isLoggedIn } = useUser()
@@ -23,9 +22,7 @@ export const Nav: FC = () => {
       return signUserOut()
     }
 
-    // TODO: Solve following linting problem:
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    signUser()
+    void signUser()
   }
 
   useEffect(() => {
@@ -33,26 +30,32 @@ export const Nav: FC = () => {
       if (!user) {
         return ['You have no budgets yet. :(']
       }
-      return await getBudgetIdsByUser(user.uid) ?? ['You have no budgets yet. :(']
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      return (
+        await getBudgetIdsByUserId(user.uid) ?? [
+          'You have no budgets yet. :(',
+        ]
+      )
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getBudgetByUser().then(budgetId => setUsersBudgets(budgetId))
+    void getBudgetByUser().then(budgetId => setUsersBudgets(budgetId))
   }, [user])
 
-  // eslint-disable-next-line no-console
-  console.log(usersBudgets)
-
-  const LogOut: FC = () => <div>LOG OUT <span className='user-name'>{user?.displayName}</span></div>
+  const LogOut: FC = () => (
+    <div>
+      LOG OUT <span className="user-name">{user?.displayName}</span>
+    </div>
+  )
 
   return (
-    <nav className='header-nav'>
+    <nav className="header-nav">
       {/* TODO: Create new budget onClick */}
       {/* TODO: Show active budget! */}
       {/* TODO: Set active budget onClick! */}
       <DropdownMenu
         hidden={!user}
-        value='MY BUDGETS'
+        value="MY BUDGETS"
         menuItems={usersBudgets ?? []}
         lastItem={user ? '➕ NEW BUDGET ➕' : undefined}
       />

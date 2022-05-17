@@ -1,38 +1,55 @@
 import type { Unsubscribe } from 'firebase/firestore'
-import { collection, doc, getDocs, onSnapshot, runTransaction, query, where } from 'firebase/firestore'
+import { getDoc, doc, onSnapshot, runTransaction } from 'firebase/firestore'
 
-import { firestore } from 'services/firebase'
+import { createCollection, firestore } from 'services/firebase'
 
 import { categories, initialCategories } from './categories'
-import type { Data, DataContentOptions } from './types'
+import type { BudgetDocument, Data, DataContentOptions, ProfileDocument } from './types'
+
+const budgetsCollection = createCollection<BudgetDocument>('budgets')
+const profilesCollection = createCollection<ProfileDocument>('profiles')
 
 export const subscribeData = (
   documentId: string,
   onDataChange: (data: Data[]) => void,
 ): Unsubscribe =>
-  onSnapshot(doc(firestore, 'budgets', documentId), document => {
+  onSnapshot(doc(budgetsCollection, documentId), document => {
     if (!document.exists()) {
       return void onDataChange(initialCategories)
     }
 
-    // eslint-disable-next-line no-warning-comments
-    // TODO: Fix following linting problem:
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const data: Record<string, DataContentOptions[]> = document.data().categories
+    const data = document.data().categories
 
-    onDataChange(categories.map(category => ({ ...category, content: data[category.class] ?? [] })))
+    onDataChange(categories.map(category => ({
+      ...category,
+      content: data[category.class] ?? [],
+    })))
   })
 
-// FIND BUDGET BY USER
-export const getBudgetIdsByUser = async (userId: string): Promise<string[]> => {
-  const budgetsReference = collection(firestore, 'budgets')
+// FIND BUDGET IDS BY USER ID
+export const getBudgetIdsByUserId = async (userId: string): Promise<string[]> => {
+  const profileCollectionReference = doc(profilesCollection, userId)
+  const profileDocumentSnapshot = await getDoc(profileCollectionReference)
 
-  const budgetOwnersQuery = query(budgetsReference, where('owners', 'array-contains', userId))
+  if (!profileDocumentSnapshot.exists()) {
+    return []
+  }
 
-  const querySnapshot = await getDocs(budgetOwnersQuery)
+  const budgets = profileDocumentSnapshot.data().budgets
 
-  return querySnapshot.docs.map(budget => budget.id)
+  return budgets.map(({ id }) => id)
 }
+
+// FIND BUDGET BY USER
+// export const getBudgetIdsByUser = async (userId: string): Promise<string[]> => {
+//   const budgetsReference = collection(firestore, 'budgets')
+
+//   const budgetOwnersQuery = query(budgetsReference, where('owners', 'array-contains', userId))
+
+//   const querySnapshot = await getDocs(budgetOwnersQuery)
+
+//   return querySnapshot.docs.map(budget => budget.id)
+// }
 
 // ADD NEW ITEM TO BUDGET
 export const addNewItemToBudget = async (
@@ -40,7 +57,7 @@ export const addNewItemToBudget = async (
   className: string,
   newItem: DataContentOptions,
 ): Promise<void> => {
-  const budgetRef = doc(firestore, 'budgets', budgetId)
+  const budgetRef = doc(budgetsCollection, budgetId)
 
   try {
     await runTransaction(firestore, async transaction => {
@@ -49,11 +66,7 @@ export const addNewItemToBudget = async (
         return
       }
 
-      // eslint-disable-next-line no-warning-comments
-      // TODO: Fix following linting problem:
-      // eslint-disable-next-line max-len
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      const content: DataContentOptions[] | undefined = document.data().categories?.[className]
+      const content = document.data().categories?.[className]
 
       if (!content) {
         return
@@ -75,7 +88,7 @@ export const deleteItemFromBudget = async (
   className: string,
   deletedItemIndex: number,
 ): Promise<void> => {
-  const budgetRef = doc(firestore, 'budgets', budgetId)
+  const budgetRef = doc(budgetsCollection, budgetId)
 
   try {
     await runTransaction(firestore, async transaction => {
@@ -84,11 +97,7 @@ export const deleteItemFromBudget = async (
         return
       }
 
-      // eslint-disable-next-line no-warning-comments
-      // TODO: Fix following linting problem:
-      // eslint-disable-next-line max-len
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      const category: DataContentOptions[] | undefined = document.data().categories?.[className]
+      const category = document.data().categories?.[className]
 
       if (!category) {
         return
@@ -111,7 +120,7 @@ export const setNoteToBudgetCategoryItem = async (
   categoryItemIndex: number,
   newNote: string | null,
 ): Promise<void> => {
-  const budgetRef = doc(firestore, 'budgets', budgetId)
+  const budgetRef = doc(budgetsCollection, budgetId)
 
   try {
     await runTransaction(firestore, async transaction => {
@@ -120,11 +129,7 @@ export const setNoteToBudgetCategoryItem = async (
         return
       }
 
-      // eslint-disable-next-line no-warning-comments
-      // TODO: Fix following linting problem:
-      // eslint-disable-next-line max-len
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      const category: DataContentOptions[] | undefined = document.data().categories?.[className]
+      const category = document.data().categories?.[className]
 
       if (!category) {
         return
@@ -193,4 +198,3 @@ export const sortByEmoji = (arrayToSort: DataContentOptions[], emoji: string) =>
 
     return one - two
   })
-

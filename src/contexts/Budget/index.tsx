@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable no-empty-function */
 import type { FC } from 'react'
 import {
@@ -10,7 +12,13 @@ import {
 } from 'react'
 
 import { useUser } from 'contexts/User'
-import { addNewItemToBudget, deleteItemFromBudget, getBudgetIdsByUser, setNoteToBudgetCategoryItem, subscribeData } from 'services/budget'
+import {
+  addNewItemToBudget,
+  deleteItemFromBudget,
+  getBudgetIdsByUserId,
+  setNoteToBudgetCategoryItem,
+  subscribeData,
+} from 'services/budget'
 import { initialCategories } from 'services/budget/categories'
 import type { Data, DataContentOptions } from 'services/budget/types'
 
@@ -30,10 +38,15 @@ type BudgetContextType = {
 const BudgetContext = createContext<BudgetContextType>({
   budgetData: initialCategories,
   expensesData: [],
-  incomeData: { class: 'have-month', title: 'WHAT WE HAVE', subtitle: 'per month', content: [] },
-  addNewItem: async () => { },
-  deleteItem: async () => { },
-  setNoteToCategoryItem: async () => { },
+  incomeData: {
+    class: 'have-month',
+    title: 'WHAT WE HAVE',
+    subtitle: 'per month',
+    content: [],
+  },
+  addNewItem: async () => {},
+  deleteItem: async () => {},
+  setNoteToCategoryItem: async () => {},
 })
 
 export const BudgetDataProvider: FC = ({ children }) => {
@@ -48,7 +61,8 @@ export const BudgetDataProvider: FC = ({ children }) => {
       if (!user) {
         return defaultBudgetId
       }
-      return (await getBudgetIdsByUser(user.uid))[0] ?? defaultBudgetId
+
+      return (await getBudgetIdsByUserId(user.uid))[0] ?? defaultBudgetId
     }
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -82,18 +96,34 @@ export const BudgetDataProvider: FC = ({ children }) => {
       className: string,
       categoryItemIndex: number,
       newNote: string | null,
-    ) => await setNoteToBudgetCategoryItem(budgetId, className, categoryItemIndex, newNote),
+    ) =>
+      await setNoteToBudgetCategoryItem(
+        budgetId,
+        className,
+        categoryItemIndex,
+        newNote,
+      ),
     [budgetId],
   )
 
-  const value = useMemo(() => ({
-    budgetData,
-    expensesData,
-    incomeData,
-    setNoteToCategoryItem,
-    addNewItem,
-    deleteItem,
-  }), [addNewItem, deleteItem, budgetData, expensesData, incomeData, setNoteToCategoryItem])
+  const value = useMemo(
+    () => ({
+      budgetData,
+      expensesData,
+      incomeData,
+      setNoteToCategoryItem,
+      addNewItem,
+      deleteItem,
+    }),
+    [
+      addNewItem,
+      deleteItem,
+      budgetData,
+      expensesData,
+      incomeData,
+      setNoteToCategoryItem,
+    ],
+  )
 
   return (
     // eslint-disable-next-line no-warning-comments
