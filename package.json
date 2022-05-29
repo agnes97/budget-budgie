@@ -1,35 +1,20 @@
 {
 	"name": "budget-budgie",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Budget Budgie",
+	"private": true,
+	"author": "Jana Chaloupková <janachaloupkova97@gmail.com> (http://github.com/agnes97)",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/agnes97/budget-budgie"
 	},
-	"contributors": [
-		"Jana Chaloupková (https://github.com/agnes97)"
-	],
-	"license": "GPL-3.0-or-later",
-	"private": true,
 	"scripts": {
-		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"sass": "node-sass-chokidar -w src/ -o src/",
-		"test": "react-scripts test --watchAll=false",
-		"test:watch": "react-scripts test",
-		"test:coverage": "react-scripts test --watchAll=false --coverage",
-		"eject": "react-scripts eject",
-		"lint": "eslint --ext ts --report-unused-disable-directives src/",
-		"lint:fix": "eslint --fix --ext ts --report-unused-disable-directives src/",
-		"prettier": "prettier --check .",
-		"prettier:fix": "prettier --write .",
-		"tsc:check": "tsc --noemit -p tsconfig.json",
-		"code:check": "run-p -l tsc:check lint prettier",
-		"code:fix": "run-p -l lint:fix prettier:fix"
-	},
-	"engines": {
-		"node": "~14.17.5",
-		"npm": "~6.14.14"
+		"format": "prettier --write src/**/*.{js,ts,tsx,css,md,json}",
+		"lint": "eslint --ext .ts,.tsx src --report-unused-disable-directives",
+		"lint:css": "stylelint src",
+		"start": "react-scripts start",
+		"sass": "node-sass-chokidar -w src/ -o src/"
 	},
 	"dependencies": {
 		"@babel/plugin-transform-react-jsx": "7.14.9",
@@ -37,11 +22,6 @@
 		"@fortawesome/free-regular-svg-icons": "^6.0.0-beta2",
 		"@fortawesome/free-solid-svg-icons": "^6.0.0-beta2",
 		"@fortawesome/react-fontawesome": "^0.1.16",
-		"@strv/eslint-config-node": "^3.0.0",
-		"@strv/eslint-config-react": "^4.0.0",
-		"@strv/eslint-config-typescript": "^3.0.0",
-		"eslint": "7.32.0",
-		"eslint-plugin-import": "*",
 		"firebase": "^9.6.4",
 		"html-react-parser": "^1.4.0",
 		"node-sass-chokidar": "^1.5.0",
@@ -51,35 +31,35 @@
 		"react-is": "^17.0.1",
 		"react-markdown": "^7.1.0",
 		"react-router-dom": "^5.2.0",
+		"react-scripts": "^4.0.3",
+		"sanitize.css": "^13.0.0",
 		"sass": "^1.43.3",
+		"styled-components": "^5.3.3",
+		"typescript": "^4.6.0",
 		"web-vitals": "^2.1.2"
-	},
+	  },
 	"devDependencies": {
-		"@types/node": "^12.0.0",
+		"@strv/eslint-config-react": "^4.0.0",
+		"@strv/eslint-config-typescript": "^3.0.0",
+		"@strv/stylelint-config-styled-components": "^1.1.0",
+		"@types/node": "12.0.10",
 		"@types/react": "^17.0.0",
 		"@types/react-dom": "^17.0.0",
 		"@types/react-router-dom": "^5.1.7",
+		"@types/styled-components": "^5.1.24",
 		"@typescript-eslint/eslint-plugin": "^4.18.0",
 		"@typescript-eslint/parser": "^4.18.0",
-		"eslint-plugin-react-hooks": "^4.2.1-rc.0-next-5318971f5-20220202",
-		"npm-run-all": "^4.1.5",
-		"prettier": "^2.2.1",
-		"react-scripts": "^4.0.3",
-		"typescript": "^4.1.2"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest",
-			"@strv/react",
-			"@strv/react/optional",
-			"@strv/react/style",
-			"@strv/eslint-config-node/v10",
-			"@strv/eslint-config-node/optional",
-			"@strv/eslint-config-typescript",
-			"@strv/eslint-config-typescript/style"
-		]
-	},
+		"eslint": "^7.1.0",
+		"eslint-config-prettier": "^6.0.0",
+		"prettier": "^2.5.1",
+		"stylelint": "^10.1.0",
+		"stylelint-config-prettier": "^5.2.0"
+	  },
+	"prettier": {
+		"semi": false,
+		"singleQuote": true,
+		"trailingComma": "es5"
+	  },
 	"browserslist": {
 		"production": [
 			">0.2%",

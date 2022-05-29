@@ -1,0 +1,4 @@
+# .stylelintignore
+
+# Avoid Unexpected character '�'. (1:0) error when encountering images!
+*/assets
