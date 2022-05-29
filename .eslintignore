@@ -1,5 +1,4 @@
 # .eslintignore
-
 node_modules
 
 # NOTE:
@@ -18,3 +17,7 @@ node_modules
 # The file does not match your project config: .eslintrc.js. 
 # The file must be included in at least one of the projects provided.eslint
 .eslintrc.js
+.stylelintrc.js
+
+# Added to avoid @typescript-eslint/triple-slash-reference
+*/react-app-env.d.ts

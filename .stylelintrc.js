@@ -2,10 +2,8 @@
 
 module.exports = {
   extends: [
-    '@strv/react',
-    '@strv/react/optional',
-    '@strv/typescript',
-    'prettier',
+    '@strv/stylelint-config-styled-components',
+    'stylelint-config-prettier',
   ],
 
   parserOptions: {
