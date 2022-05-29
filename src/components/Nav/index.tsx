@@ -2,6 +2,7 @@
 import type { FC, MouseEvent } from 'react'
 import { useEffect, useState } from 'react'
 
+import { NewBudgetPopUp } from 'components/Budget/components/NewBudgetPopUp'
 import { Button } from 'components/Button'
 import './index.css'
 import { DropdownMenu } from 'components/DropdownMenu'
@@ -14,6 +15,13 @@ export const Nav: FC = () => {
   const { user, isLoggedIn } = useUser()
   const { setActiveBudget } = useBudgetData()
   const [usersBudgets, setUsersBudgets] = useState<string[]>()
+  const [isPopUpVisible, setIsPopUpVisible] = useState(false)
+
+  const handlePopUpClosing = () => setIsPopUpVisible(!isPopUpVisible)
+
+  const handlePopUp = () => {
+    setIsPopUpVisible(!isPopUpVisible)
+  }
 
   // USER SIGN UP / SIGN IN
   const handleOnClick = async (event: MouseEvent): Promise<void> => {
@@ -50,7 +58,6 @@ export const Nav: FC = () => {
 
   return (
     <nav className="header-nav">
-      {/* TODO: Create new budget onClick */}
       {/* TODO: Show active budget! */}
       <DropdownMenu
         hidden={!user}
@@ -60,13 +67,20 @@ export const Nav: FC = () => {
           void setActiveBudget(budgetId)
         }}
         lastItem={user ? '➕ NEW BUDGET ➕' : undefined}
-        // eslint-disable-next-line no-console
-        lastItemOnClick={lastItem => console.log(lastItem)}
+        lastItemOnClick={lastItem => {
+          // eslint-disable-next-line no-console
+          console.log(lastItem)
+          handlePopUp()
+        }}
       />
       <Button
         shape="rectangular"
         value={isLoggedIn ? <LogOut /> : 'LOG IN WITH GOOGLE'}
         onClick={handleOnClick}
+      />
+      <NewBudgetPopUp
+        visibility={isPopUpVisible}
+        onClose={handlePopUpClosing}
       />
     </nav>
   )

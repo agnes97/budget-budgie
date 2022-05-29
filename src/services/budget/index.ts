@@ -1,5 +1,5 @@
 import type { Unsubscribe } from 'firebase/firestore'
-import { getDoc, doc, onSnapshot, runTransaction } from 'firebase/firestore'
+import { addDoc, collection, getDoc, doc, onSnapshot, runTransaction } from 'firebase/firestore'
 
 import { createCollection, firestore } from 'services/firebase'
 
@@ -39,6 +39,47 @@ export const getBudgetIdsByUserId = async (userId: string): Promise<string[]> =>
 
   return budgets.map(({ id }) => id)
 }
+
+// ADD NEW BUDGET
+export const createNewBudget = async (userId: string, newBudgetTitle: string) => {
+  const profileCollectionReference = doc(profilesCollection, userId)
+
+  const initialCategoriesMap = Object.fromEntries(initialCategories.map(category => [
+    category.class,
+    category.content,
+  ]))
+
+  // Creates new budget document with auto-generated id!
+  const newDocumentId = await addDoc(collection(firestore, 'budgets'), {
+    title: newBudgetTitle,
+    categories: initialCategoriesMap,
+    owners: [userId],
+  }).then(docRef => docRef.id)
+
+  const newBudgetReference = doc(budgetsCollection, newDocumentId)
+
+  // Updates profile collection to include newly created budget
+  try {
+    await runTransaction(firestore, async transaction => {
+      const document = await transaction.get(profileCollectionReference)
+
+      if (!document.exists()) {
+        return
+      }
+
+      const documentContent = document.data().budgets
+
+      transaction.update(profileCollectionReference, {
+        budgets: [...documentContent, newBudgetReference],
+      })
+    })
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Transaction failed: ', error)
+  }
+}
+
+// void createNewBudget('gYE3GEqbfAbpxJHMgyk7UejaGpH2', 'Another budget')
 
 // FIND ACTIVE BUDGET
 export const getActiveBudgetByUserId = async (userId: string): Promise<string> => {
