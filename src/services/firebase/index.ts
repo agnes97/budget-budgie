@@ -25,6 +25,7 @@ export const firebaseAuth = getAuth(firebaseApp)
 
 export const firestore = getFirestore(firebaseApp)
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const createCollection = <TDocumentType = DocumentData>(
   collectionName: string,
 ) =>

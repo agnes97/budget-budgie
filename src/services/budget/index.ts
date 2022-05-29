@@ -13,6 +13,7 @@ export const subscribeData = (
   documentId: string,
   onDataChange: (data: Data[]) => void,
 ): Unsubscribe =>
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   onSnapshot(doc(budgetsCollection, documentId), document => {
     if (!document.exists()) {
       return void onDataChange(initialCategories)
@@ -22,7 +23,7 @@ export const subscribeData = (
 
     onDataChange(categories.map(category => ({
       ...category,
-      content: data[category.class] ?? [],
+      content: data[category.class],
     })))
   })
 
@@ -41,7 +42,7 @@ export const getBudgetIdsByUserId = async (userId: string): Promise<string[]> =>
 }
 
 // ADD NEW BUDGET
-export const createNewBudget = async (userId: string, newBudgetTitle: string) => {
+export const createNewBudget = async (userId: string, newBudgetTitle: string): Promise<void> => {
   const profileCollectionReference = doc(profilesCollection, userId)
 
   const initialCategoriesMap = Object.fromEntries(initialCategories.map(category => [
@@ -61,6 +62,7 @@ export const createNewBudget = async (userId: string, newBudgetTitle: string) =>
   // Updates profile collection to include newly created budget
   try {
     await runTransaction(firestore, async transaction => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       const document = await transaction.get(profileCollectionReference)
 
       if (!document.exists()) {
@@ -105,6 +107,7 @@ export const setActiveBudgetByUserId = async (
 
   try {
     await runTransaction(firestore, async transaction => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       const document = await transaction.get(profileRef)
       if (!document.exists()) {
         return
@@ -141,13 +144,15 @@ export const addNewItemToBudget = async (
 
   try {
     await runTransaction(firestore, async transaction => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       const document = await transaction.get(budgetRef)
       if (!document.exists()) {
         return
       }
 
-      const content = document.data().categories?.[className]
+      const content = document.data().categories[className]
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!content) {
         return
       }
@@ -172,13 +177,15 @@ export const deleteItemFromBudget = async (
 
   try {
     await runTransaction(firestore, async transaction => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       const document = await transaction.get(budgetRef)
       if (!document.exists()) {
         return
       }
 
-      const category = document.data().categories?.[className]
+      const category = document.data().categories[className]
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!category) {
         return
       }
@@ -204,19 +211,22 @@ export const setNoteToBudgetCategoryItem = async (
 
   try {
     await runTransaction(firestore, async transaction => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       const document = await transaction.get(budgetRef)
       if (!document.exists()) {
         return
       }
 
-      const category = document.data().categories?.[className]
+      const category = document.data().categories[className]
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!category) {
         return
       }
 
       const categoryItem = category[categoryItemIndex]
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!categoryItem) {
         return
       }
@@ -235,33 +245,39 @@ export const setNoteToBudgetCategoryItem = async (
 }
 
 // COUNT WAGES
-// eslint-disable-next-line consistent-return
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const countMonthlyWage = (data: Data[], key: number) => {
-  const location = data[key]?.content
+  const locationOfData = data[key]?.content
 
-  if (location) {
-    return location
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (locationOfData) {
+    return locationOfData
       .map((contentItem: DataContentOptions) => contentItem.wage)
       .reduce((acc: number, contentItem: number | undefined) => acc + (contentItem ?? 0), 0)
   }
+
+  return 0
 }
 
 // COUNT COSTS
-// eslint-disable-next-line consistent-return
-export const countCost = (data: Data[], key: number, column: 'wage' | 'cost') => {
-  const location = data[key]?.content
+export const countCost = (data: Data[], key: number, column: 'wage' | 'cost'): number | undefined => {
+  const locationOfData = data[key]?.content
 
-  if (location) {
-    return location
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (locationOfData) {
+    return locationOfData
       .map((contentItem: DataContentOptions) => contentItem[column])
       .reduce((
         acc: number,
         contentItem: DataContentOptions[typeof column],
       ) => acc + (contentItem ?? 0), 0)
   }
+
+  return 0
 }
 
 // SORT ITEMS
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const sortItemsBy = (arrayToSort: DataContentOptions[], sortBy: keyof DataContentOptions) =>
   arrayToSort.sort((valueA: DataContentOptions, valueB: DataContentOptions) => {
     const one = valueA[sortBy]?.toString()?.trim()?.toLowerCase() ?? ''
@@ -271,6 +287,7 @@ export const sortItemsBy = (arrayToSort: DataContentOptions[], sortBy: keyof Dat
   })
 
 // SORT CERTAIN EMOJI LAST
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const sortByEmoji = (arrayToSort: DataContentOptions[], emoji: string) =>
   arrayToSort.sort((valueA: DataContentOptions, valueB: DataContentOptions) => {
     const one = valueA.emoji?.indexOf(emoji) ?? -1

@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable multiline-comment-style */
-/* eslint-disable max-len */
-
 export interface EmojiArrayContent {
   emojiName: string
   emojiImage: string

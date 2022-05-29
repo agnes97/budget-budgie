@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import type { Data } from '../../../../services/budget/types'
 import './index.css'
 
-type Props = {
+interface Props {
   title: Data['title']
   subtitle: Data['subtitle']
 }

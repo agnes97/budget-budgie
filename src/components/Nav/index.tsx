@@ -1,5 +1,5 @@
-/* eslint-disable no-warning-comments */
-import type { FC, MouseEvent } from 'react'
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 
 import { NewBudgetPopUp } from 'components/Budget/components/NewBudgetPopUp'
@@ -17,21 +17,23 @@ export const Nav: FC = () => {
   const [usersBudgets, setUsersBudgets] = useState<string[]>()
   const [isPopUpVisible, setIsPopUpVisible] = useState(false)
 
-  const handlePopUpClosing = () => setIsPopUpVisible(!isPopUpVisible)
+  const handlePopUpClosing = (): void => void setIsPopUpVisible(!isPopUpVisible)
 
-  const handlePopUp = () => {
+  const handlePopUp = (): void => {
     setIsPopUpVisible(!isPopUpVisible)
   }
 
   // USER SIGN UP / SIGN IN
-  const handleOnClick = async (event: MouseEvent): Promise<void> => {
-    event.preventDefault()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleOnClick = async (onClickEvent: any): Promise<void> => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    onClickEvent.preventDefault()
 
     if (isLoggedIn) {
-      return await signUserOut()
+      return void await signUserOut()
     }
 
-    return await signUser()
+    return void await signUser()
   }
 
   useEffect(() => {
@@ -41,13 +43,14 @@ export const Nav: FC = () => {
       }
 
       return (
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         await getBudgetIdsByUserId(user.uid) ?? [
           'You have no budgets yet. :(',
         ]
       )
     }
 
-    void getBudgetsByUserList().then(budgetId => setUsersBudgets(budgetId))
+    void getBudgetsByUserList().then(budgetId => void setUsersBudgets(budgetId))
   }, [user])
 
   const LogOut: FC = () => (
@@ -66,6 +69,7 @@ export const Nav: FC = () => {
         menuItemsOnClick={budgetId => {
           void setActiveBudget(budgetId)
         }}
+        // eslint-disable-next-line no-undefined
         lastItem={user ? '➕ NEW BUDGET ➕' : undefined}
         lastItemOnClick={lastItem => {
           // eslint-disable-next-line no-console

@@ -1,7 +1,3 @@
-/* eslint-disable no-console */
-// eslint-disable-next-line no-warning-comments
-// TODO: eslint-disable-next-line jsx-a11y/accessible-emoji
-/* eslint-disable jsx-a11y/accessible-emoji */
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -14,7 +10,7 @@ import { ButtonContainer } from '../ButtonContainer'
 
 import './index.css'
 
-export type PopUpData = {
+export interface PopUpData {
   index?: number
   emoji?: DataContentOptions['emoji']
   item?: DataContentOptions['item']
@@ -38,12 +34,12 @@ export const BudgetNotePopUp: FC<Props> = ({
   }, [note])
 
   // HANDLE NOTE EDIT
-  const handleNoteEdit = (newNote: string | null) => {
+  const handleNoteEdit = (newNote: string | null): void => {
     if (!index) {
       return
     }
 
-    void setNoteToCategoryItem(className, index, newNote).then(() => setCurrentNote(newNote))
+    void setNoteToCategoryItem(className, index, newNote).then(() => void setCurrentNote(newNote))
   }
 
   // HANDLE ITEM DELETE
@@ -56,12 +52,12 @@ export const BudgetNotePopUp: FC<Props> = ({
   }
 
   // HANDLE NOTE DELETE
-  const handleNoteDelete = () => {
+  const handleNoteDelete = (): void => {
     if (!index) {
       return
     }
 
-    void setNoteToCategoryItem(className, index, null).then(() => setCurrentNote(null))
+    void setNoteToCategoryItem(className, index, null).then(() => void setCurrentNote(null))
   }
 
   return (
@@ -72,28 +68,26 @@ export const BudgetNotePopUp: FC<Props> = ({
       headerTitleText={item ?? ''}
       onClose={onClose}
     >
-      {/* eslint-disable-next-line no-warning-comments */}
       {/* TODO: Divide styles between here and global PopUp! */}
       <article className="note-container">
         {currentNote
           ? <ReactMarkdown>{currentNote}</ReactMarkdown>
+          // eslint-disable-next-line jsx-a11y/accessible-emoji
           : <span className="no-note">Sadly, there is no note. 🥺</span>
         }
       </article>
 
-      {/* eslint-disable-next-line no-warning-comments */}
       {/* TODO: Better solution for ButtonContainer! */}
       <ButtonContainer
         buttonsParameters={[
           {
             value: '➕ ADD OR EDIT NOTE',
-            // eslint-disable-next-line no-warning-comments
             // TODO: Exchange prompt with input!
-            // eslint-disable-next-line max-len
-            onClick: () => handleNoteEdit(prompt('Please enter new note!', currentNote !== null ? currentNote?.toLocaleString() : '')),
+            onClick: () => void handleNoteEdit(prompt('Please enter new note!', currentNote !== null ? currentNote?.toLocaleString() : '')),
           },
-          { value: '🚫 ERASE NOTE', onClick: () => handleNoteDelete() },
-          { value: '✔️ MARK ITEM AS DONE', onClick: () => console.log('Hello world!') },
+          { value: '🚫 ERASE NOTE', onClick: () => void handleNoteDelete() },
+          // eslint-disable-next-line no-console
+          { value: '✔️ MARK ITEM AS DONE', onClick: () => void console.log('Hello world!') },
           { value: '⛔ DELETE ITEM', onClick: () => handleItemDelete() },
         ]}
       />

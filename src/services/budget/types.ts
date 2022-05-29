@@ -1,6 +1,6 @@
 import type { DocumentData, DocumentReference } from 'firebase/firestore'
 
-export type DataContentOptions = {
+export interface DataContentOptions {
   cost?: number
   date?: string
   done?: number
@@ -11,7 +11,7 @@ export type DataContentOptions = {
   wage?: number
 }
 
-export type DataCategory = {
+export interface DataCategory {
   class: string
   title: string
   subtitle: string

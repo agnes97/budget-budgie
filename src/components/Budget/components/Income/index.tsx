@@ -1,4 +1,3 @@
-/* eslint-disable no-warning-comments */
 // TODO: Fix following linting problems!
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -16,7 +15,7 @@ import type { PopUpData } from '../BudgetNotePopUp'
 import { BudgetNotePopUp } from '../BudgetNotePopUp'
 import './index.css'
 
-type IncomeProps = {
+interface IncomeProps {
   incomeData: any
 }
 
@@ -24,9 +23,9 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
   const [isPopUpVisible, setIsPopUpVisible] = useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
 
-  const handlePopUpClosing = () => setIsPopUpVisible(!isPopUpVisible)
+  const handlePopUpClosing = () => void setIsPopUpVisible(!isPopUpVisible)
 
-  const handlePopUp = (data: PopUpData) => {
+  const handlePopUp = (data: PopUpData): void => {
     setPopUpData(data)
     setIsPopUpVisible(!isPopUpVisible)
   }
@@ -40,15 +39,15 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
           <a
             key={person.name}
             className="content-two-columns"
-            onClick={() => handlePopUp({
+            onClick={() => void handlePopUp({
               emoji: person.emoji, item: person.name, note: person.note,
             })}
           >
             <div>
-              <span className="emoji">{person?.emoji}</span>
-              <span className="name">{person?.name}</span>
+              <span className="emoji">{person.emoji}</span>
+              <span className="name">{person.name}</span>
             </div>
-            <span className="wage">{person?.wage?.toLocaleString()}</span>
+            <span className="wage">{person.wage?.toLocaleString()}</span>
           </a>
         ))}
       </div>
