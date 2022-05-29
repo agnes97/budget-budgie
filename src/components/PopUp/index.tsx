@@ -5,7 +5,7 @@ import { Button } from 'components/Button'
 import './index.css'
 import type { Data } from 'services/budget/types'
 
-type PopUpProps = {
+interface PopUpProps {
   visibility: boolean
   backgroundColor?: Data['class']
   headerTitleEmoji?: string
@@ -16,7 +16,7 @@ type PopUpProps = {
 export const PopUp: FC<PopUpProps> = ({
   children, headerTitleEmoji, headerTitleText, visibility, backgroundColor, onClose,
 }) => {
-  const handlePopUpClosing = () => onClose()
+  const handlePopUpClosing = (): void => void onClose()
 
   return (
     <section className={`pop-up-full-screen ${visibility ? 'pop-up-open' : ''}`}>

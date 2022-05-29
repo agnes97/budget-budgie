@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { FC } from 'react'
 import { useState } from 'react'
 import './index.css'
@@ -10,7 +9,7 @@ import { listEmoji } from 'services/emoji'
 
 import { ButtonContainer } from '../ButtonContainer'
 
-type AddItemToCategoryProps = {
+interface AddItemToCategoryProps {
   category: DataCategory['class']
 }
 
@@ -20,8 +19,8 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
   const { addNewItem } = useBudgetData()
 
   // HANDLE ADDING ITEMS
-  const handleAddItem = (category: string) => {
-    void addNewItem(category, newItem).then(() => {
+  const handleAddItem = (itemCategory: string): void => {
+    void addNewItem(itemCategory, newItem).then(() => {
       setIsEditMode(false)
       setNewItem({})
     })
@@ -34,8 +33,8 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
       {isEditMode
         ? (
           <form
-            className='add-items-form' onSubmit={event => {
-              event.preventDefault()
+            className='add-items-form' onSubmit={addItemEvent => {
+              addItemEvent.preventDefault()
               handleAddItem(category)
             }}
           >
@@ -45,15 +44,15 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
                 <input
                   type="number"
                   name="cost"
-                  onChange={event => setNewItem({ ...newItem, cost: Number(event.target.value) })}
+                  onChange={inputChangeEvent => void setNewItem({ ...newItem, cost: Number(inputChangeEvent.target.value) })}
                 />
               </div>
               <div>
                 <label htmlFor="cost">EMOJI:</label>
                 <select
                   name="cost"
-                  onChange={event => setNewItem({
-                    ...newItem, emoji: event.target.value.toLocaleString(),
+                  onChange={selectChangeEvent => void setNewItem({
+                    ...newItem, emoji: selectChangeEvent.target.value.toLocaleString(),
                   })}
                 >
                   {emojis.map((emoji, index) =>
@@ -67,8 +66,8 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
                   type="text"
                   name="item"
                   required
-                  onChange={event => setNewItem({
-                    ...newItem, item: event.target.value.toLocaleString(),
+                  onChange={inputChangeEvent => void setNewItem({
+                    ...newItem, item: inputChangeEvent.target.value.toLocaleString(),
                   })}
                 />
               </div>
@@ -76,7 +75,7 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
             <ButtonContainer
               buttonsParameters={[
                 { value: '✔️ ADD ITEM', type: 'submit' },
-                { value: '⛔', onClick: () => setIsEditMode(false) },
+                { value: '⛔', onClick: () => void setIsEditMode(false) },
               ]}
             />
           </form>
@@ -86,7 +85,7 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
             className="submit-button"
             shape='circular'
             value="+"
-            onClick={() => setIsEditMode(true)}
+            onClick={() => void setIsEditMode(true)}
           />
         )
       }

@@ -9,7 +9,7 @@ import type { DataContentOptions } from '../../../../services/budget/types'
 
 import './index.css'
 
-export type PopUpData = {
+export interface PopUpData {
   index?: number
   emoji?: DataContentOptions['emoji']
   item?: DataContentOptions['item']
@@ -24,7 +24,7 @@ type Props = PopUpData & {
 export const NewBudgetPopUp: FC<Props> = ({ visibility, onClose }) => {
   const { user } = useUser()
 
-  const handleCreateNewBudget = async () => {
+  const handleCreateNewBudget = async (): Promise<void> => {
     if (!user) {
       return
     }

@@ -3,14 +3,13 @@ import type { ButtonHTMLAttributes, FC } from 'react'
 import { Button } from 'components/Button'
 import './index.css'
 
-type ButtonParameters = {
+interface ButtonParameters {
   value: string
   onClick?: () => void
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type']
 }
 
-type Props = {
-  // eslint-disable-next-line no-warning-comments
+interface Props {
   // TODO: eslint-disable-next-line react/require-default-props
   // eslint-disable-next-line react/require-default-props
   title?: string

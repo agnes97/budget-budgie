@@ -1,4 +1,3 @@
-/* eslint-disable no-warning-comments */
 // TODO: Fix following linting problems!
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -13,7 +12,7 @@ import { BudgetNotePopUp } from '../BudgetNotePopUp'
 import { ButtonContainer } from '../ButtonContainer'
 import './index.css'
 
-type Props = {
+interface Props {
   article: DataContentOptions[]
   column: Data['class']
 }
@@ -24,14 +23,14 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
   const [popUpData, setPopUpData] = useState<PopUpData>()
 
   const handleSortItemsBy = (sortBy: keyof DataContentOptions) => () =>
-    setSortedArticle(sortItemsBy([...article], sortBy))
+    void setSortedArticle(sortItemsBy([...article], sortBy))
 
   const handleSortItemsByEmoji = () => () =>
-    setSortedArticle(sortByEmoji([...article], '✈️'))
+    void setSortedArticle(sortByEmoji([...article], '✈️'))
 
-  const handlePopUpClosing = () => setIsPopUpVisible(!isPopUpVisible)
+  const handlePopUpClosing = () => void setIsPopUpVisible(!isPopUpVisible)
 
-  const handlePopUp = (data: PopUpData) => {
+  const handlePopUp = (data: PopUpData): void => {
     setPopUpData(data)
     setIsPopUpVisible(!isPopUpVisible)
   }
@@ -43,8 +42,8 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
           <div
             key={item.item}
             title={item.note}
-            className={`content-one-column-row ${item?.done === 1 ? 'done' : undefined}`}
-            onClick={() => handlePopUp({ emoji: item.emoji, item: item.item, note: item.note })}
+            className={`content-one-column-row ${item.done === 1 && 'done'}`}
+            onClick={() => void handlePopUp({ emoji: item.emoji, item: item.item, note: item.note })}
           >
             <span className="emoji">{item.emoji}</span>
             <span

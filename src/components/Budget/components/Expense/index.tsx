@@ -8,7 +8,7 @@ import { ContentOneColumn } from '../ContentOneColumn'
 import { ContentTwoColumns } from '../ContentTwoColumns'
 import './index.css'
 
-type ExpenseProps = {
+interface ExpenseProps {
   expenseCategoryData: Data
 }
 

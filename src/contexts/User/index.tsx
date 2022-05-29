@@ -21,11 +21,11 @@ const UserContext = createContext<UserContextType>({
 export const UserProvider: FC = ({ children }) => {
   const [user, setUser] = useState<UserContextType['user']>(firebaseAuth.currentUser)
 
-  useEffect(() => onAuthStateChanged(firebaseAuth, user => setUser(user)), [setUser])
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  useEffect(() => onAuthStateChanged(firebaseAuth, user => void setUser(user)), [setUser])
 
   return (
     <UserContext.Provider
-      // eslint-disable-next-line no-warning-comments
       // TODO: Fix the following linting problem:
       // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={user !== null ? { user, isLoggedIn: true } : { user: null, isLoggedIn: false }}

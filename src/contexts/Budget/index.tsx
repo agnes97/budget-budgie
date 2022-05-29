@@ -21,7 +21,7 @@ import {
 import { initialCategories } from 'services/budget/categories'
 import type { Data, DataContentOptions } from 'services/budget/types'
 
-type BudgetContextType = {
+interface BudgetContextType {
   budgetData: Data[]
   expensesData: Data[]
   incomeData: Data | undefined
@@ -63,18 +63,20 @@ export const BudgetDataProvider: FC = ({ children }) => {
         return defaultBudgetId
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       return await getActiveBudgetByUserId(user.uid) ?? defaultBudgetId
     }
 
-    void getBudgetByUser().then(budgetId => setBudgetId(budgetId))
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    void getBudgetByUser().then(budgetId => void setBudgetId(budgetId))
   }, [user, setBudgetId])
 
   useEffect(() => {
-    const unsubscribe = subscribeData(budgetId, budgetData => setBudgetData(budgetData))
-    return () => unsubscribe()
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const unsubscribe = subscribeData(budgetId, budgetData => void setBudgetData(budgetData))
+    return () => void unsubscribe()
   }, [setBudgetData, budgetId])
 
-  // eslint-disable-next-line no-warning-comments
   // TODO: Reduce to get both in one loop of budgetData!
   const incomeData = budgetData.find(categories => categories.class === 'have-month')
   const expensesData = budgetData.filter(categories => categories.class !== 'have-month')
@@ -97,13 +99,13 @@ export const BudgetDataProvider: FC = ({ children }) => {
 
   const addNewItem = useCallback(
     async (className: string, newItem: DataContentOptions) =>
-      await addNewItemToBudget(budgetId, className, newItem),
+      void await addNewItemToBudget(budgetId, className, newItem),
     [budgetId],
   )
 
   const deleteItem = useCallback(
     async (className: string, deletedItemIndex: number) =>
-      await deleteItemFromBudget(budgetId, className, deletedItemIndex),
+      void await deleteItemFromBudget(budgetId, className, deletedItemIndex),
     [budgetId],
   )
 
@@ -113,7 +115,7 @@ export const BudgetDataProvider: FC = ({ children }) => {
       categoryItemIndex: number,
       newNote: string | null,
     ) =>
-      await setNoteToBudgetCategoryItem(
+      void await setNoteToBudgetCategoryItem(
         budgetId,
         className,
         categoryItemIndex,

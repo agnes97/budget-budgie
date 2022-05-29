@@ -1,4 +1,3 @@
-/* eslint-disable no-warning-comments */
 // TODO: Fix following linting problems!
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -12,7 +11,7 @@ import { BudgetNotePopUp } from '../BudgetNotePopUp'
 
 import './index.css'
 
-type Props = {
+interface Props {
   article: DataContentOptions[]
   column: Data['class']
 }
@@ -21,9 +20,9 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
   const [isPopUpVisible, setIsPopUpVisible] = useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
 
-  const handlePopUpClosing = () => setIsPopUpVisible(!isPopUpVisible)
+  const handlePopUpClosing = () => void setIsPopUpVisible(!isPopUpVisible)
 
-  const handlePopUp = (data: PopUpData) => {
+  const handlePopUp = (data: PopUpData): void => {
     setPopUpData(data)
     setIsPopUpVisible(!isPopUpVisible)
   }
@@ -35,34 +34,33 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
       {article.map((item: DataContentOptions, index) => (
         <div
           key={item.item}
-          title={item?.note}
-          className={item?.done === 1
+          title={item.note}
+          className={item.done === 1
             ? 'content-two-columns done'
             : 'content-two-columns'}
         >
-          {item?.cost
-            ? <span className="cost">{item?.cost?.toLocaleString()}</span>
+          {item.cost
+            ? <span className="cost">{item.cost.toLocaleString()}</span>
             : <span className="undefined-cost">???</span>}
           <div>
-            <span className="emoji">{item?.emoji}</span>
+            <span className="emoji">{item.emoji}</span>
             <span
-              className={item?.note
+              className={item.note
                 ? 'item italic'
                 : 'item'}
-              onClick={() => handlePopUp({
+              onClick={() => void handlePopUp({
                 index,
                 emoji: item.emoji,
                 item: item.item,
                 note: item.note,
               })}
             >
-              {item?.item}
+              {item.item}
             </span>
           </div>
         </div>
       ))}
 
-      {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
       <AddItemToCategory category={column} />
 
       {/* HIDDEN POP-UP */}
