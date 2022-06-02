@@ -7,7 +7,7 @@ import type { Data } from 'services/budget/types'
 
 interface PopUpProps {
   visibility: boolean
-  backgroundColor?: Data['class']
+  backgroundColor?: Data['class'] | string
   headerTitleEmoji?: string
   headerTitleText: string
   onClose: () => void
@@ -21,10 +21,10 @@ export const PopUp: FC<PopUpProps> = ({
   return (
     <section className={`pop-up-full-screen ${visibility ? 'pop-up-open' : ''}`}>
       <div
-        className={
-          `pop-up-container 
-        {${backgroundColor} ? ${backgroundColor}-colors} : black-colors`
-        }
+        className={`
+          pop-up-container
+          ${backgroundColor ? `${backgroundColor}-colors` : 'black-colors'}
+          `}
       >
         <header className="pop-up-header">
           <h2 className="pop-up-title">
