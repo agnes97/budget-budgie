@@ -5,13 +5,15 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 import { firebaseAuth } from 'services/firebase'
 
-export type UserContextType = {
-  user: User
-  isLoggedIn: true
-} | {
-  user: null
-  isLoggedIn: false
-}
+export type UserContextType =
+  | {
+      user: User
+      isLoggedIn: true
+    }
+  | {
+      user: null
+      isLoggedIn: false
+    }
 
 const UserContext = createContext<UserContextType>({
   user: null,
@@ -19,15 +21,28 @@ const UserContext = createContext<UserContextType>({
 })
 
 export const UserProvider: FC = ({ children }) => {
-  const [user, setUser] = useState<UserContextType['user']>(firebaseAuth.currentUser)
+  const [user, setUser] = useState<UserContextType['user']>(
+    firebaseAuth.currentUser
+  )
 
-  useEffect(() => onAuthStateChanged(firebaseAuth, loggedInUser => void setUser(loggedInUser)), [setUser])
+  useEffect(
+    () =>
+      onAuthStateChanged(
+        firebaseAuth,
+        (loggedInUser) => void setUser(loggedInUser)
+      ),
+    [setUser]
+  )
 
   return (
     <UserContext.Provider
-      // TODO: Fix the following linting problem:
-      // eslint-disable-next-line react/jsx-no-constructed-context-values
-      value={user !== null ? { user, isLoggedIn: true } : { user: null, isLoggedIn: false }}
+      value={
+        user !== null
+          ? // TODO: Fix the following linting problem:
+            // eslint-disable-next-line react/jsx-no-constructed-context-values
+            { user, isLoggedIn: true }
+          : { user: null, isLoggedIn: false }
+      }
     >
       {children}
     </UserContext.Provider>

@@ -31,4 +31,7 @@ export const categories: DataCategory[] = [
   },
 ]
 
-export const initialCategories = categories.map(category => ({ ...category, content: [] }))
+export const initialCategories = categories.map((category) => ({
+  ...category,
+  content: [],
+}))

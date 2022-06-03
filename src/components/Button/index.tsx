@@ -1,4 +1,9 @@
-import type { ButtonHTMLAttributes, FC, MouseEventHandler, ReactElement } from 'react'
+import type {
+  ButtonHTMLAttributes,
+  FC,
+  MouseEventHandler,
+  ReactElement,
+} from 'react'
 import './index.css'
 
 interface Props {
@@ -10,9 +15,21 @@ interface Props {
   onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-export const Button: FC<Props> = ({ className, title, shape, onClick, type, value }) => (
-  // eslint-disable-next-line react/button-has-type
-  <button type={type} className={`${shape} ${className}`} title={title} onClick={onClick}>
+export const Button: FC<Props> = ({
+  className,
+  title,
+  shape,
+  onClick,
+  type,
+  value,
+}) => (
+  <button
+    // eslint-disable-next-line react/button-has-type
+    type={type}
+    className={`${shape} ${className}`}
+    title={title}
+    onClick={onClick}
+  >
     {value}
   </button>
 )
@@ -23,6 +40,5 @@ Button.defaultProps = {
   shape: 'rectangular',
   type: 'button',
   value: 'CLICK HERE',
-  onClick: () => null
+  onClick: () => null,
 }
-

@@ -12,6 +12,4 @@ const Routes: FC = () => (
   </Switch>
 )
 
-export const App: FC = () =>
-  <Routes />
-
+export const App: FC = () => <Routes />

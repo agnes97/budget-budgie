@@ -13,12 +13,19 @@ interface PopUpProps {
 }
 
 export const PopUp: FC<PopUpProps> = ({
-  children, headerTitleEmoji, headerTitleText, visibility, backgroundColor, onClose,
+  children,
+  headerTitleEmoji,
+  headerTitleText,
+  visibility,
+  backgroundColor,
+  onClose,
 }) => {
   const handlePopUpClosing = (): void => void onClose()
 
   return (
-    <section className={`pop-up-full-screen ${visibility ? 'pop-up-open' : ''}`}>
+    <section
+      className={`pop-up-full-screen ${visibility ? 'pop-up-open' : ''}`}
+    >
       <div
         className={`
           pop-up-container
@@ -27,7 +34,9 @@ export const PopUp: FC<PopUpProps> = ({
       >
         <header className="pop-up-header">
           <h2 className="pop-up-title">
-            {headerTitleEmoji && <span className="emoji">{headerTitleEmoji}</span>}
+            {headerTitleEmoji && (
+              <span className="emoji">{headerTitleEmoji}</span>
+            )}
             <span>{headerTitleText}</span>
           </h2>
           <Button
@@ -46,5 +55,5 @@ export const PopUp: FC<PopUpProps> = ({
 
 PopUp.defaultProps = {
   backgroundColor: 'black',
-  headerTitleEmoji: ''
+  headerTitleEmoji: '',
 }

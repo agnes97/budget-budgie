@@ -8,4 +8,5 @@
   height: 100%;
   display: flex;
   flex-flow: column;
-  place-content: space-between; }
+  place-content: space-between;
+}

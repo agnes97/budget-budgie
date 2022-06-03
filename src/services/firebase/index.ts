@@ -26,6 +26,6 @@ export const firebaseAuth = getAuth(firebaseApp)
 export const firestore = getFirestore(firebaseApp)
 
 export const createCollection = <TDocumentType = DocumentData>(
-  collectionName: string,
+  collectionName: string
 ): CollectionReference<TDocumentType> =>
   collection(firestore, collectionName) as CollectionReference<TDocumentType>

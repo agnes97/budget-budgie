@@ -38,9 +38,13 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
           <div
             key={person.name}
             className="content-two-columns"
-            onClick={() => void handlePopUp({
-              emoji: person.emoji, item: person.name, note: person.note,
-            })}
+            onClick={() =>
+              void handlePopUp({
+                emoji: person.emoji,
+                item: person.name,
+                note: person.note,
+              })
+            }
           >
             <div>
               <span className="emoji">{person.emoji}</span>

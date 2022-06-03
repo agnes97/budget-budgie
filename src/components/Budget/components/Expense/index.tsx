@@ -17,14 +17,25 @@ export const Expense: FC<ExpenseProps> = ({ expenseCategoryData }) => {
 
   return (
     <article className={expenseCategoryData.class}>
-      <ArticlesHeader title={expenseCategoryData.title} subtitle={expenseCategoryData.subtitle} />
+      <ArticlesHeader
+        title={expenseCategoryData.title}
+        subtitle={expenseCategoryData.subtitle}
+      />
       <div className="content">
         {/* DISPLAY CONTENT IN ONE OR TWO COLUMNS */}
-        {expenseCategoryData.class === 'goals'
-          ? <ContentOneColumn article={content} column={expenseCategoryData.class} />
-          : <ContentTwoColumns article={content} column={expenseCategoryData.class} />}
+        {expenseCategoryData.class === 'goals' ? (
+          <ContentOneColumn
+            article={content}
+            column={expenseCategoryData.class}
+          />
+        ) : (
+          <ContentTwoColumns
+            article={content}
+            column={expenseCategoryData.class}
+          />
+        )}
       </div>
-      {(expenseCategoryData.class === 'need-month') && <ArticlesTotal />}
+      {expenseCategoryData.class === 'need-month' && <ArticlesTotal />}
     </article>
   )
 }

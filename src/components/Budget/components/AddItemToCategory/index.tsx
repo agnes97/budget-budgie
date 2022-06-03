@@ -29,66 +29,77 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
   const emojis = listEmoji()
 
   return (
-    <section className='add-items-container'>
-      {isEditMode
-        ? (
-          <form
-            className='add-items-form' onSubmit={addItemEvent => {
-              addItemEvent.preventDefault()
-              handleAddItem(category)
-            }}
-          >
-            <div className='add-items-form-inputs'>
-              <div>
-                <label htmlFor="cost">COST:</label>
-                <input
-                  type="number"
-                  name="cost"
-                  onChange={inputChangeEvent => void setNewItem({ ...newItem, cost: Number(inputChangeEvent.target.value) })}
-                />
-              </div>
-              <div>
-                <label htmlFor="cost">EMOJI:</label>
-                <select
-                  name="cost"
-                  onChange={selectChangeEvent => void setNewItem({
-                    ...newItem, emoji: selectChangeEvent.target.value.toLocaleString(),
-                  })}
-                >
-                  {emojis.map((emoji) =>
-                    <option key={emoji} value={emoji}>{emoji}</option>)}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="item">ITEM:</label>
-                <input
-                  type="text"
-                  name="item"
-                  required
-                  onChange={inputChangeEvent => void setNewItem({
-                    ...newItem, item: inputChangeEvent.target.value.toLocaleString(),
-                  })}
-                />
-              </div>
+    <section className="add-items-container">
+      {isEditMode ? (
+        <form
+          className="add-items-form"
+          onSubmit={(addItemEvent) => {
+            addItemEvent.preventDefault()
+            handleAddItem(category)
+          }}
+        >
+          <div className="add-items-form-inputs">
+            <div>
+              <label htmlFor="cost">COST:</label>
+              <input
+                type="number"
+                name="cost"
+                onChange={(inputChangeEvent) =>
+                  void setNewItem({
+                    ...newItem,
+                    cost: Number(inputChangeEvent.target.value),
+                  })
+                }
+              />
             </div>
-            <ButtonContainer
-              buttonsParameters={[
-                { value: '✔️ ADD ITEM', type: 'submit' },
-                { value: '⛔', onClick: () => void setIsEditMode(false) },
-              ]}
-            />
-          </form>
-        )
-        : (
-          <Button
-            className="submit-button"
-            shape='circular'
-            value="+"
-            onClick={() => void setIsEditMode(true)}
+            <div>
+              <label htmlFor="cost">EMOJI:</label>
+              <select
+                name="cost"
+                onChange={(selectChangeEvent) =>
+                  void setNewItem({
+                    ...newItem,
+                    emoji: selectChangeEvent.target.value.toLocaleString(),
+                  })
+                }
+              >
+                {emojis.map((emoji) => (
+                  <option key={emoji} value={emoji}>
+                    {emoji}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="item">ITEM:</label>
+              <input
+                type="text"
+                name="item"
+                required
+                onChange={(inputChangeEvent) =>
+                  void setNewItem({
+                    ...newItem,
+                    item: inputChangeEvent.target.value.toLocaleString(),
+                  })
+                }
+              />
+            </div>
+          </div>
+          <ButtonContainer
+            buttonsParameters={[
+              { value: '✔️ ADD ITEM', type: 'submit' },
+              { value: '⛔', onClick: () => void setIsEditMode(false) },
+            ]}
           />
-        )
-      }
+        </form>
+      ) : (
+        <Button
+          className="submit-button"
+          shape="circular"
+          value="+"
+          onClick={() => void setIsEditMode(true)}
+        />
+      )}
     </section>
   )
 }
-

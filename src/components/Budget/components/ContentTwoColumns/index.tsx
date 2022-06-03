@@ -4,7 +4,10 @@
 import type { FC } from 'react'
 import { useState } from 'react'
 
-import type { Data, DataContentOptions } from '../../../../services/budget/types'
+import type {
+  Data,
+  DataContentOptions,
+} from '../../../../services/budget/types'
 import { AddItemToCategory } from '../AddItemToCategory'
 import type { PopUpData } from '../BudgetNotePopUp'
 import { BudgetNotePopUp } from '../BudgetNotePopUp'
@@ -35,25 +38,27 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
         <div
           key={item.item}
           title={item.note}
-          className={item.done === 1
-            ? 'content-two-columns done'
-            : 'content-two-columns'}
+          className={
+            item.done === 1 ? 'content-two-columns done' : 'content-two-columns'
+          }
         >
-          {item.cost
-            ? <span className="cost">{item.cost.toLocaleString()}</span>
-            : <span className="undefined-cost">???</span>}
+          {item.cost ? (
+            <span className="cost">{item.cost.toLocaleString()}</span>
+          ) : (
+            <span className="undefined-cost">???</span>
+          )}
           <div>
             <span className="emoji">{item.emoji}</span>
             <span
-              className={item.note
-                ? 'item italic'
-                : 'item'}
-              onClick={() => void handlePopUp({
-                index,
-                emoji: item.emoji,
-                item: item.item,
-                note: item.note,
-              })}
+              className={item.note ? 'item italic' : 'item'}
+              onClick={() =>
+                void handlePopUp({
+                  index,
+                  emoji: item.emoji,
+                  item: item.item,
+                  note: item.note,
+                })
+              }
             >
               {item.item}
             </span>

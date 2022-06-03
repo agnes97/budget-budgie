@@ -23,14 +23,16 @@ export const Nav: FC = () => {
   }
 
   // USER SIGN UP / SIGN IN
-  const handleOnClick = async (onClickEvent: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+  const handleOnClick = async (
+    onClickEvent: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
     onClickEvent.preventDefault()
 
     if (isLoggedIn) {
-      return void await signUserOut()
+      return void (await signUserOut())
     }
 
-    return void await signUser()
+    return void (await signUser())
   }
 
   useEffect(() => {
@@ -39,14 +41,14 @@ export const Nav: FC = () => {
         return ['You have no budgets yet. :(']
       }
 
-      return (
-        await getBudgetIdsByUserId(user.uid).then((budgets: string[]) =>
-          budgets.length > 0 ? budgets : ['You have no budgets yet. :(']
-        )
+      return await getBudgetIdsByUserId(user.uid).then((budgets: string[]) =>
+        budgets.length > 0 ? budgets : ['You have no budgets yet. :(']
       )
     }
 
-    void getBudgetsByUserList().then(budgetId => void setUsersBudgets(budgetId))
+    void getBudgetsByUserList().then(
+      (budgetId) => void setUsersBudgets(budgetId)
+    )
   }, [user])
 
   const LogOut: FC = () => (
@@ -62,10 +64,10 @@ export const Nav: FC = () => {
         hidden={!user}
         value="MY BUDGETS"
         menuItems={usersBudgets ?? []}
-        menuItemsOnClick={budgetId => {
+        menuItemsOnClick={(budgetId) => {
           void setActiveBudget(budgetId)
         }}
-        lastItem='➕ NEW BUDGET ➕'
+        lastItem="➕ NEW BUDGET ➕"
         lastItemOnClick={handlePopUp}
       />
       <Button

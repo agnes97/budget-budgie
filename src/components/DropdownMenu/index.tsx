@@ -22,21 +22,23 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
 }) => (
   <div className={`dropdown-menu-container ${hidden && 'hidden'}`}>
     <Button shape="rectangular" value={value} />
-    <ul className='dropdown-menu-list'>
+    <ul className="dropdown-menu-list">
       {menuItems.map((item: string) => (
-        <li key={item} className='dropdown-menu-item'>
+        <li key={item} className="dropdown-menu-item">
           {/* TODO: Handle click-events-have-key-event by adding onKeyPress handlerer */}
-          <div onClick={() => void menuItemsOnClick(item)} aria-hidden="true">{item}</div>
+          <div onClick={() => void menuItemsOnClick(item)} aria-hidden="true">
+            {item}
+          </div>
         </li>
       ))}
 
       {lastItem && (
-        <li className='dropdown-menu-item last-dropdown-menu-item'>
+        <li className="dropdown-menu-item last-dropdown-menu-item">
           {/* TODO: Onclick has different function! */}
           <div
             onClick={() => void lastItemOnClick(lastItem)}
             aria-hidden="true"
-            className='gradient-text'
+            className="gradient-text"
           >
             {lastItem}
           </div>
@@ -47,6 +49,6 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
 )
 
 DropdownMenu.defaultProps = {
-  hidden: true, 
-  lastItem: ''
+  hidden: true,
+  lastItem: '',
 }
