@@ -5,7 +5,10 @@ import ReactMarkdown from 'react-markdown'
 import { PopUp } from 'components/PopUp'
 import { useBudgetData } from 'contexts/Budget'
 
-import type { Data, DataContentOptions } from '../../../../services/budget/types'
+import type {
+  Data,
+  DataContentOptions,
+} from '../../../../services/budget/types'
 import { ButtonContainer } from '../ButtonContainer'
 
 import './index.css'
@@ -24,10 +27,18 @@ type Props = PopUpData & {
 }
 
 export const BudgetNotePopUp: FC<Props> = ({
-  className, index, emoji, item, note, visibility, onClose,
+  className,
+  index,
+  emoji,
+  item,
+  note,
+  visibility,
+  onClose,
 }) => {
   const { setNoteToCategoryItem, deleteItem } = useBudgetData()
-  const [currentNote, setCurrentNote] = useState<string | null | undefined>(note)
+  const [currentNote, setCurrentNote] = useState<string | null | undefined>(
+    note
+  )
 
   useEffect(() => {
     setCurrentNote(note)
@@ -39,7 +50,9 @@ export const BudgetNotePopUp: FC<Props> = ({
       return
     }
 
-    void setNoteToCategoryItem(className, index, newNote).then(() => void setCurrentNote(newNote))
+    void setNoteToCategoryItem(className, index, newNote).then(
+      () => void setCurrentNote(newNote)
+    )
   }
 
   // HANDLE ITEM DELETE
@@ -57,7 +70,9 @@ export const BudgetNotePopUp: FC<Props> = ({
       return
     }
 
-    void setNoteToCategoryItem(className, index, null).then(() => void setCurrentNote(null))
+    void setNoteToCategoryItem(className, index, null).then(
+      () => void setCurrentNote(null)
+    )
   }
 
   return (
@@ -70,13 +85,16 @@ export const BudgetNotePopUp: FC<Props> = ({
     >
       {/* TODO: Divide styles between here and global PopUp! */}
       <article className="note-container">
-        {currentNote
-          ? <ReactMarkdown>{currentNote}</ReactMarkdown>
-          : <p className="no-note">
-            <span>Sadly, there is no note.</span> 
-            <span role="img" aria-label='sad emoji'>🥺</span>
-            </p>
-        }
+        {currentNote ? (
+          <ReactMarkdown>{currentNote}</ReactMarkdown>
+        ) : (
+          <p className="no-note">
+            <span>Sadly, there is no note.</span>
+            <span role="img" aria-label="sad emoji">
+              🥺
+            </span>
+          </p>
+        )}
       </article>
 
       {/* TODO: Better solution for ButtonContainer! */}
@@ -85,7 +103,13 @@ export const BudgetNotePopUp: FC<Props> = ({
           {
             value: '➕ ADD OR EDIT NOTE',
             // TODO: Exchange prompt with input!
-            onClick: () => void handleNoteEdit(prompt('Please enter new note!', currentNote !== null ? currentNote?.toLocaleString() : '')),
+            onClick: () =>
+              void handleNoteEdit(
+                prompt(
+                  'Please enter new note!',
+                  currentNote !== null ? currentNote?.toLocaleString() : ''
+                )
+              ),
           },
           { value: '🚫 ERASE NOTE', onClick: () => void handleNoteDelete() },
           // TODO: Mark item as done functionality. :)

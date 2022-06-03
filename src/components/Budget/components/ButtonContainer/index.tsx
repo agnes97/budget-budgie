@@ -32,5 +32,5 @@ export const ButtonContainer: FC<Props> = ({ buttonsParameters, title }) => (
 )
 
 ButtonContainer.defaultProps = {
-  title: ''
+  title: '',
 }

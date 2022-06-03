@@ -31,7 +31,7 @@ interface BudgetContextType {
   setNoteToCategoryItem: (
     className: string,
     categoryItemIndex: number,
-    newNote: string | null,
+    newNote: string | null
   ) => Promise<void>
 }
 
@@ -66,61 +66,71 @@ export const BudgetDataProvider: FC = ({ children }) => {
       return await getActiveBudgetByUserId(user.uid)
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    void getBudgetByUser().then(budgetId => void setBudgetId(budgetId))
+    void getBudgetByUser().then(
+      (currentBudgetId) => void setBudgetId(currentBudgetId)
+    )
   }, [user, setBudgetId])
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    const unsubscribe = subscribeData(budgetId, budgetData => void setBudgetData(budgetData))
+    const unsubscribe = subscribeData(
+      budgetId,
+      (subscribedBudgetData) => void setBudgetData(subscribedBudgetData)
+    )
     return () => void unsubscribe()
   }, [setBudgetData, budgetId])
 
   // TODO: Reduce to get both in one loop of budgetData!
-  const incomeData = budgetData.find(categories => categories.class === 'have-month')
-  const expensesData = budgetData.filter(categories => categories.class !== 'have-month')
+  const incomeData = budgetData.find(
+    (categories) => categories.class === 'have-month'
+  )
+  const expensesData = budgetData.filter(
+    (categories) => categories.class !== 'have-month'
+  )
 
-  const setActiveBudget = useCallback(async (newActiveBudgetId: string) => {
-    if (!user) {
-      return
-    }
+  const setActiveBudget = useCallback(
+    async (newActiveBudgetId: string) => {
+      if (!user) {
+        return
+      }
 
-    if (budgetId === newActiveBudgetId) {
-      return
-    }
+      if (budgetId === newActiveBudgetId) {
+        return
+      }
 
-    await setActiveBudgetByUserId(user.uid, newActiveBudgetId)
-    setBudgetId(newActiveBudgetId)
-  }, [budgetId, user])
+      await setActiveBudgetByUserId(user.uid, newActiveBudgetId)
+      setBudgetId(newActiveBudgetId)
+    },
+    [budgetId, user]
+  )
 
   // void setActiveBudgetByUserId(user?.uid, 'showcase')
   // void setActiveBudget('showcase')
 
   const addNewItem = useCallback(
     async (className: string, newItem: DataContentOptions) =>
-      void await addNewItemToBudget(budgetId, className, newItem),
-    [budgetId],
+      void (await addNewItemToBudget(budgetId, className, newItem)),
+    [budgetId]
   )
 
   const deleteItem = useCallback(
     async (className: string, deletedItemIndex: number) =>
-      void await deleteItemFromBudget(budgetId, className, deletedItemIndex),
-    [budgetId],
+      void (await deleteItemFromBudget(budgetId, className, deletedItemIndex)),
+    [budgetId]
   )
 
   const setNoteToCategoryItem = useCallback(
     async (
       className: string,
       categoryItemIndex: number,
-      newNote: string | null,
+      newNote: string | null
     ) =>
-      void await setNoteToBudgetCategoryItem(
+      void (await setNoteToBudgetCategoryItem(
         budgetId,
         className,
         categoryItemIndex,
-        newNote,
-      ),
-    [budgetId],
+        newNote
+      )),
+    [budgetId]
   )
 
   const value = useMemo(
@@ -141,13 +151,11 @@ export const BudgetDataProvider: FC = ({ children }) => {
       incomeData,
       setActiveBudget,
       setNoteToCategoryItem,
-    ],
+    ]
   )
 
   return (
-    <BudgetContext.Provider value={value}>
-      {children}
-    </BudgetContext.Provider>
+    <BudgetContext.Provider value={value}>{children}</BudgetContext.Provider>
   )
 }
 

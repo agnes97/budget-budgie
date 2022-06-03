@@ -6,7 +6,10 @@ import { useState } from 'react'
 
 import { sortByEmoji, sortItemsBy } from 'services/budget'
 
-import type { Data, DataContentOptions } from '../../../../services/budget/types'
+import type {
+  Data,
+  DataContentOptions,
+} from '../../../../services/budget/types'
 import type { PopUpData } from '../BudgetNotePopUp'
 import { BudgetNotePopUp } from '../BudgetNotePopUp'
 import { ButtonContainer } from '../ButtonContainer'
@@ -43,14 +46,16 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
             key={item.item}
             title={item.note}
             className={`content-one-column-row ${item.done === 1 && 'done'}`}
-            onClick={() => void handlePopUp({ emoji: item.emoji, item: item.item, note: item.note })}
+            onClick={() =>
+              void handlePopUp({
+                emoji: item.emoji,
+                item: item.item,
+                note: item.note,
+              })
+            }
           >
             <span className="emoji">{item.emoji}</span>
-            <span
-              className={item.note
-                ? 'item italic'
-                : 'item'}
-            >
+            <span className={item.note ? 'item italic' : 'item'}>
               {item.item}
             </span>
           </div>
