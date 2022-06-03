@@ -152,11 +152,6 @@ export const addNewItemToBudget = async (
 
       const content = document.data().categories[className]
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (!content) {
-        return
-      }
-
       transaction.update(budgetRef, {
         [`categories.${className}`]: [...content, newItem],
       })
@@ -184,11 +179,6 @@ export const deleteItemFromBudget = async (
       }
 
       const category = document.data().categories[className]
-
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (!category) {
-        return
-      }
 
       transaction.update(budgetRef, {
         [`categories.${className}`]: category.filter((_, index) => index !== deletedItemIndex),
@@ -219,11 +209,6 @@ export const setNoteToBudgetCategoryItem = async (
 
       const category = document.data().categories[className]
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (!category) {
-        return
-      }
-
       const categoryItem = category[categoryItemIndex]
 
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -245,40 +230,29 @@ export const setNoteToBudgetCategoryItem = async (
 }
 
 // COUNT WAGES
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const countMonthlyWage = (data: Data[], key: number) => {
+export const countMonthlyWage = (data: Data[], key: number): number => {
   const locationOfData = data[key]?.content
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (locationOfData) {
-    return locationOfData
+  return locationOfData
       .map((contentItem: DataContentOptions) => contentItem.wage)
       .reduce((acc: number, contentItem: number | undefined) => acc + (contentItem ?? 0), 0)
-  }
-
-  return 0
+  
 }
 
 // COUNT COSTS
 export const countCost = (data: Data[], key: number, column: 'wage' | 'cost'): number | undefined => {
   const locationOfData = data[key]?.content
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (locationOfData) {
-    return locationOfData
-      .map((contentItem: DataContentOptions) => contentItem[column])
-      .reduce((
-        acc: number,
-        contentItem: DataContentOptions[typeof column],
-      ) => acc + (contentItem ?? 0), 0)
-  }
-
-  return 0
+  return locationOfData
+    .map((contentItem: DataContentOptions) => contentItem[column])
+    .reduce((
+      acc: number,
+      contentItem: DataContentOptions[typeof column],
+    ) => acc + (contentItem ?? 0), 0)
 }
 
 // SORT ITEMS
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const sortItemsBy = (arrayToSort: DataContentOptions[], sortBy: keyof DataContentOptions) =>
+export const sortItemsBy = (arrayToSort: DataContentOptions[], sortBy: keyof DataContentOptions): DataContentOptions[] =>
   arrayToSort.sort((valueA: DataContentOptions, valueB: DataContentOptions) => {
     const one = valueA[sortBy]?.toString()?.trim()?.toLowerCase() ?? ''
     const two = valueB[sortBy]?.toString()?.trim()?.toLowerCase() ?? ''
@@ -287,8 +261,7 @@ export const sortItemsBy = (arrayToSort: DataContentOptions[], sortBy: keyof Dat
   })
 
 // SORT CERTAIN EMOJI LAST
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const sortByEmoji = (arrayToSort: DataContentOptions[], emoji: string) =>
+export const sortByEmoji = (arrayToSort: DataContentOptions[], emoji: string): DataContentOptions[] =>
   arrayToSort.sort((valueA: DataContentOptions, valueB: DataContentOptions) => {
     const one = valueA.emoji?.indexOf(emoji) ?? -1
     const two = valueB.emoji?.indexOf(emoji) ?? -1

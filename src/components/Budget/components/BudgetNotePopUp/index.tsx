@@ -72,8 +72,10 @@ export const BudgetNotePopUp: FC<Props> = ({
       <article className="note-container">
         {currentNote
           ? <ReactMarkdown>{currentNote}</ReactMarkdown>
-          // eslint-disable-next-line jsx-a11y/accessible-emoji
-          : <span className="no-note">Sadly, there is no note. 🥺</span>
+          : <p className="no-note">
+            <span>Sadly, there is no note.</span> 
+            <span role="img" aria-label='sad emoji'>🥺</span>
+            </p>
         }
       </article>
 
@@ -86,8 +88,8 @@ export const BudgetNotePopUp: FC<Props> = ({
             onClick: () => void handleNoteEdit(prompt('Please enter new note!', currentNote !== null ? currentNote?.toLocaleString() : '')),
           },
           { value: '🚫 ERASE NOTE', onClick: () => void handleNoteDelete() },
-          // eslint-disable-next-line no-console
-          { value: '✔️ MARK ITEM AS DONE', onClick: () => void console.log('Hello world!') },
+          // TODO: Mark item as done functionality. :)
+          // { value: '✔️ MARK ITEM AS DONE', onClick: () => void console.log('Hello world!') },
           { value: '⛔ DELETE ITEM', onClick: () => handleItemDelete() },
         ]}
       />

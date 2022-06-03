@@ -55,9 +55,8 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
                     ...newItem, emoji: selectChangeEvent.target.value.toLocaleString(),
                   })}
                 >
-                  {emojis.map((emoji, index) =>
-                    // eslint-disable-next-line react/no-array-index-key
-                    <option key={index} value={emoji}>{emoji}</option>)}
+                  {emojis.map((emoji) =>
+                    <option key={emoji} value={emoji}>{emoji}</option>)}
                 </select>
               </div>
               <div>
