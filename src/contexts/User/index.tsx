@@ -21,8 +21,7 @@ const UserContext = createContext<UserContextType>({
 export const UserProvider: FC = ({ children }) => {
   const [user, setUser] = useState<UserContextType['user']>(firebaseAuth.currentUser)
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  useEffect(() => onAuthStateChanged(firebaseAuth, user => void setUser(user)), [setUser])
+  useEffect(() => onAuthStateChanged(firebaseAuth, loggedInUser => void setUser(loggedInUser)), [setUser])
 
   return (
     <UserContext.Provider

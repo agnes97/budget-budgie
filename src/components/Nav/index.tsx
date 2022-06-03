@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 
@@ -24,9 +23,7 @@ export const Nav: FC = () => {
   }
 
   // USER SIGN UP / SIGN IN
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleOnClick = async (onClickEvent: any): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  const handleOnClick = async (onClickEvent: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
     onClickEvent.preventDefault()
 
     if (isLoggedIn) {
@@ -43,10 +40,9 @@ export const Nav: FC = () => {
       }
 
       return (
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        await getBudgetIdsByUserId(user.uid) ?? [
-          'You have no budgets yet. :(',
-        ]
+        await getBudgetIdsByUserId(user.uid).then((budgets: string[]) =>
+          budgets.length > 0 ? budgets : ['You have no budgets yet. :(']
+        )
       )
     }
 
@@ -69,13 +65,8 @@ export const Nav: FC = () => {
         menuItemsOnClick={budgetId => {
           void setActiveBudget(budgetId)
         }}
-        // eslint-disable-next-line no-undefined
-        lastItem={user ? '➕ NEW BUDGET ➕' : undefined}
-        lastItemOnClick={lastItem => {
-          // eslint-disable-next-line no-console
-          console.log(lastItem)
-          handlePopUp()
-        }}
+        lastItem='➕ NEW BUDGET ➕'
+        lastItemOnClick={handlePopUp}
       />
       <Button
         shape="rectangular"

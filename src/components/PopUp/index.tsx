@@ -1,4 +1,3 @@
-/* eslint-disable react/require-default-props */
 import type { FC } from 'react'
 
 import { Button } from 'components/Button'
@@ -43,4 +42,9 @@ export const PopUp: FC<PopUpProps> = ({
       </div>
     </section>
   )
+}
+
+PopUp.defaultProps = {
+  backgroundColor: 'black',
+  headerTitleEmoji: ''
 }

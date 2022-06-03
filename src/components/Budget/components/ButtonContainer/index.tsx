@@ -10,8 +10,6 @@ interface ButtonParameters {
 }
 
 interface Props {
-  // TODO: eslint-disable-next-line react/require-default-props
-  // eslint-disable-next-line react/require-default-props
   title?: string
   buttonsParameters: ButtonParameters[]
 }
@@ -32,3 +30,7 @@ export const ButtonContainer: FC<Props> = ({ buttonsParameters, title }) => (
     </div>
   </div>
 )
+
+ButtonContainer.defaultProps = {
+  title: ''
+}

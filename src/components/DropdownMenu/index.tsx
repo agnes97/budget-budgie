@@ -1,5 +1,3 @@
-// TODO: Add defaultProps!
-/* eslint-disable react/require-default-props */
 import type { FC } from 'react'
 
 import { Button } from 'components/Button'
@@ -47,3 +45,8 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
     </ul>
   </div>
 )
+
+DropdownMenu.defaultProps = {
+  hidden: true, 
+  lastItem: ''
+}

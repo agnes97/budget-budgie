@@ -1,5 +1,3 @@
-// TODO: Add defaultProps!
-/* eslint-disable react/require-default-props */
 import type { ButtonHTMLAttributes, FC, MouseEventHandler, ReactElement } from 'react'
 import './index.css'
 
@@ -18,4 +16,13 @@ export const Button: FC<Props> = ({ className, title, shape, onClick, type, valu
     {value}
   </button>
 )
+
+Button.defaultProps = {
+  className: '',
+  title: '',
+  shape: 'rectangular',
+  type: 'button',
+  value: 'CLICK HERE',
+  onClick: () => null
+}
 

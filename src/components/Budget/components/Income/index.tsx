@@ -35,8 +35,7 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
       <ArticlesHeader title={incomeData.title} subtitle={incomeData.subtitle} />
       <div className="content">
         {incomeData.content.map((person: DataContentOptions) => (
-          // eslint-disable-next-line jsx-a11y/anchor-is-valid
-          <a
+          <div
             key={person.name}
             className="content-two-columns"
             onClick={() => void handlePopUp({
@@ -48,7 +47,7 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
               <span className="name">{person.name}</span>
             </div>
             <span className="wage">{person.wage?.toLocaleString()}</span>
-          </a>
+          </div>
         ))}
       </div>
       <ArticlesTotalFirstChild />

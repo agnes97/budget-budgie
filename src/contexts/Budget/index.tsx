@@ -63,8 +63,7 @@ export const BudgetDataProvider: FC = ({ children }) => {
         return defaultBudgetId
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      return await getActiveBudgetByUserId(user.uid) ?? defaultBudgetId
+      return await getActiveBudgetByUserId(user.uid)
     }
 
     // eslint-disable-next-line @typescript-eslint/no-shadow
