@@ -3,6 +3,9 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import type { CollectionReference, DocumentData } from 'firebase/firestore'
 import { collection, getFirestore } from 'firebase/firestore'
+
+import type { BudgetDocument, ProfileDocument } from 'services/budget/types'
+
 // Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,7 +28,11 @@ export const firebaseAuth = getAuth(firebaseApp)
 
 export const firestore = getFirestore(firebaseApp)
 
-export const createCollection = <TDocumentType = DocumentData>(
+const createCollection = <TDocumentType = DocumentData>(
   collectionName: string
 ): CollectionReference<TDocumentType> =>
   collection(firestore, collectionName) as CollectionReference<TDocumentType>
+
+export const budgetsCollection = createCollection<BudgetDocument>('budgets')
+
+export const profilesCollection = createCollection<ProfileDocument>('profiles')
