@@ -19,13 +19,9 @@ export const ButtonContainer: FC<Props> = ({ buttonsParameters, title }) => (
     {title && <h2>{title}</h2>}
     <div className="button-list">
       {buttonsParameters.map(({ value, type, onClick }) => (
-        <Button
-          key={value}
-          value={value}
-          type={type}
-          onClick={onClick}
-          shape="rectangular"
-        />
+        <Button key={value} type={type} onClick={onClick} shape="rectangular">
+          {value}
+        </Button>
       ))}
     </div>
   </div>

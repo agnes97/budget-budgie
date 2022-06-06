@@ -70,11 +70,9 @@ export const Nav: FC = () => {
         lastItem="➕ NEW BUDGET ➕"
         lastItemOnClick={handlePopUp}
       />
-      <Button
-        shape="rectangular"
-        value={isLoggedIn ? <LogOut /> : 'LOG IN WITH GOOGLE'}
-        onClick={handleOnClick}
-      />
+      <Button shape="rectangular" onClick={handleOnClick}>
+        {isLoggedIn ? <LogOut /> : 'LOG IN WITH GOOGLE'}
+      </Button>
       <NewBudgetPopUp
         visibility={isPopUpVisible}
         onClose={handlePopUpClosing}

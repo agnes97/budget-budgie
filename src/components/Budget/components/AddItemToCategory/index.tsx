@@ -96,9 +96,10 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
         <Button
           className="submit-button"
           shape="circular"
-          value="+"
           onClick={() => void setIsEditMode(true)}
-        />
+        >
+          +
+        </Button>
       )}
     </section>
   )

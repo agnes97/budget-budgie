@@ -43,8 +43,9 @@ export const PopUp: FC<PopUpProps> = ({
             className="close"
             onClick={handlePopUpClosing}
             shape="circular"
-            value="X"
-          />
+          >
+            X
+          </Button>
         </header>
 
         {children}

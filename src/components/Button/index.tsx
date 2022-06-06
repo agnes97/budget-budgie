@@ -1,44 +1,20 @@
-import type {
-  ButtonHTMLAttributes,
-  FC,
-  MouseEventHandler,
-  ReactElement,
-} from 'react'
+import type { ButtonHTMLAttributes, FC } from 'react'
 import './index.css'
 
-interface Props {
-  className?: string
-  title?: string
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   shape?: 'circular' | 'rectangular'
-  type?: ButtonHTMLAttributes<HTMLButtonElement>['type']
-  value?: string | ReactElement
-  onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-export const Button: FC<Props> = ({
-  className,
-  title,
-  shape,
-  onClick,
-  type,
-  value,
-}) => (
-  <button
-    // eslint-disable-next-line react/button-has-type
-    type={type}
-    className={`${shape} ${className}`}
-    title={title}
-    onClick={onClick}
-  >
-    {value}
-  </button>
-)
+export const Button: FC<Props> = (props) => {
+  const { shape, className, children } = props
+
+  return (
+    <button type="button" {...props} className={`${shape} ${className}`}>
+      {children}
+    </button>
+  )
+}
 
 Button.defaultProps = {
-  className: '',
-  title: '',
   shape: 'rectangular',
-  type: 'button',
-  value: 'CLICK HERE',
-  onClick: () => null,
 }
