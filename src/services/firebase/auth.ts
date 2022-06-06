@@ -37,8 +37,7 @@ export const signUser = async (): Promise<void> =>
       }
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
-      console.log(error)
+      console.error(error)
     }))
 
 export const signUserOut = async () =>
@@ -47,6 +46,5 @@ export const signUserOut = async () =>
       // Sign-out successful.
     })
     .catch((error) => {
-      // eslint-disable-next-line no-console
-      console.log(error)
+      console.error(error)
     }))

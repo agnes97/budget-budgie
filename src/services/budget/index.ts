@@ -89,7 +89,6 @@ export const createNewBudget = async (
       })
     })
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Transaction failed: ', error)
   }
 }
@@ -133,7 +132,6 @@ export const setActiveBudgetByUserId = async (
       })
     })
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Transaction failed: ', error)
   }
 }
@@ -172,7 +170,6 @@ export const addNewItemToBudget = async (
       })
     })
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Transaction failed: ', error)
   }
 }
@@ -202,7 +199,6 @@ export const deleteItemFromBudget = async (
       })
     })
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Transaction failed: ', error)
   }
 }
@@ -242,7 +238,6 @@ export const setNoteToBudgetCategoryItem = async (
       })
     })
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Transaction failed: ', error)
   }
 }
