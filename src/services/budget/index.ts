@@ -8,30 +8,30 @@ import {
   runTransaction,
 } from 'firebase/firestore'
 
-import { budgetsCollection, firestore, profilesCollection } from 'services/firebase'
+import {
+  budgetsCollection,
+  firestore,
+  profilesCollection,
+} from 'services/firebase'
 
 import { categories, initialCategories } from './categories'
-import type {
-  Data,
-  DataContentOptions,
-} from './types'
+import type { Data, DataContentOptions } from './types'
 
 export const subscribeData = (
   documentId: string,
   onDataChange: (data: Data[]) => void
 ): Unsubscribe =>
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  onSnapshot(doc(budgetsCollection, documentId), (document) => {
-    if (!document.exists()) {
+  onSnapshot(doc(budgetsCollection, documentId), (snapshot) => {
+    if (!snapshot.exists()) {
       return void onDataChange(initialCategories)
     }
 
-    const data = document.data().categories
+    const snapshotCategories = snapshot.data().categories
 
     onDataChange(
       categories.map((category) => ({
         ...category,
-        content: data[category.class],
+        content: snapshotCategories[category.class],
       }))
     )
   })
@@ -40,16 +40,18 @@ export const subscribeData = (
 export const getBudgetIdsByUserId = async (
   userId: string
 ): Promise<string[]> => {
-  const profileCollectionReference = doc(profilesCollection, userId)
-  const profileDocumentSnapshot = await getDoc(profileCollectionReference)
+  const profileDocumentReference = doc(profilesCollection, userId)
+  const profileDocumentSnapshot = await getDoc(profileDocumentReference)
 
   if (!profileDocumentSnapshot.exists()) {
     return []
   }
 
-  const budgets = profileDocumentSnapshot.data().budgets
+  const snapshotBudgets = profileDocumentSnapshot.data().budgets
 
-  return budgets.map(({ id }) => id)
+  const budgetIds = snapshotBudgets.map(({ id }) => id)
+
+  return budgetIds
 }
 
 // ADD NEW BUDGET
@@ -57,7 +59,7 @@ export const createNewBudget = async (
   userId: string,
   newBudgetTitle: string
 ): Promise<void> => {
-  const profileCollectionReference = doc(profilesCollection, userId)
+  const profileDocumentReference = doc(profilesCollection, userId)
 
   const initialCategoriesMap = Object.fromEntries(
     initialCategories.map((category) => [category.class, category.content])
@@ -75,17 +77,16 @@ export const createNewBudget = async (
   // Updates profile collection to include newly created budget
   try {
     await runTransaction(firestore, async (transaction) => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const document = await transaction.get(profileCollectionReference)
+      const profileSnapshot = await transaction.get(profileDocumentReference)
 
-      if (!document.exists()) {
+      if (!profileSnapshot.exists()) {
         return
       }
 
-      const documentContent = document.data().budgets
+      const snapshotBudgets = profileSnapshot.data().budgets
 
-      transaction.update(profileCollectionReference, {
-        budgets: [...documentContent, newBudgetReference],
+      transaction.update(profileDocumentReference, {
+        budgets: [...snapshotBudgets, newBudgetReference],
       })
     })
   } catch (error) {
@@ -99,8 +100,8 @@ export const createNewBudget = async (
 export const getActiveBudgetByUserId = async (
   userId: string
 ): Promise<string> => {
-  const profileCollectionReference = doc(profilesCollection, userId)
-  const profileDocumentSnapshot = await getDoc(profileCollectionReference)
+  const profileDocumentReference = doc(profilesCollection, userId)
+  const profileDocumentSnapshot = await getDoc(profileDocumentReference)
 
   if (!profileDocumentSnapshot.exists()) {
     return ''
@@ -116,19 +117,18 @@ export const setActiveBudgetByUserId = async (
   userId: string,
   newActiveBudgetId: string
 ): Promise<void> => {
-  const profileRef = doc(profilesCollection, userId)
-  const budgetRef = doc(budgetsCollection, newActiveBudgetId)
+  const profileDocumentReference = doc(profilesCollection, userId)
 
   try {
     await runTransaction(firestore, async (transaction) => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const document = await transaction.get(profileRef)
-      if (!document.exists()) {
+      const profileSnapshot = await transaction.get(profileDocumentReference)
+
+      if (!profileSnapshot.exists()) {
         return
       }
 
-      transaction.update(profileRef, {
-        'active-budget': budgetRef,
+      transaction.update(profileDocumentReference, {
+        'active-budget': doc(budgetsCollection, newActiveBudgetId),
       })
     })
   } catch (error) {
@@ -136,37 +136,26 @@ export const setActiveBudgetByUserId = async (
   }
 }
 
-// FIND BUDGET BY USER
-// export const getBudgetIdsByUser = async (userId: string): Promise<string[]> => {
-//   const budgetsReference = collection(firestore, 'budgets')
-
-//   const budgetOwnersQuery = query(budgetsReference, where('owners', 'array-contains', userId))
-
-//   const querySnapshot = await getDocs(budgetOwnersQuery)
-
-//   return querySnapshot.docs.map(budget => budget.id)
-// }
-
 // ADD NEW ITEM TO BUDGET
 export const addNewItemToBudget = async (
   budgetId: string,
   className: string,
-  newItem: DataContentOptions
+  newContentOption: DataContentOptions
 ): Promise<void> => {
-  const budgetRef = doc(budgetsCollection, budgetId)
+  const budgetDocumentReference = doc(budgetsCollection, budgetId)
 
   try {
     await runTransaction(firestore, async (transaction) => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const document = await transaction.get(budgetRef)
-      if (!document.exists()) {
+      const budgetSnapshot = await transaction.get(budgetDocumentReference)
+
+      if (!budgetSnapshot.exists()) {
         return
       }
 
-      const content = document.data().categories[className]
+      const contentOptions = budgetSnapshot.data().categories[className]
 
-      transaction.update(budgetRef, {
-        [`categories.${className}`]: [...content, newItem],
+      transaction.update(budgetDocumentReference, {
+        [`categories.${className}`]: [...contentOptions, newContentOption],
       })
     })
   } catch (error) {
@@ -178,23 +167,23 @@ export const addNewItemToBudget = async (
 export const deleteItemFromBudget = async (
   budgetId: string,
   className: string,
-  deletedItemIndex: number
+  contentOptionIndex: number
 ): Promise<void> => {
-  const budgetRef = doc(budgetsCollection, budgetId)
+  const budgetDocumentReference = doc(budgetsCollection, budgetId)
 
   try {
     await runTransaction(firestore, async (transaction) => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const document = await transaction.get(budgetRef)
-      if (!document.exists()) {
+      const budgetSnapshot = await transaction.get(budgetDocumentReference)
+
+      if (!budgetSnapshot.exists()) {
         return
       }
 
-      const category = document.data().categories[className]
+      const contentOptions = budgetSnapshot.data().categories[className]
 
-      transaction.update(budgetRef, {
-        [`categories.${className}`]: category.filter(
-          (_, index) => index !== deletedItemIndex
+      transaction.update(budgetDocumentReference, {
+        [`categories.${className}`]: contentOptions.filter(
+          (_, index) => index !== contentOptionIndex
         ),
       })
     })
@@ -207,33 +196,30 @@ export const deleteItemFromBudget = async (
 export const setNoteToBudgetCategoryItem = async (
   budgetId: string,
   className: string,
-  categoryItemIndex: number,
+  contentOptionIndex: number,
   newNote: string | null
 ): Promise<void> => {
-  const budgetRef = doc(budgetsCollection, budgetId)
+  const budgetDocumentReference = doc(budgetsCollection, budgetId)
 
   try {
     await runTransaction(firestore, async (transaction) => {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const document = await transaction.get(budgetRef)
-      if (!document.exists()) {
+      const budgetSnapshot = await transaction.get(budgetDocumentReference)
+
+      if (!budgetSnapshot.exists()) {
         return
       }
 
-      const category = document.data().categories[className]
+      const contentOptions = budgetSnapshot.data().categories[className]
 
-      const categoryItem = category[categoryItemIndex]
-
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (!categoryItem) {
-        return
+      const newContentOption = {
+        ...contentOptions[contentOptionIndex],
+        note: newNote,
       }
 
-      const newCategoryItem = { ...categoryItem, note: newNote }
-
-      transaction.update(budgetRef, {
-        [`categories.${className}`]: category.map((item, index) =>
-          index === categoryItemIndex ? newCategoryItem : item
+      transaction.update(budgetDocumentReference, {
+        [`categories.${className}`]: contentOptions.map(
+          (contentOption, index) =>
+            index === contentOptionIndex ? newContentOption : contentOption
         ),
       })
     })

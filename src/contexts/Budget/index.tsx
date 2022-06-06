@@ -79,10 +79,10 @@ export const BudgetDataProvider: FC = ({ children }) => {
     return () => void unsubscribe()
   }, [setBudgetData, budgetId])
 
-  // TODO: Reduce to get both in one loop of budgetData!
   const incomeData = budgetData.find(
     (categories) => categories.class === 'have-month'
   )
+
   const expensesData = budgetData.filter(
     (categories) => categories.class !== 'have-month'
   )

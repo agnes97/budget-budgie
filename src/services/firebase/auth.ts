@@ -2,7 +2,11 @@ import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 
 import { createNewBudget, getBudgetIdsByUserId } from 'services/budget'
-import { budgetsCollection, firebaseAuth, profilesCollection } from 'services/firebase'
+import {
+  budgetsCollection,
+  firebaseAuth,
+  profilesCollection,
+} from 'services/firebase'
 
 const provider = new GoogleAuthProvider()
 
