@@ -1,7 +1,7 @@
 import type { User } from 'firebase/auth'
 import { onAuthStateChanged } from 'firebase/auth'
 import type { FC } from 'react'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { useMemo, createContext, useContext, useEffect, useState } from 'react'
 
 import { firebaseAuth } from 'services/firebase'
 
@@ -34,19 +34,15 @@ export const UserProvider: FC = ({ children }) => {
     [setUser]
   )
 
-  return (
-    <UserContext.Provider
-      value={
-        user !== null
-          ? // TODO: Fix the following linting problem:
-            // eslint-disable-next-line react/jsx-no-constructed-context-values
-            { user, isLoggedIn: true }
-          : { user: null, isLoggedIn: false }
-      }
-    >
-      {children}
-    </UserContext.Provider>
+  const value = useMemo<UserContextType>(
+    () =>
+      user !== null
+        ? { user, isLoggedIn: true }
+        : { user: null, isLoggedIn: false },
+    [user]
   )
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
 
 export const useUser = (): UserContextType => useContext(UserContext)
