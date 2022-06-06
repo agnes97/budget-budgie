@@ -38,7 +38,7 @@ export const NewBudgetPopUp: FC<Props> = ({ visibility, onClose }) => {
       onClose={onClose}
     >
       <article>
-        <Button value="yes, please" onClick={handleCreateNewBudget} />
+        <Button onClick={handleCreateNewBudget}>yes, please</Button>
       </article>
     </PopUp>
   )
