@@ -2,8 +2,7 @@ import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 
 import { createNewBudget, getBudgetIdsByUserId } from 'services/budget'
-import type { BudgetDocument, ProfileDocument } from 'services/budget/types'
-import { createCollection, firebaseAuth } from 'services/firebase'
+import { budgetsCollection, firebaseAuth, profilesCollection } from 'services/firebase'
 
 const provider = new GoogleAuthProvider()
 
@@ -11,8 +10,6 @@ export const createNewProfile = async (
   userId: string,
   newActiveBudgetId: string
 ): Promise<void> => {
-  const budgetsCollection = createCollection<BudgetDocument>('budgets')
-  const profilesCollection = createCollection<ProfileDocument>('profiles')
   const newProfileId = userId
 
   const newActiveBudgetReference = doc(budgetsCollection, newActiveBudgetId)

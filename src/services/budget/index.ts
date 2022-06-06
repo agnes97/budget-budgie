@@ -8,18 +8,13 @@ import {
   runTransaction,
 } from 'firebase/firestore'
 
-import { createCollection, firestore } from 'services/firebase'
+import { budgetsCollection, firestore, profilesCollection } from 'services/firebase'
 
 import { categories, initialCategories } from './categories'
 import type {
-  BudgetDocument,
   Data,
   DataContentOptions,
-  ProfileDocument,
 } from './types'
-
-const budgetsCollection = createCollection<BudgetDocument>('budgets')
-const profilesCollection = createCollection<ProfileDocument>('profiles')
 
 export const subscribeData = (
   documentId: string,
