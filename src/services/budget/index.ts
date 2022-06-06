@@ -155,7 +155,13 @@ export const addNewItemToBudget = async (
       const contentOptions = budgetSnapshot.data().categories[className]
 
       transaction.update(budgetDocumentReference, {
-        [`categories.${className}`]: [...contentOptions, newContentOption],
+        [`categories.${className}`]: [
+          ...contentOptions,
+          {
+            note: null,
+            ...newContentOption,
+          },
+        ],
       })
     })
   } catch (error) {
