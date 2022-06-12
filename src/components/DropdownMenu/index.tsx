@@ -4,33 +4,49 @@ import { Button } from 'components/Button'
 
 import { StyledDropdownMenu } from './styled'
 
-interface DropdownMenuProps {
-  hidden?: boolean
-  menuItems: string[]
-  lastItem?: string
+interface DropdownMenuProps<TItem> {
   value: string
-  menuItemsOnClick: (budgetId: string) => void
+  menuItems: TItem[]
+  menuItemsOnClick: (itemId: string) => void
+  emptyMessage: string
+  lastItem: string
   lastItemOnClick: (lastItem: string) => void
+  hidden?: boolean
 }
 
-export const DropdownMenu: FC<DropdownMenuProps> = ({
-  hidden,
+export interface DropdownItem {
+  id: string
+  title: string
+}
+
+export const DropdownMenu = <TItem extends DropdownItem>({
+  value,
   menuItems,
   menuItemsOnClick,
+  emptyMessage,
   lastItem,
   lastItemOnClick,
-  value,
-}) => (
+  hidden,
+}: DropdownMenuProps<TItem>): ReturnType<FC> => (
   <StyledDropdownMenu
     className={`dropdown-menu-container ${hidden && 'hidden'}`}
   >
     <Button shape="rectangular">{value}</Button>
     <ul className="dropdown-menu-list">
-      {menuItems.map((item: string) => (
-        <li key={item} className="dropdown-menu-item">
+      {menuItems.length <= 0 && (
+        <li className="dropdown-menu-item">
           {/* TODO: Handle click-events-have-key-event by adding onKeyPress handlerer */}
-          <div onClick={() => void menuItemsOnClick(item)} aria-hidden="true">
-            {item}
+          <div aria-hidden="true">{emptyMessage}</div>
+        </li>
+      )}
+      {menuItems.map((item) => (
+        <li key={item.id} className="dropdown-menu-item">
+          {/* TODO: Handle click-events-have-key-event by adding onKeyPress handlerer */}
+          <div
+            onClick={() => void menuItemsOnClick(item.id)}
+            aria-hidden="true"
+          >
+            {item.title}
           </div>
         </li>
       ))}
@@ -53,5 +69,4 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
 
 DropdownMenu.defaultProps = {
   hidden: true,
-  lastItem: '',
 }

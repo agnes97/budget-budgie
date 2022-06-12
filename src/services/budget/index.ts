@@ -16,7 +16,7 @@ import {
 import type { BudgetDocument } from 'services/firebase/types'
 
 import { categories, initialCategories } from './categories'
-import type { Data, DataContentOptions } from './types'
+import type { Budget, Data, DataContentOptions } from './types'
 
 export const subscribeData = (
   documentId: string,
@@ -38,9 +38,7 @@ export const subscribeData = (
   })
 
 // FIND BUDGET IDS BY USER ID
-export const getBudgetsByUserId = async (
-  userId: string
-): Promise<BudgetDocument[]> => {
+export const getBudgetsByUserId = async (userId: string): Promise<Budget[]> => {
   const profileDocumentReference = doc(profilesCollection, userId)
   const profileDocumentSnapshot = await getDoc(profileDocumentReference)
 
@@ -50,13 +48,19 @@ export const getBudgetsByUserId = async (
 
   const snapshotBudgetReferences = profileDocumentSnapshot.data().budgets
 
-  const budgets = await Promise.all(
-    snapshotBudgetReferences.map(async (budgetReference) =>
-      (await getDoc(budgetReference)).data()
+  const budgetSnapshots = await Promise.all(
+    snapshotBudgetReferences.map(
+      async (budgetReference) => await getDoc(budgetReference)
     )
   )
 
-  return budgets.filter((budget): budget is BudgetDocument => !!budget)
+  return budgetSnapshots.reduce<Budget[]>(
+    (budgets, budgetSnapshot) =>
+      budgetSnapshot.exists()
+        ? [...budgets, { id: budgetSnapshot.id, ...budgetSnapshot.data() }]
+        : budgets,
+    []
+  )
 }
 
 // ADD NEW BUDGET
