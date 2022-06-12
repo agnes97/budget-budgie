@@ -4,7 +4,7 @@ import { getAuth } from 'firebase/auth'
 import type { CollectionReference, DocumentData } from 'firebase/firestore'
 import { collection, getFirestore } from 'firebase/firestore'
 
-import type { BudgetDocument, ProfileDocument } from 'services/budget/types'
+import type { BudgetDocument, ProfileDocument } from './types'
 
 // Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries

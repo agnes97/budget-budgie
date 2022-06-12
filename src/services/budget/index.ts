@@ -1,4 +1,4 @@
-import type { Unsubscribe } from 'firebase/firestore'
+import type { DocumentReference, Unsubscribe } from 'firebase/firestore'
 import {
   addDoc,
   collection,
@@ -66,13 +66,11 @@ export const createNewBudget = async (
   )
 
   // Creates new budget document with auto-generated id!
-  const newDocumentId = await addDoc(collection(firestore, 'budgets'), {
+  const newBudgetReference = await addDoc(collection(firestore, 'budgets'), {
     title: newBudgetTitle,
     categories: initialCategoriesMap,
     owners: [userId],
-  }).then((docRef) => docRef.id)
-
-  const newBudgetReference = doc(budgetsCollection, newDocumentId)
+  })
 
   // Updates profile collection to include newly created budget
   try {
@@ -92,6 +90,24 @@ export const createNewBudget = async (
   } catch (error) {
     console.error('Transaction failed: ', error)
   }
+}
+
+export const cloneBudget = async (
+  budgetId: string
+): Promise<DocumentReference> => {
+  const budgetDocumentReference = doc(budgetsCollection, budgetId)
+
+  return await runTransaction(firestore, async (transaction) => {
+    const budgetSnapshot = await transaction.get(budgetDocumentReference)
+
+    if (!budgetSnapshot.exists()) {
+      throw new Error(
+        `Budget for clonning with ID "${budgetId}" does not exist!`
+      )
+    }
+
+    return await addDoc(budgetsCollection, budgetSnapshot.data())
+  })
 }
 
 // void createNewBudget('gYE3GEqbfAbpxJHMgyk7UejaGpH2', 'Another budget')

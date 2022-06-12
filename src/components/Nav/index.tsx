@@ -33,7 +33,8 @@ export const Nav: FC = () => {
       return void (await signUserOut())
     }
 
-    return void (await signUser())
+    // TODO: Fix loading of user based on profile!
+    await signUser().then(() => void window.location.reload())
   }
 
   useEffect(() => {
