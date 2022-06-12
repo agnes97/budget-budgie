@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react'
 
 import { NewBudgetPopUp } from 'components/Budget/components/NewBudgetPopUp'
 import { Button } from 'components/Button'
-import './index.css'
 import { DropdownMenu } from 'components/DropdownMenu'
 import { useBudgetData } from 'contexts/Budget'
 import { useUser } from 'contexts/User'
 import { getBudgetIdsByUserId } from 'services/budget'
 import { signUser, signUserOut } from 'services/firebase/auth'
+
+import { StyledNav } from './styled'
 
 export const Nav: FC = () => {
   const { user, isLoggedIn } = useUser()
@@ -58,7 +59,7 @@ export const Nav: FC = () => {
   )
 
   return (
-    <nav className="header-nav">
+    <StyledNav className="header-nav">
       {/* TODO: Show active budget! */}
       <DropdownMenu
         hidden={!user}
@@ -77,6 +78,6 @@ export const Nav: FC = () => {
         visibility={isPopUpVisible}
         onClose={handlePopUpClosing}
       />
-    </nav>
+    </StyledNav>
   )
 }

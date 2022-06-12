@@ -1,10 +1,11 @@
 import type { FC } from 'react'
-import './index.css'
+
+import { StyledFooter } from './styled'
 
 const currentYear: number = new Date().getFullYear()
 
 export const Footer: FC = () => (
-  <footer>
+  <StyledFooter>
     <p>&copy; Jana Chaloupková 2021 - {currentYear}</p>
-  </footer>
+  </StyledFooter>
 )

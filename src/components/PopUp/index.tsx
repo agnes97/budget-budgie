@@ -1,8 +1,9 @@
 import type { FC } from 'react'
 
 import { Button } from 'components/Button'
-import './index.css'
 import type { Data } from 'services/budget/types'
+
+import { StyledPopUp } from './styled'
 
 interface PopUpProps {
   visibility: boolean
@@ -23,7 +24,7 @@ export const PopUp: FC<PopUpProps> = ({
   const handlePopUpClosing = (): void => void onClose()
 
   return (
-    <section
+    <StyledPopUp
       className={`pop-up-full-screen ${visibility ? 'pop-up-open' : ''}`}
     >
       <div
@@ -50,7 +51,7 @@ export const PopUp: FC<PopUpProps> = ({
 
         {children}
       </div>
-    </section>
+    </StyledPopUp>
   )
 }
 

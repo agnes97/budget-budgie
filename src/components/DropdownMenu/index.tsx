@@ -1,7 +1,8 @@
 import type { FC } from 'react'
 
 import { Button } from 'components/Button'
-import './index.css'
+
+import { StyledDropdownMenu } from './styled'
 
 interface DropdownMenuProps {
   hidden?: boolean
@@ -20,7 +21,9 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
   lastItemOnClick,
   value,
 }) => (
-  <div className={`dropdown-menu-container ${hidden && 'hidden'}`}>
+  <StyledDropdownMenu
+    className={`dropdown-menu-container ${hidden && 'hidden'}`}
+  >
     <Button shape="rectangular">{value}</Button>
     <ul className="dropdown-menu-list">
       {menuItems.map((item: string) => (
@@ -45,7 +48,7 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
         </li>
       )}
     </ul>
-  </div>
+  </StyledDropdownMenu>
 )
 
 DropdownMenu.defaultProps = {

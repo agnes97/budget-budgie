@@ -2,7 +2,8 @@ import type { FC } from 'react'
 
 import { useBudgetData } from 'contexts/Budget'
 import { countCost, countMonthlyWage } from 'services/budget'
-import './index.css'
+
+import { StyledArticleTotal } from './styled'
 
 export const ArticlesTotalFirstChild: FC = () => {
   const { budgetData } = useBudgetData()
@@ -15,7 +16,7 @@ export const ArticlesTotalFirstChild: FC = () => {
 
   return (
     // DISPLAY TOTAL OF WAGES IN THE FIRST COLUMN
-    <section className="total">
+    <StyledArticleTotal>
       <div>
         <span className="title">MONTHLY:</span>
         <div className="numbers-container">
@@ -41,7 +42,7 @@ export const ArticlesTotalFirstChild: FC = () => {
           </span>
         </div>
       </div>
-    </section>
+    </StyledArticleTotal>
   )
 }
 
@@ -50,10 +51,10 @@ export const ArticlesTotal: FC = () => {
 
   return (
     // DISPLAY TOTAL COST OF MONTHLY NEEDS IN THE SECOND COLUMN
-    <section className="total">
+    <StyledArticleTotal>
       <span className="column-total">
         {countCost(budgetData, 1, 'cost')?.toLocaleString()}
       </span>
-    </section>
+    </StyledArticleTotal>
   )
 }

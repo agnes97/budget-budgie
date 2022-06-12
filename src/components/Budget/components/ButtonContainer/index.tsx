@@ -1,7 +1,8 @@
 import type { ButtonHTMLAttributes, FC } from 'react'
 
 import { Button } from 'components/Button'
-import './index.css'
+
+import { StyledButtonContainer } from './styled'
 
 interface ButtonParameters {
   value: string
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export const ButtonContainer: FC<Props> = ({ buttonsParameters, title }) => (
-  <div className="button-container">
+  <StyledButtonContainer>
     {title && <h2>{title}</h2>}
     <div className="button-list">
       {buttonsParameters.map(({ value, type, onClick }) => (
@@ -24,7 +25,7 @@ export const ButtonContainer: FC<Props> = ({ buttonsParameters, title }) => (
         </Button>
       ))}
     </div>
-  </div>
+  </StyledButtonContainer>
 )
 
 ButtonContainer.defaultProps = {

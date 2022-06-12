@@ -1,11 +1,12 @@
 import type { FC } from 'react'
 import { useState } from 'react'
-import './index.css'
 
 import { Button } from 'components/Button'
 import { useBudgetData } from 'contexts/Budget'
 import type { DataCategory, DataContentOptions } from 'services/budget/types'
 import { listEmoji } from 'services/emoji'
+
+import { StyledContainer } from './styled'
 
 import { ButtonContainer } from '../ButtonContainer'
 
@@ -29,7 +30,7 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
   const emojis = listEmoji()
 
   return (
-    <section className="add-items-container">
+    <StyledContainer>
       {isEditMode ? (
         <form
           className="add-items-form"
@@ -101,6 +102,6 @@ export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
           +
         </Button>
       )}
-    </section>
+    </StyledContainer>
   )
 }
