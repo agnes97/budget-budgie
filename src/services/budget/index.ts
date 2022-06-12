@@ -13,6 +13,7 @@ import {
   firestore,
   profilesCollection,
 } from 'services/firebase'
+import type { BudgetDocument } from 'services/firebase/types'
 
 import { categories, initialCategories } from './categories'
 import type { Data, DataContentOptions } from './types'
@@ -37,9 +38,9 @@ export const subscribeData = (
   })
 
 // FIND BUDGET IDS BY USER ID
-export const getBudgetIdsByUserId = async (
+export const getBudgetsByUserId = async (
   userId: string
-): Promise<string[]> => {
+): Promise<BudgetDocument[]> => {
   const profileDocumentReference = doc(profilesCollection, userId)
   const profileDocumentSnapshot = await getDoc(profileDocumentReference)
 
@@ -47,11 +48,15 @@ export const getBudgetIdsByUserId = async (
     return []
   }
 
-  const snapshotBudgets = profileDocumentSnapshot.data().budgets
+  const snapshotBudgetReferences = profileDocumentSnapshot.data().budgets
 
-  const budgetIds = snapshotBudgets.map(({ id }) => id)
+  const budgets = await Promise.all(
+    snapshotBudgetReferences.map(async (budgetReference) =>
+      (await getDoc(budgetReference)).data()
+    )
+  )
 
-  return budgetIds
+  return budgets.filter((budget): budget is BudgetDocument => !!budget)
 }
 
 // ADD NEW BUDGET
@@ -94,7 +99,7 @@ export const createNewBudget = async (
 
 export const cloneBudget = async (
   budgetId: string
-): Promise<DocumentReference> => {
+): Promise<DocumentReference<BudgetDocument>> => {
   const budgetDocumentReference = doc(budgetsCollection, budgetId)
 
   return await runTransaction(firestore, async (transaction) => {
