@@ -4,6 +4,8 @@
 import type { FC } from 'react'
 import { useState } from 'react'
 
+import { StyledContentTwoColumns } from './styled'
+
 import type {
   Data,
   DataContentOptions,
@@ -11,8 +13,6 @@ import type {
 import { AddItemToCategory } from '../AddItemToCategory'
 import type { PopUpData } from '../BudgetNotePopUp'
 import { BudgetNotePopUp } from '../BudgetNotePopUp'
-
-import './index.css'
 
 interface Props {
   article: DataContentOptions[]
@@ -35,7 +35,7 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
   return (
     <>
       {article.map((item: DataContentOptions, index) => (
-        <div
+        <StyledContentTwoColumns
           key={item.item}
           title={item.note}
           className={
@@ -63,7 +63,7 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
               {item.item}
             </span>
           </div>
-        </div>
+        </StyledContentTwoColumns>
       ))}
 
       <AddItemToCategory category={column} />

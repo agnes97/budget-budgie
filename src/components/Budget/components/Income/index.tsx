@@ -8,12 +8,14 @@
 import type { FC } from 'react'
 import { useState } from 'react'
 
+import { StyledArticleIncome } from './styled'
+
 import type { DataContentOptions } from '../../../../services/budget/types'
 import { ArticlesHeader } from '../ArticlesHeader'
 import { ArticlesTotalFirstChild } from '../ArticlesTotal'
 import type { PopUpData } from '../BudgetNotePopUp'
 import { BudgetNotePopUp } from '../BudgetNotePopUp'
-import './index.css'
+import { StyledContentTwoColumns } from '../ContentTwoColumns/styled'
 
 interface IncomeProps {
   incomeData: any
@@ -31,11 +33,11 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
   }
 
   return (
-    <article className={incomeData.class}>
+    <StyledArticleIncome className={incomeData.class}>
       <ArticlesHeader title={incomeData.title} subtitle={incomeData.subtitle} />
       <div className="content">
         {incomeData.content.map((person: DataContentOptions) => (
-          <div
+          <StyledContentTwoColumns
             key={person.name}
             className="content-two-columns"
             onClick={() =>
@@ -51,7 +53,7 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
               <span className="name">{person.name}</span>
             </div>
             <span className="wage">{person.wage?.toLocaleString()}</span>
-          </div>
+          </StyledContentTwoColumns>
         ))}
       </div>
       <ArticlesTotalFirstChild />
@@ -76,6 +78,6 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
         item={popUpData?.item}
         note={popUpData?.note}
       />
-    </article>
+    </StyledArticleIncome>
   )
 }

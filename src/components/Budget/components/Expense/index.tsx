@@ -2,11 +2,12 @@ import type { FC } from 'react'
 
 import type { Data } from 'services/budget/types'
 
+import { StyledArticleExpense } from './styled'
+
 import { ArticlesHeader } from '../ArticlesHeader'
 import { ArticlesTotal } from '../ArticlesTotal'
 import { ContentOneColumn } from '../ContentOneColumn'
 import { ContentTwoColumns } from '../ContentTwoColumns'
-import './index.css'
 
 interface ExpenseProps {
   expenseCategoryData: Data
@@ -16,7 +17,7 @@ export const Expense: FC<ExpenseProps> = ({ expenseCategoryData }) => {
   const content = expenseCategoryData.content
 
   return (
-    <article className={expenseCategoryData.class}>
+    <StyledArticleExpense className={expenseCategoryData.class}>
       <ArticlesHeader
         title={expenseCategoryData.title}
         subtitle={expenseCategoryData.subtitle}
@@ -36,6 +37,6 @@ export const Expense: FC<ExpenseProps> = ({ expenseCategoryData }) => {
         )}
       </div>
       {expenseCategoryData.class === 'need-month' && <ArticlesTotal />}
-    </article>
+    </StyledArticleExpense>
   )
 }

@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, FC } from 'react'
-import './index.css'
+
+import { StyledButton } from './styled'
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   shape?: 'circular' | 'rectangular'
@@ -9,9 +10,9 @@ export const Button: FC<Props> = (props) => {
   const { shape, className, children } = props
 
   return (
-    <button type="button" {...props} className={`${shape} ${className}`}>
+    <StyledButton type="button" {...props} className={`${shape} ${className}`}>
       {children}
-    </button>
+    </StyledButton>
   )
 }
 

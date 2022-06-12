@@ -6,6 +6,8 @@ import { useState } from 'react'
 
 import { sortByEmoji, sortItemsBy } from 'services/budget'
 
+import { StyledContentOneColumn } from './styled'
+
 import type {
   Data,
   DataContentOptions,
@@ -13,7 +15,6 @@ import type {
 import type { PopUpData } from '../BudgetNotePopUp'
 import { BudgetNotePopUp } from '../BudgetNotePopUp'
 import { ButtonContainer } from '../ButtonContainer'
-import './index.css'
 
 interface Props {
   article: DataContentOptions[]
@@ -39,7 +40,7 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
   }
 
   return (
-    <div className="content-one-column">
+    <StyledContentOneColumn className="content-one-column">
       <div>
         {sortedArticle.map((item: DataContentOptions) => (
           <div
@@ -90,6 +91,6 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
         item={popUpData?.item}
         note={popUpData?.note}
       />
-    </div>
+    </StyledContentOneColumn>
   )
 }

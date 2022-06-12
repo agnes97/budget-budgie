@@ -11,8 +11,6 @@ import type {
 } from '../../../../services/budget/types'
 import { ButtonContainer } from '../ButtonContainer'
 
-import './index.css'
-
 export interface PopUpData {
   index?: number
   emoji?: DataContentOptions['emoji']

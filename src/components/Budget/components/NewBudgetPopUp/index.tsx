@@ -7,8 +7,6 @@ import { createNewBudget } from 'services/budget'
 
 import type { DataContentOptions } from '../../../../services/budget/types'
 
-import './index.css'
-
 export interface PopUpData {
   index?: number
   emoji?: DataContentOptions['emoji']

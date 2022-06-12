@@ -1,16 +1,16 @@
 import type { FC } from 'react'
-import './index.css'
 
 import { useBudgetData } from 'contexts/Budget'
 
 import { Expense } from './components/Expense'
 import { Income } from './components/Income'
+import { StyledBudget } from './styled'
 
 export const Budget: FC = () => {
   const { expensesData, incomeData } = useBudgetData()
 
   return (
-    <section>
+    <StyledBudget>
       <Income incomeData={incomeData} />
       {expensesData.map((expenseCategoryData) => (
         <Expense
@@ -18,6 +18,6 @@ export const Budget: FC = () => {
           expenseCategoryData={expenseCategoryData}
         />
       ))}
-    </section>
+    </StyledBudget>
   )
 }

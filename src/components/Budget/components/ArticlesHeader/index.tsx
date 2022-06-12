@@ -1,7 +1,8 @@
 import type { FC } from 'react'
 
+import { StyledArticleHeader } from './styled'
+
 import type { Data } from '../../../../services/budget/types'
-import './index.css'
 
 interface Props {
   title: Data['title']
@@ -9,8 +10,8 @@ interface Props {
 }
 
 export const ArticlesHeader: FC<Props> = ({ title, subtitle }) => (
-  <header className="atricles-header">
+  <StyledArticleHeader>
     <h2>{title}</h2>
     <h3>{subtitle}</h3>
-  </header>
+  </StyledArticleHeader>
 )
