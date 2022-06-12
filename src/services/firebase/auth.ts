@@ -5,7 +5,7 @@ import { setDoc, doc, getDoc } from 'firebase/firestore'
 import { cloneBudget } from 'services/budget'
 import { firebaseAuth, profilesCollection } from 'services/firebase'
 
-import type { ProfileDocument } from './types'
+import type { BudgetDocument, ProfileDocument } from './types'
 
 const provider = new GoogleAuthProvider()
 
@@ -24,7 +24,7 @@ export const getProfile = async (
 
 export const createNewProfile = async (
   userId: string,
-  activeBudgetReference: DocumentReference
+  activeBudgetReference: DocumentReference<BudgetDocument>
 ): Promise<ProfileDocument> => {
   const profileDocumentReference = doc(profilesCollection, userId)
 

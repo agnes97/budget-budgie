@@ -6,8 +6,9 @@ import { Button } from 'components/Button'
 import { DropdownMenu } from 'components/DropdownMenu'
 import { useBudgetData } from 'contexts/Budget'
 import { useUser } from 'contexts/User'
-import { getBudgetIdsByUserId } from 'services/budget'
+import { getBudgetsByUserId } from 'services/budget'
 import { signUser, signUserOut } from 'services/firebase/auth'
+import type { BudgetDocument } from 'services/firebase/types'
 
 import { StyledNav } from './styled'
 
@@ -43,8 +44,11 @@ export const Nav: FC = () => {
         return ['You have no budgets yet. :(']
       }
 
-      return await getBudgetIdsByUserId(user.uid).then((budgets: string[]) =>
-        budgets.length > 0 ? budgets : ['You have no budgets yet. :(']
+      return await getBudgetsByUserId(user.uid).then(
+        (budgets: BudgetDocument[]) =>
+          budgets.length > 0
+            ? budgets.map(({ title }) => title)
+            : ['You have no budgets yet. :(']
       )
     }
 
