@@ -1,3 +1,6 @@
+import type { DropdownItem } from 'components/DropdownMenu'
+import type { BudgetDocument } from 'services/firebase/types'
+
 export interface DataContentOptions {
   cost?: number
   date?: string
@@ -16,3 +19,8 @@ export interface DataCategory {
 }
 
 export type Data = DataCategory & { content: DataContentOptions[] }
+
+export type Budget = BudgetDocument &
+  DropdownItem & {
+    id: string
+  }

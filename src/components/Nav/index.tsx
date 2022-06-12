@@ -7,15 +7,15 @@ import { DropdownMenu } from 'components/DropdownMenu'
 import { useBudgetData } from 'contexts/Budget'
 import { useUser } from 'contexts/User'
 import { getBudgetsByUserId } from 'services/budget'
+import type { Budget } from 'services/budget/types'
 import { signUser, signUserOut } from 'services/firebase/auth'
-import type { BudgetDocument } from 'services/firebase/types'
 
 import { StyledNav } from './styled'
 
 export const Nav: FC = () => {
   const { user, isLoggedIn } = useUser()
   const { setActiveBudget } = useBudgetData()
-  const [usersBudgets, setUsersBudgets] = useState<string[]>()
+  const [usersBudgets, setUsersBudgets] = useState<Budget[]>([])
   const [isPopUpVisible, setIsPopUpVisible] = useState(false)
 
   const handlePopUpClosing = (): void => void setIsPopUpVisible(!isPopUpVisible)
@@ -39,22 +39,15 @@ export const Nav: FC = () => {
   }
 
   useEffect(() => {
-    const getBudgetsByUserList = async (): Promise<string[]> => {
+    const getBudgetsByUserList = async (): Promise<Budget[]> => {
       if (!user) {
-        return ['You have no budgets yet. :(']
+        return []
       }
 
-      return await getBudgetsByUserId(user.uid).then(
-        (budgets: BudgetDocument[]) =>
-          budgets.length > 0
-            ? budgets.map(({ title }) => title)
-            : ['You have no budgets yet. :(']
-      )
+      return await getBudgetsByUserId(user.uid)
     }
 
-    void getBudgetsByUserList().then(
-      (budgetId) => void setUsersBudgets(budgetId)
-    )
+    void getBudgetsByUserList().then((budgets) => void setUsersBudgets(budgets))
   }, [user])
 
   const LogOut: FC = () => (
@@ -67,14 +60,15 @@ export const Nav: FC = () => {
     <StyledNav className="header-nav">
       {/* TODO: Show active budget! */}
       <DropdownMenu
-        hidden={!user}
         value="MY BUDGETS"
-        menuItems={usersBudgets ?? []}
+        menuItems={usersBudgets}
         menuItemsOnClick={(budgetId) => {
           void setActiveBudget(budgetId)
         }}
+        emptyMessage="You have no budgets yet. :("
         lastItem="➕ NEW BUDGET ➕"
         lastItemOnClick={handlePopUp}
+        hidden={!user}
       />
       <Button shape="rectangular" onClick={handleOnClick}>
         {isLoggedIn ? <LogOut /> : 'LOG IN WITH GOOGLE'}
