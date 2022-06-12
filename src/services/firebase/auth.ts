@@ -1,48 +1,60 @@
 import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
-import { doc, setDoc } from 'firebase/firestore'
+import type { DocumentReference } from 'firebase/firestore'
+import { setDoc, doc, getDoc } from 'firebase/firestore'
 
-import { createNewBudget, getBudgetIdsByUserId } from 'services/budget'
-import {
-  budgetsCollection,
-  firebaseAuth,
-  profilesCollection,
-} from 'services/firebase'
+import { cloneBudget } from 'services/budget'
+import { firebaseAuth, profilesCollection } from 'services/firebase'
+
+import type { ProfileDocument } from './types'
 
 const provider = new GoogleAuthProvider()
 
+export const getProfile = async (
+  userId: string
+): Promise<ProfileDocument | null> => {
+  const profileDocumentReference = doc(profilesCollection, userId)
+  const profileDocumentSnapshot = await getDoc(profileDocumentReference)
+
+  if (!profileDocumentSnapshot.exists()) {
+    return null
+  }
+
+  return profileDocumentSnapshot.data()
+}
+
 export const createNewProfile = async (
   userId: string,
-  newActiveBudgetId: string
-): Promise<void> => {
-  const newProfileId = userId
+  activeBudgetReference: DocumentReference
+): Promise<ProfileDocument> => {
+  const profileDocumentReference = doc(profilesCollection, userId)
 
-  const newActiveBudgetReference = doc(budgetsCollection, newActiveBudgetId)
+  const newProfile: ProfileDocument = {
+    'active-budget': activeBudgetReference,
+    budgets: [activeBudgetReference],
+  }
 
-  await setDoc(doc(profilesCollection, newProfileId), {
-    'active-budget': newActiveBudgetReference,
-    budgets: [],
-  })
+  await setDoc(profileDocumentReference, newProfile)
+
+  return newProfile
 }
 
 // void createNewProfile('gYE3GEqbfAbpxJHMgyk7UejaGpH2', 'My first budget')
 
 // SIGN UP / IN BY GOOGLE
-export const signUser = async (): Promise<void> =>
-  void (await signInWithPopup(firebaseAuth, provider)
-    .then(async (result) => {
-      // Sign-in successful.
-      // If user has no budgets, create first one.
-      const userId = result.user.uid
-      const doesUserHaveBudgets: Promise<string[]> =
-        getBudgetIdsByUserId(userId)
-      if ((await doesUserHaveBudgets).length === 0) {
-        void createNewProfile(userId, 'My first budget')
-        void createNewBudget(userId, 'My first budget')
-      }
-    })
-    .catch((error) => {
-      console.error(error)
-    }))
+export const signUser = async (): Promise<ProfileDocument> => {
+  const { user } = await signInWithPopup(firebaseAuth, provider)
+  // Sign-in successful.
+  // If user has no budgets, create first one.
+  const userId = user.uid
+  const profile = await getProfile(userId)
+
+  if (profile) {
+    return profile
+  }
+
+  const clonnedBudgetReference = await cloneBudget('showcase')
+  return await createNewProfile(userId, clonnedBudgetReference)
+}
 
 export const signUserOut = async () =>
   void (await signOut(firebaseAuth)

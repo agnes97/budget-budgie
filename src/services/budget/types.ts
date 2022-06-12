@@ -1,5 +1,3 @@
-import type { DocumentData, DocumentReference } from 'firebase/firestore'
-
 export interface DataContentOptions {
   cost?: number
   date?: string
@@ -18,13 +16,3 @@ export interface DataCategory {
 }
 
 export type Data = DataCategory & { content: DataContentOptions[] }
-
-export type BudgetDocument = DocumentData & {
-  categories: Record<string, DataContentOptions[]>
-  owners: string[]
-}
-
-export type ProfileDocument = DocumentData & {
-  budgets: DocumentReference[]
-  ['active-budget']: DocumentReference
-}

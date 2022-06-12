@@ -63,7 +63,8 @@ export const BudgetDataProvider: FC = ({ children }) => {
         return defaultBudgetId
       }
 
-      return await getActiveBudgetByUserId(user.uid)
+      const activeBudgetId = await getActiveBudgetByUserId(user.uid)
+      return activeBudgetId === '' ? defaultBudgetId : activeBudgetId
     }
 
     void getBudgetByUser().then(
