@@ -63,10 +63,35 @@ export const getBudgetsByUserId = async (userId: string): Promise<Budget[]> => {
   )
 }
 
+// UPDATE ACTIVE BUDGET
+export const setActiveBudgetByUserId = async (
+  userId: string,
+  newActiveBudgetId: string
+): Promise<void> => {
+  const profileDocumentReference = doc(profilesCollection, userId)
+
+  try {
+    await runTransaction(firestore, async (transaction) => {
+      const profileSnapshot = await transaction.get(profileDocumentReference)
+
+      if (!profileSnapshot.exists()) {
+        return
+      }
+
+      transaction.update(profileDocumentReference, {
+        'active-budget': doc(budgetsCollection, newActiveBudgetId),
+      })
+    })
+  } catch (error) {
+    console.error('Transaction failed: ', error)
+  }
+}
+
 // ADD NEW BUDGET
 export const createNewBudget = async (
   userId: string,
-  newBudgetTitle: string
+  newBudgetTitle: string,
+  newBudgetDescription: string
 ): Promise<void> => {
   const profileDocumentReference = doc(profilesCollection, userId)
 
@@ -77,6 +102,7 @@ export const createNewBudget = async (
   // Creates new budget document with auto-generated id!
   const newBudgetReference = await addDoc(collection(firestore, 'budgets'), {
     title: newBudgetTitle,
+    description: newBudgetDescription,
     categories: initialCategoriesMap,
     owners: [userId],
   })
@@ -99,6 +125,8 @@ export const createNewBudget = async (
   } catch (error) {
     console.error('Transaction failed: ', error)
   }
+
+  await setActiveBudgetByUserId(userId, newBudgetReference.id)
 }
 
 export const cloneBudget = async (
@@ -135,30 +163,6 @@ export const getActiveBudgetByUserId = async (
   const activeBudgetId = profileDocumentSnapshot.data()['active-budget'].id
 
   return activeBudgetId
-}
-
-// UPDATE ACTIVE BUDGET
-export const setActiveBudgetByUserId = async (
-  userId: string,
-  newActiveBudgetId: string
-): Promise<void> => {
-  const profileDocumentReference = doc(profilesCollection, userId)
-
-  try {
-    await runTransaction(firestore, async (transaction) => {
-      const profileSnapshot = await transaction.get(profileDocumentReference)
-
-      if (!profileSnapshot.exists()) {
-        return
-      }
-
-      transaction.update(profileDocumentReference, {
-        'active-budget': doc(budgetsCollection, newActiveBudgetId),
-      })
-    })
-  } catch (error) {
-    console.error('Transaction failed: ', error)
-  }
 }
 
 // ADD NEW ITEM TO BUDGET
