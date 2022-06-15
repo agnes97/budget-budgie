@@ -32,6 +32,7 @@ export const StyledHeader = styled.header`
 
     & > .budgie {
       width: 100%;
+      z-index: -1;
 
       @media ${device.ipad} {
         width: 13rem;
