@@ -125,10 +125,18 @@ export const BudgetDataProvider: FC = ({ children }) => {
         return
       }
 
-      await setActiveBudgetByUserId(user.uid, newActiveBudgetId)
-      setBudgetId(newActiveBudgetId)
+      const newActiveBudget = await setActiveBudgetByUserId(
+        user.uid,
+        newActiveBudgetId
+      )
+
+      setBudgetId(newActiveBudget.id)
+      setBudgetInfo({
+        title: newActiveBudget.title,
+        description: newActiveBudget.description,
+      })
     },
-    [budgetId, user, setBudgetId]
+    [budgetId, user, setBudgetId, setBudgetInfo]
   )
 
   // void setActiveBudgetByUserId(user?.uid, 'showcase')

@@ -67,24 +67,33 @@ export const getBudgetsByUserId = async (userId: string): Promise<Budget[]> => {
 export const setActiveBudgetByUserId = async (
   userId: string,
   newActiveBudgetId: string
-): Promise<void> => {
+): Promise<Budget> => {
   const profileDocumentReference = doc(profilesCollection, userId)
 
-  try {
-    await runTransaction(firestore, async (transaction) => {
+  return await runTransaction(
+    firestore,
+    async (transaction): Promise<Budget> => {
       const profileSnapshot = await transaction.get(profileDocumentReference)
 
       if (!profileSnapshot.exists()) {
-        return
+        throw new Error(`User with ID "${userId}" doesn't exist!`)
+      }
+
+      const activeBudgetReference = doc(budgetsCollection, newActiveBudgetId)
+
+      const activeBudgetSnapshot = await getDoc(activeBudgetReference)
+
+      if (!activeBudgetSnapshot.exists()) {
+        throw new Error(`Budget with ID "${newActiveBudgetId}" doesn't exist.`)
       }
 
       transaction.update(profileDocumentReference, {
-        'active-budget': doc(budgetsCollection, newActiveBudgetId),
+        'active-budget': activeBudgetReference,
       })
-    })
-  } catch (error) {
-    console.error('Transaction failed: ', error)
-  }
+
+      return { id: activeBudgetSnapshot.id, ...activeBudgetSnapshot.data() }
+    }
+  )
 }
 
 // ADD NEW BUDGET
