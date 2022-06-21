@@ -11,7 +11,7 @@ export const StyledHeader = styled.header`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2.5rem;
+    padding-top: 2.5rem;
     place-content: center;
 
     @media ${device.ipad} {
@@ -19,6 +19,7 @@ export const StyledHeader = styled.header`
     }
 
     & > h1 {
+      text-transform: uppercase;
       color: var(--text-secondary-color);
       margin: 0;
 
@@ -47,5 +48,11 @@ export const StyledHeader = styled.header`
         display: block;
       }
     }
+  }
+
+  & > .description {
+    color: var(--text-secondary-color);
+    text-align: center;
+    padding-bottom: 2.5rem;
   }
 `
