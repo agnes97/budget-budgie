@@ -24,3 +24,5 @@ export type Budget = BudgetDocument &
   DropdownItem & {
     id: string
   }
+
+export type BudgetInfo = Pick<BudgetDocument, 'title' | 'description'>

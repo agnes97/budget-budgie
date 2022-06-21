@@ -152,17 +152,27 @@ export const cloneBudget = async (
 // FIND ACTIVE BUDGET
 export const getActiveBudgetByUserId = async (
   userId: string
-): Promise<string> => {
+): Promise<Budget> => {
   const profileDocumentReference = doc(profilesCollection, userId)
   const profileDocumentSnapshot = await getDoc(profileDocumentReference)
 
   if (!profileDocumentSnapshot.exists()) {
-    return ''
+    throw new Error(
+      `User with ID "${userId}" doesn't have a profile with an active budget!`
+    )
   }
 
-  const activeBudgetId = profileDocumentSnapshot.data()['active-budget'].id
+  const activeBudgetReference = profileDocumentSnapshot.data()['active-budget']
 
-  return activeBudgetId
+  const budgetDocumentSnapshot = await getDoc(activeBudgetReference)
+
+  if (!budgetDocumentSnapshot.exists()) {
+    throw new Error(
+      `Budget with ID "${activeBudgetReference.id}" doesn't exist!`
+    )
+  }
+
+  return { id: budgetDocumentSnapshot.id, ...budgetDocumentSnapshot.data() }
 }
 
 // ADD NEW ITEM TO BUDGET

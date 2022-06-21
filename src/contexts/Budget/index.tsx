@@ -19,12 +19,18 @@ import {
   subscribeData,
 } from 'services/budget'
 import { initialCategories } from 'services/budget/categories'
-import type { Data, DataContentOptions } from 'services/budget/types'
+import type {
+  Budget,
+  BudgetInfo,
+  Data,
+  DataContentOptions,
+} from 'services/budget/types'
 
 interface BudgetContextType {
   budgetData: Data[]
   expensesData: Data[]
   incomeData: Data | undefined
+  budgetInfo: BudgetInfo
   addNewItem: (className: string, newItem: DataContentOptions) => Promise<void>
   deleteItem: (className: string, deletedItemIndex: number) => Promise<void>
   setActiveBudget: (newActiveBudgetId: string) => Promise<void>
@@ -44,6 +50,10 @@ const BudgetContext = createContext<BudgetContextType>({
     subtitle: 'per month',
     content: [],
   },
+  budgetInfo: {
+    title: '',
+    description: '',
+  },
   addNewItem: async () => {},
   deleteItem: async () => {},
   setActiveBudget: async () => {},
@@ -53,24 +63,41 @@ const BudgetContext = createContext<BudgetContextType>({
 export const BudgetDataProvider: FC = ({ children }) => {
   const { user } = useUser()
   const [budgetData, setBudgetData] = useState<Data[]>(initialCategories)
+  const [budgetInfo, setBudgetInfo] = useState<BudgetInfo>({
+    title: '',
+    description: '',
+  })
 
   const defaultBudgetId = 'showcase'
   const [budgetId, setBudgetId] = useState(defaultBudgetId)
 
   useEffect(() => {
-    const getBudgetByUser = async (): Promise<string> => {
+    const getBudgetByUser = async (): Promise<Budget | null> => {
       if (!user) {
-        return defaultBudgetId
+        return null
       }
 
-      const activeBudgetId = await getActiveBudgetByUserId(user.uid)
-      return activeBudgetId === '' ? defaultBudgetId : activeBudgetId
+      const activeBudget = await getActiveBudgetByUserId(user.uid)
+      return activeBudget
     }
 
-    void getBudgetByUser().then(
-      (currentBudgetId) => void setBudgetId(currentBudgetId)
-    )
-  }, [user, setBudgetId])
+    void getBudgetByUser().then((currentBudget) => {
+      if (!currentBudget) {
+        setBudgetId(defaultBudgetId)
+        setBudgetInfo({
+          title: '',
+          description: '',
+        })
+        return
+      }
+
+      setBudgetId(currentBudget.id)
+      setBudgetInfo({
+        title: currentBudget.title,
+        description: currentBudget.description,
+      })
+    })
+  }, [user, setBudgetId, setBudgetInfo])
 
   useEffect(() => {
     const unsubscribe = subscribeData(
@@ -101,7 +128,7 @@ export const BudgetDataProvider: FC = ({ children }) => {
       await setActiveBudgetByUserId(user.uid, newActiveBudgetId)
       setBudgetId(newActiveBudgetId)
     },
-    [budgetId, user]
+    [budgetId, user, setBudgetId]
   )
 
   // void setActiveBudgetByUserId(user?.uid, 'showcase')
@@ -139,6 +166,7 @@ export const BudgetDataProvider: FC = ({ children }) => {
       budgetData,
       expensesData,
       incomeData,
+      budgetInfo,
       setActiveBudget,
       setNoteToCategoryItem,
       addNewItem,
@@ -150,6 +178,7 @@ export const BudgetDataProvider: FC = ({ children }) => {
       budgetData,
       expensesData,
       incomeData,
+      budgetInfo,
       setActiveBudget,
       setNoteToCategoryItem,
     ]
