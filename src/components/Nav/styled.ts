@@ -27,19 +27,38 @@ export const StyledNav = styled.nav`
     color: hsl(0, 0%, 100%);
   }
 
-  & > button {
+  & > .auth-container {
+    flex-grow: 1;
+  }
+
+  & > button,
+  & > .auth-container > button {
     float: right;
     font-weight: bold;
     text-transform: uppercase;
 
-    &::before {
-      content: '🗝️';
-      padding: 0 1rem;
+    &.button-auth {
+      &::before {
+        content: '🗝️';
+        padding: 0 1rem;
+      }
+
+      &::after {
+        content: '🗝️';
+        padding: 0 1rem;
+      }
     }
 
-    &::after {
-      content: '🗝️';
-      padding: 0 1rem;
+    &.button-edit {
+      &::before {
+        content: '⚙️';
+        padding: 0 1rem;
+      }
+
+      &::after {
+        content: '⚙️';
+        padding: 0 1rem;
+      }
     }
   }
 `
