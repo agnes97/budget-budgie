@@ -21,6 +21,7 @@ export const StyledHeader = styled.header<Props>`
   flex-direction: column;
   width: 100%;
   padding-bottom: 3.5rem;
+  align-items: center;
 
   & > section.page-title-container {
     padding-top: 4rem;
@@ -106,5 +107,11 @@ export const StyledHeader = styled.header<Props>`
   & > .description {
     color: var(--text-secondary-color);
     text-align: center;
+    padding: 1rem 2rem 0 2rem;
+
+    @media ${device.mobile} {
+      width: 85%;
+      padding-top: 2rem;
+    }
   }
 `

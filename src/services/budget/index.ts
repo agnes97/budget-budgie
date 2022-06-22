@@ -16,7 +16,7 @@ import {
 import type { BudgetDocument } from 'services/firebase/types'
 
 import { categories, initialCategories } from './categories'
-import type { Budget, Data, DataContentOptions } from './types'
+import type { Budget, BudgetInfo, Data, DataContentOptions } from './types'
 
 export const subscribeData = (
   documentId: string,
@@ -161,14 +161,12 @@ export const cloneBudget = async (
 // FIND ACTIVE BUDGET
 export const getActiveBudgetByUserId = async (
   userId: string
-): Promise<Budget> => {
+): Promise<Budget | null> => {
   const profileDocumentReference = doc(profilesCollection, userId)
   const profileDocumentSnapshot = await getDoc(profileDocumentReference)
 
   if (!profileDocumentSnapshot.exists()) {
-    throw new Error(
-      `User with ID "${userId}" doesn't have a profile with an active budget!`
-    )
+    return null // Don't throw error here! Interrupts creating profile during sign up.
   }
 
   const activeBudgetReference = profileDocumentSnapshot.data()['active-budget']
@@ -182,6 +180,31 @@ export const getActiveBudgetByUserId = async (
   }
 
   return { id: budgetDocumentSnapshot.id, ...budgetDocumentSnapshot.data() }
+}
+
+// UPDATE BUDGET INFO
+export const updateBudgetInfo = async (
+  updatedField: keyof BudgetInfo,
+  budgetId: string,
+  newFieldContent: string
+): Promise<void> => {
+  const budgetDocumentReference = doc(budgetsCollection, budgetId)
+
+  try {
+    await runTransaction(firestore, async (transaction) => {
+      const budgetSnapshot = await transaction.get(budgetDocumentReference)
+
+      if (!budgetSnapshot.exists()) {
+        throw new Error(`Budget with ID "${budgetId}" doesn't exist!`)
+      }
+
+      transaction.update(budgetDocumentReference, {
+        [updatedField]: newFieldContent,
+      })
+    })
+  } catch (error) {
+    console.error('Transaction failed: ', error)
+  }
 }
 
 // ADD NEW ITEM TO BUDGET
