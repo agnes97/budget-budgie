@@ -1,6 +1,7 @@
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 
+import { EditBudgetPopUp } from 'components/Budget/components/EditBudgetPopUp'
 import { NewBudgetPopUp } from 'components/Budget/components/NewBudgetPopUp'
 import { Button } from 'components/Button'
 import { DropdownMenu } from 'components/DropdownMenu'
@@ -14,14 +15,24 @@ import { StyledNav } from './styled'
 
 export const Nav: FC = () => {
   const { user, isLoggedIn } = useUser()
-  const { setActiveBudget } = useBudgetData()
+  const { setActiveBudget, budgetInfo } = useBudgetData()
   const [usersBudgets, setUsersBudgets] = useState<Budget[]>([])
-  const [isPopUpVisible, setIsPopUpVisible] = useState(false)
+  const [isNewBudgetPopUpVisible, setIsNewBudgetPopUpVisible] = useState(false)
+  const [isEditBudgetPopUpVisible, setIsEditBudgetPopUpVisible] =
+    useState(false)
 
-  const handlePopUpClosing = (): void => void setIsPopUpVisible(!isPopUpVisible)
+  const handleNewBudgetPopUpClosing = (): void =>
+    void setIsNewBudgetPopUpVisible(!isNewBudgetPopUpVisible)
 
-  const handlePopUp = (): void => {
-    setIsPopUpVisible(!isPopUpVisible)
+  const handleNewBudgetPopUp = (): void => {
+    setIsNewBudgetPopUpVisible(!isNewBudgetPopUpVisible)
+  }
+
+  const handleEditBudgetPopUpClosing = (): void =>
+    void setIsEditBudgetPopUpVisible(!isEditBudgetPopUpVisible)
+
+  const handleEditBudgetPopUp = (): void => {
+    setIsEditBudgetPopUpVisible(!isEditBudgetPopUpVisible)
   }
 
   // USER SIGN UP / SIGN IN
@@ -67,16 +78,37 @@ export const Nav: FC = () => {
         }}
         emptyMessage="You have no budgets yet. :("
         lastItem="➕ NEW BUDGET ➕"
-        lastItemOnClick={handlePopUp}
+        lastItemOnClick={handleNewBudgetPopUp}
         hidden={!user}
       />
-      <Button shape="rectangular" onClick={handleOnClick}>
-        {isLoggedIn ? <LogOut /> : 'LOG IN WITH GOOGLE'}
-      </Button>
-      <NewBudgetPopUp
-        visibility={isPopUpVisible}
-        onClose={handlePopUpClosing}
-      />
+      {isLoggedIn && (
+        <>
+          <Button
+            className="button-edit"
+            shape="rectangular"
+            onClick={handleEditBudgetPopUp}
+          >
+            EDIT &quot;{budgetInfo.title}&quot;
+          </Button>
+          <EditBudgetPopUp
+            visibility={isEditBudgetPopUpVisible}
+            onClose={handleEditBudgetPopUpClosing}
+          />
+        </>
+      )}
+      <div className="auth-container">
+        <Button
+          className="button-auth"
+          shape="rectangular"
+          onClick={handleOnClick}
+        >
+          {isLoggedIn ? <LogOut /> : 'LOG IN WITH GOOGLE'}
+        </Button>
+        <NewBudgetPopUp
+          visibility={isNewBudgetPopUpVisible}
+          onClose={handleNewBudgetPopUpClosing}
+        />
+      </div>
     </StyledNav>
   )
 }

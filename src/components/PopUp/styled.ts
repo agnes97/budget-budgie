@@ -27,7 +27,7 @@ export const StyledPopUp = styled.section`
     justify-content: center;
     align-items: center;
     border: 1rem solid var(--background-transparent-color);
-    padding: 2rem 0;
+    padding: 2rem 1.5rem;
 
     &.have-month-colors {
       background-color: var(--have-month-background);
