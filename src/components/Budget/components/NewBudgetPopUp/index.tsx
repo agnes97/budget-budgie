@@ -50,8 +50,14 @@ export const NewBudgetPopUp: FC<Props> = ({ visibility, onClose }) => {
         actionOnSubmit={handleCreateNewBudget}
         submitButtonText="CREATE NEW BUDGET"
         formInputs={[
-          { identifier: 'title', label: 'TITLE', placeholder: 'My Budget' },
           {
+            typeOfInput: 'input',
+            identifier: 'title',
+            label: 'TITLE',
+            placeholder: 'My Budget',
+          },
+          {
+            typeOfInput: 'textarea',
             identifier: 'description',
             label: 'DESCRIPTION',
             placeholder: 'This is a budget I will use to track my finances.',

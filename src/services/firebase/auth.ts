@@ -2,7 +2,7 @@ import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 import type { DocumentReference } from 'firebase/firestore'
 import { setDoc, doc, getDoc } from 'firebase/firestore'
 
-import { cloneBudget, updateBudgetInfo } from 'services/budget'
+import { cloneBudget, updateBudgetInfoByBudgetId } from 'services/budget'
 import { firebaseAuth, profilesCollection } from 'services/firebase'
 
 import type { BudgetDocument, ProfileDocument } from './types'
@@ -33,9 +33,13 @@ export const createNewProfile = async (
     budgets: [activeBudgetReference],
   }
 
-  await updateBudgetInfo('title', activeBudgetReference.id, 'My first budget')
+  await updateBudgetInfoByBudgetId(
+    'title',
+    activeBudgetReference.id,
+    'My first budget'
+  )
 
-  await updateBudgetInfo(
+  await updateBudgetInfoByBudgetId(
     'description',
     activeBudgetReference.id,
     "This is your personal copy of our showcase budget. :) You're free to edit it however you like or create your own budget from scratch in the menu on top right side of the page."

@@ -1,17 +1,12 @@
-import type { FC } from 'react'
 import { useState } from 'react'
+import type { FC } from 'react'
 
 import { Button } from 'components/Button'
 
 import { StyledForm } from './styled'
 
-interface FormProps {
-  actionOnSubmit: (formData: FormDataType) => Promise<void>
-  formInputs: FormInput[]
-  submitButtonText: string
-}
-
 interface FormInput {
+  typeOfInput: 'input' | 'textarea'
   identifier: string
   label: string
   placeholder: string
@@ -21,8 +16,18 @@ export interface FormDataType {
   [key: FormInput['identifier']]: string
 }
 
+interface FormProps {
+  actionOnSubmit: (formData: FormDataType) => Promise<void>
+  displayLabels?: boolean
+  formIdentifier?: string
+  formInputs: FormInput[]
+  submitButtonText?: string
+}
+
 export const Form: FC<FormProps> = ({
   actionOnSubmit,
+  displayLabels,
+  formIdentifier,
   formInputs,
   submitButtonText,
 }) => {
@@ -31,15 +36,15 @@ export const Form: FC<FormProps> = ({
     string | null
   >(null)
 
-  const clearFormData = () => void setFormData({})
-
   const handleFormData = async (): Promise<void> => {
     await actionOnSubmit(formData)
-    clearFormData()
+    setFormData({})
   }
 
   const handleInputChange = (
-    inputEvent: React.ChangeEvent<HTMLInputElement>
+    inputEvent:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
   ): void => {
     const { name, value } = inputEvent.target
 
@@ -55,33 +60,53 @@ export const Form: FC<FormProps> = ({
 
   return (
     <StyledForm
+      id={formIdentifier}
       onSubmit={(formEvent) => {
         formEvent.preventDefault()
         void handleFormData()
       }}
     >
       <div className="form__children">
-        {formInputs.map(({ identifier, label, placeholder }) => (
+        {formInputs.map(({ typeOfInput, identifier, label, placeholder }) => (
           <div key={identifier}>
-            <label htmlFor={identifier}>{label}</label>
-            <input
-              name={identifier}
-              value={formData.identifier}
-              type="text"
-              placeholder={placeholder}
-              onChange={handleInputChange}
-            />
+            {displayLabels && <label htmlFor={identifier}>{label}</label>}
+            {typeOfInput === 'input' && (
+              <input
+                name={identifier}
+                value={formData.identifier}
+                type="text"
+                placeholder={placeholder}
+                onChange={handleInputChange}
+              />
+            )}
+            {typeOfInput === 'textarea' && (
+              <textarea
+                name={identifier}
+                value={formData.identifier}
+                placeholder={placeholder}
+                rows={4}
+                onChange={handleInputChange}
+              />
+            )}
           </div>
         ))}
       </div>
-      <Button shape="rectangular" type="submit">
-        {submitButtonText}
-        {titleAfterButtonText && (
-          <span className="title-after-button-text">
-            &apos;{titleAfterButtonText}&apos;
-          </span>
-        )}
-      </Button>
+      {submitButtonText && (
+        <Button shape="rectangular" type="submit">
+          {submitButtonText}
+          {titleAfterButtonText && (
+            <span className="title-after-button-text">
+              &apos;{titleAfterButtonText}&apos;
+            </span>
+          )}
+        </Button>
+      )}
     </StyledForm>
   )
+}
+
+Form.defaultProps = {
+  displayLabels: true,
+  formIdentifier: '',
+  submitButtonText: '',
 }

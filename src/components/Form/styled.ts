@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const StyledForm = styled.form`
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 
@@ -17,7 +17,8 @@ export const StyledForm = styled.form`
       font-weight: bold;
     }
 
-    & > input {
+    & > input,
+    & > textarea {
       width: 100%;
       border: none;
       outline: none;

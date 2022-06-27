@@ -183,7 +183,7 @@ export const getActiveBudgetByUserId = async (
 }
 
 // UPDATE BUDGET INFO
-export const updateBudgetInfo = async (
+export const updateBudgetInfoByBudgetId = async (
   updatedField: keyof BudgetInfo,
   budgetId: string,
   newFieldContent: string
