@@ -3,6 +3,7 @@ import type { ButtonHTMLAttributes, FC } from 'react'
 import { StyledButton } from './styled'
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  form?: string
   shape?: 'circular' | 'rectangular'
 }
 
@@ -17,5 +18,6 @@ export const Button: FC<Props> = (props) => {
 }
 
 Button.defaultProps = {
+  form: '',
   shape: 'rectangular',
 }

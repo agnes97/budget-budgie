@@ -17,6 +17,7 @@ import {
   setActiveBudgetByUserId,
   setNoteToBudgetCategoryItem,
   subscribeData,
+  updateBudgetInfoByBudgetId,
 } from 'services/budget'
 import { initialCategories } from 'services/budget/categories'
 import type {
@@ -39,6 +40,10 @@ interface BudgetContextType {
     categoryItemIndex: number,
     newNote: string | null
   ) => Promise<void>
+  updateBudgetInfo: (
+    type: keyof BudgetInfo,
+    newBudgetInfo: string
+  ) => Promise<void>
 }
 
 const BudgetContext = createContext<BudgetContextType>({
@@ -58,6 +63,7 @@ const BudgetContext = createContext<BudgetContextType>({
   deleteItem: async () => {},
   setActiveBudget: async () => {},
   setNoteToCategoryItem: async () => {},
+  updateBudgetInfo: async () => {},
 })
 
 export const BudgetDataProvider: FC = ({ children }) => {
@@ -98,6 +104,13 @@ export const BudgetDataProvider: FC = ({ children }) => {
       })
     })
   }, [user, setBudgetId, setBudgetInfo])
+
+  const updateBudgetInfo = useCallback(
+    async (type: keyof BudgetInfo, newBudgetInfo: string): Promise<void> => {
+      await updateBudgetInfoByBudgetId(type, budgetId, newBudgetInfo)
+    },
+    [budgetId]
+  )
 
   useEffect(() => {
     const unsubscribe = subscribeData(
@@ -177,6 +190,7 @@ export const BudgetDataProvider: FC = ({ children }) => {
       budgetInfo,
       setActiveBudget,
       setNoteToCategoryItem,
+      updateBudgetInfo,
       addNewItem,
       deleteItem,
     }),
@@ -189,6 +203,7 @@ export const BudgetDataProvider: FC = ({ children }) => {
       budgetInfo,
       setActiveBudget,
       setNoteToCategoryItem,
+      updateBudgetInfo,
     ]
   )
 
