@@ -47,6 +47,7 @@ export const NewBudgetPopUp: FC<Props> = ({ visibility, onClose }) => {
       onClose={onClose}
     >
       <Form
+        formIdentifier="newBudgetForm"
         actionOnSubmit={handleCreateNewBudget}
         submitButtonText="CREATE NEW BUDGET"
         formInputs={[
@@ -63,9 +64,7 @@ export const NewBudgetPopUp: FC<Props> = ({ visibility, onClose }) => {
             placeholder: 'This is a budget I will use to track my finances.',
           },
         ]}
-      >
-        <input type="text" />
-      </Form>
+      />
     </PopUp>
   )
 }

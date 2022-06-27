@@ -230,6 +230,7 @@ export const addNewItemToBudget = async (
           ...contentOptions,
           {
             note: null,
+            done: 0,
             ...newContentOption,
           },
         ],
@@ -291,6 +292,41 @@ export const setNoteToBudgetCategoryItem = async (
       const newContentOption = {
         ...contentOptions[contentOptionIndex],
         note: newNote,
+      }
+
+      transaction.update(budgetDocumentReference, {
+        [`categories.${className}`]: contentOptions.map(
+          (contentOption, index) =>
+            index === contentOptionIndex ? newContentOption : contentOption
+        ),
+      })
+    })
+  } catch (error) {
+    console.error('Transaction failed: ', error)
+  }
+}
+
+// SET BUDGET CATEGORY ITEM AS DONE
+export const setBudgetCategoryItemAsDone = async (
+  budgetId: string,
+  className: string,
+  contentOptionIndex: number
+): Promise<void> => {
+  const budgetDocumentReference = doc(budgetsCollection, budgetId)
+
+  try {
+    await runTransaction(firestore, async (transaction) => {
+      const budgetSnapshot = await transaction.get(budgetDocumentReference)
+
+      if (!budgetSnapshot.exists()) {
+        return
+      }
+
+      const contentOptions = budgetSnapshot.data().categories[className]
+
+      const newContentOption = {
+        ...contentOptions[contentOptionIndex],
+        done: 1,
       }
 
       transaction.update(budgetDocumentReference, {
