@@ -33,7 +33,8 @@ export const BudgetNotePopUp: FC<Props> = ({
   visibility,
   onClose,
 }) => {
-  const { setNoteToCategoryItem, deleteItem } = useBudgetData()
+  const { setNoteToCategoryItem, deleteItem, setCategoryItemAsDone } =
+    useBudgetData()
   const [currentNote, setCurrentNote] = useState<string | null | undefined>(
     note
   )
@@ -73,6 +74,15 @@ export const BudgetNotePopUp: FC<Props> = ({
     )
   }
 
+  // HANDLE SET ITEM AS DONE
+  const handleSetItemAsDone = (): void => {
+    if (!index) {
+      return
+    }
+
+    void setCategoryItemAsDone(className, index).then(onClose)
+  }
+
   return (
     <PopUp
       visibility={visibility}
@@ -81,7 +91,6 @@ export const BudgetNotePopUp: FC<Props> = ({
       headerTitleText={item ?? ''}
       onClose={onClose}
     >
-      {/* TODO: Divide styles between here and global PopUp! */}
       <article className="note-container">
         {currentNote ? (
           <ReactMarkdown>{currentNote}</ReactMarkdown>
@@ -94,13 +103,10 @@ export const BudgetNotePopUp: FC<Props> = ({
           </p>
         )}
       </article>
-
-      {/* TODO: Better solution for ButtonContainer! */}
       <ButtonContainer
         buttonsParameters={[
           {
             value: '➕ ADD OR EDIT NOTE',
-            // TODO: Exchange prompt with input!
             onClick: () =>
               void handleNoteEdit(
                 prompt(
@@ -110,8 +116,10 @@ export const BudgetNotePopUp: FC<Props> = ({
               ),
           },
           { value: '🚫 ERASE NOTE', onClick: () => void handleNoteDelete() },
-          // TODO: Mark item as done functionality. :)
-          // { value: '✔️ MARK ITEM AS DONE', onClick: () => void console.log('Hello world!') },
+          {
+            value: '✔️ MARK ITEM AS DONE',
+            onClick: () => void handleSetItemAsDone(),
+          },
           { value: '⛔ DELETE ITEM', onClick: () => handleItemDelete() },
         ]}
       />
