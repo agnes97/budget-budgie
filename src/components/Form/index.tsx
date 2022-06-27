@@ -19,7 +19,7 @@ export interface FormDataType {
 interface FormProps {
   actionOnSubmit: (formData: FormDataType) => Promise<void>
   displayLabels?: boolean
-  formIdentifier?: string
+  formIdentifier: string
   formInputs: FormInput[]
   submitButtonText?: string
 }
@@ -92,7 +92,7 @@ export const Form: FC<FormProps> = ({
         ))}
       </div>
       {submitButtonText && (
-        <Button shape="rectangular" type="submit">
+        <Button shape="rectangular" type="submit" form={formIdentifier}>
           {submitButtonText}
           {titleAfterButtonText && (
             <span className="title-after-button-text">
@@ -107,6 +107,5 @@ export const Form: FC<FormProps> = ({
 
 Form.defaultProps = {
   displayLabels: true,
-  formIdentifier: '',
   submitButtonText: '',
 }
