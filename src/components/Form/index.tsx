@@ -1,15 +1,14 @@
 import { useState } from 'react'
-import type { FC } from 'react'
+import type { FC, InputHTMLAttributes } from 'react'
 
 import { Button } from 'components/Button'
 
 import { StyledForm } from './styled'
 
-interface FormInput {
+interface FormInput extends InputHTMLAttributes<HTMLInputElement> {
   typeOfInput: 'input' | 'textarea'
   identifier: string
   label: string
-  placeholder: string
 }
 
 export interface FormDataType {
@@ -17,7 +16,9 @@ export interface FormDataType {
 }
 
 interface FormProps {
-  actionOnSubmit: (formData: FormDataType) => Promise<void>
+  actionOnSubmit:
+    | ((formData: FormDataType) => Promise<void>)
+    | ((formData: FormDataType) => void)
   displayLabels?: boolean
   formIdentifier: string
   formInputs: FormInput[]
@@ -74,7 +75,6 @@ export const Form: FC<FormProps> = ({
               <input
                 name={identifier}
                 value={formData.identifier}
-                type="text"
                 placeholder={placeholder}
                 onChange={handleInputChange}
               />

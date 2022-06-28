@@ -1,22 +1,5 @@
 import styled from 'styled-components'
 
-export const StyledAlert = styled.p`
-  width: 100%;
-  text-align: center;
-  font-style: italic;
-  font-weight: bold;
-  color: var(--text-primary-color);
-  text-transform: uppercase;
-  padding: 1rem;
-  border: 1px dashed var(--text-secondary-color);
-
-  &::before,
-  &::after {
-    content: ' !!! ';
-    color: var(--text-secondary-color);
-  }
-`
-
 export const StyledDetails = styled.details`
   width: 100%;
   display: flex;

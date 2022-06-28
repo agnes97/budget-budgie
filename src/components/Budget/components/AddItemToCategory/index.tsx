@@ -2,9 +2,10 @@ import type { FC } from 'react'
 import { useState } from 'react'
 
 import { Button } from 'components/Button'
+import { Form } from 'components/Form'
 import { useBudgetData } from 'contexts/Budget'
 import type { DataCategory, DataContentOptions } from 'services/budget/types'
-import { listEmoji } from 'services/emoji'
+// import { listEmoji } from 'services/emoji'
 
 import { StyledContainer } from './styled'
 
@@ -16,83 +17,84 @@ interface AddItemToCategoryProps {
 
 export const AddItemToCategory: FC<AddItemToCategoryProps> = ({ category }) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
-  const [newItem, setNewItem] = useState<DataContentOptions>({})
   const { addNewItem } = useBudgetData()
 
   // HANDLE ADDING ITEMS
-  const handleAddItem = (itemCategory: string): void => {
+  const handleAddItem = (
+    itemCategory: string,
+    newItem: DataContentOptions
+  ): void => {
     void addNewItem(itemCategory, newItem).then(() => {
       setIsEditMode(false)
-      setNewItem({})
     })
   }
 
-  const emojis = listEmoji()
+  // const emojis = listEmoji()
 
   return (
     <StyledContainer>
       {isEditMode ? (
-        <form
-          className="add-items-form"
-          onSubmit={(addItemEvent) => {
-            addItemEvent.preventDefault()
-            handleAddItem(category)
-          }}
-        >
-          <div className="add-items-form-inputs">
-            <div>
-              <label htmlFor="cost">COST:</label>
-              <input
-                type="number"
-                name="cost"
-                onChange={(inputChangeEvent) =>
-                  void setNewItem({
-                    ...newItem,
-                    cost: Number(inputChangeEvent.target.value),
-                  })
-                }
-              />
-            </div>
-            <div>
-              <label htmlFor="cost">EMOJI:</label>
-              <select
-                name="cost"
-                onChange={(selectChangeEvent) =>
-                  void setNewItem({
-                    ...newItem,
-                    emoji: selectChangeEvent.target.value.toLocaleString(),
-                  })
-                }
-              >
-                {emojis.map((emoji) => (
-                  <option key={emoji} value={emoji}>
-                    {emoji}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="item">ITEM:</label>
-              <input
-                type="text"
-                name="item"
-                required
-                onChange={(inputChangeEvent) =>
-                  void setNewItem({
-                    ...newItem,
-                    item: inputChangeEvent.target.value.toLocaleString(),
-                  })
-                }
-              />
-            </div>
-          </div>
+        <>
+          <Form
+            formIdentifier="addItemToCategoryForm"
+            actionOnSubmit={(formData) => {
+              const newItem = {
+                cost: Number(formData.cost),
+                item: formData.item,
+              }
+
+              void handleAddItem(category, newItem)
+            }}
+            formInputs={[
+              {
+                typeOfInput: 'input',
+                type: 'number',
+                identifier: 'cost',
+                label: 'COST',
+                placeholder: '123,-',
+                required: true,
+              },
+              {
+                typeOfInput: 'input',
+                identifier: 'item',
+                label: 'ITEM',
+                placeholder: 'ITEM',
+                required: true,
+              },
+            ]}
+          />
           <ButtonContainer
             buttonsParameters={[
-              { value: '✔️ ADD ITEM', type: 'submit' },
+              {
+                value: '✔️ ADD ITEM',
+                type: 'submit',
+                form: 'addItemToCategoryForm',
+              },
               { value: '⛔', onClick: () => void setIsEditMode(false) },
             ]}
           />
-        </form>
+
+          {/* 
+              <div>
+                <label htmlFor="cost">EMOJI:</label>
+                <select
+                  name="cost"
+                  onChange={(selectChangeEvent) =>
+                    void setNewItem({
+                      ...newItem,
+                      emoji: selectChangeEvent.target.value.toLocaleString(),
+                    })
+                  }
+                >
+                  {emojis.map((emoji) => (
+                    <option key={emoji} value={emoji}>
+                      {emoji}
+                    </option>
+                  ))}
+                </select>
+              </div>
+               */}
+        </>
       ) : (
         <Button
           className="submit-button"
