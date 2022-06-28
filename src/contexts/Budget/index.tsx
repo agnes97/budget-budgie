@@ -114,8 +114,12 @@ export const BudgetDataProvider: FC = ({ children }) => {
   const updateBudgetInfo = useCallback(
     async (type: keyof BudgetInfo, newBudgetInfo: string): Promise<void> => {
       await updateBudgetInfoByBudgetId(type, budgetId, newBudgetInfo)
+      setBudgetInfo((currentBudget) => ({
+        ...currentBudget,
+        [type]: newBudgetInfo,
+      }))
     },
-    [budgetId]
+    [budgetId, setBudgetInfo]
   )
 
   useEffect(() => {
