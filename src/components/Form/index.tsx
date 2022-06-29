@@ -5,10 +5,14 @@ import { Button } from 'components/Button'
 
 import { StyledForm } from './styled'
 
-interface FormInput extends InputHTMLAttributes<HTMLInputElement> {
-  typeOfInput: 'input' | 'textarea'
+export interface FormInput extends InputHTMLAttributes<HTMLInputElement> {
+  typeOfInput: 'input' | 'textarea' | 'select'
   identifier: string
   label: string
+  selectOptions?: Array<{
+    optionValue: string
+    optionTitle: string
+  }>
 }
 
 export interface FormDataType {
@@ -46,6 +50,7 @@ export const Form: FC<FormProps> = ({
     inputEvent:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLSelectElement>
   ): void => {
     const { name, value } = inputEvent.target
 
@@ -68,28 +73,45 @@ export const Form: FC<FormProps> = ({
       }}
     >
       <div className="form__children">
-        {formInputs.map(({ typeOfInput, identifier, label, placeholder }) => (
-          <div key={identifier}>
-            {displayLabels && <label htmlFor={identifier}>{label}</label>}
-            {typeOfInput === 'input' && (
-              <input
-                name={identifier}
-                value={formData.identifier}
-                placeholder={placeholder}
-                onChange={handleInputChange}
-              />
-            )}
-            {typeOfInput === 'textarea' && (
-              <textarea
-                name={identifier}
-                value={formData.identifier}
-                placeholder={placeholder}
-                rows={4}
-                onChange={handleInputChange}
-              />
-            )}
-          </div>
-        ))}
+        {formInputs.map(
+          ({ typeOfInput, identifier, label, placeholder, selectOptions }) => (
+            <div key={identifier}>
+              {displayLabels && <label htmlFor={identifier}>{label}</label>}
+              {typeOfInput === 'input' && (
+                <input
+                  name={identifier}
+                  value={formData.identifier}
+                  placeholder={placeholder}
+                  onChange={handleInputChange}
+                />
+              )}
+              {typeOfInput === 'select' && (
+                <select
+                  name={identifier}
+                  value={formData.identifier}
+                  placeholder={placeholder}
+                  onChange={handleInputChange}
+                >
+                  {selectOptions &&
+                    selectOptions.map(({ optionValue, optionTitle }) => (
+                      <option key={optionValue} value={optionValue}>
+                        {optionTitle}
+                      </option>
+                    ))}
+                </select>
+              )}
+              {typeOfInput === 'textarea' && (
+                <textarea
+                  name={identifier}
+                  value={formData.identifier}
+                  placeholder={placeholder}
+                  rows={4}
+                  onChange={handleInputChange}
+                />
+              )}
+            </div>
+          )
+        )}
       </div>
       {submitButtonText && (
         <Button shape="rectangular" type="submit" form={formIdentifier}>
