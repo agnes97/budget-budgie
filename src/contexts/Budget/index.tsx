@@ -12,6 +12,7 @@ import {
 import { useUser } from 'contexts/User'
 import {
   addNewItemToBudget,
+  deleteBudgetById,
   deleteItemFromBudget,
   getActiveBudgetByUserId,
   setActiveBudgetByUserId,
@@ -34,6 +35,10 @@ interface BudgetContextType {
   incomeData: Data | undefined
   budgetInfo: BudgetInfo
   addNewItem: (className: string, newItem: DataContentOptions) => Promise<void>
+  deleteBudget: (
+    newActiveBudgetId: string,
+    budgetTitleConfirmation: string
+  ) => Promise<void>
   deleteItem: (className: string, deletedItemIndex: number) => Promise<void>
   setActiveBudget: (newActiveBudgetId: string) => Promise<void>
   setCategoryItemAsDone: (
@@ -65,6 +70,7 @@ const BudgetContext = createContext<BudgetContextType>({
     description: '',
   },
   addNewItem: async () => {},
+  deleteBudget: async () => {},
   deleteItem: async () => {},
   setActiveBudget: async () => {},
   setCategoryItemAsDone: async () => {},
@@ -162,8 +168,25 @@ export const BudgetDataProvider: FC = ({ children }) => {
     [budgetId, user, setBudgetId, setBudgetInfo]
   )
 
-  // void setActiveBudgetByUserId(user?.uid, 'showcase')
-  // void setActiveBudget('showcase')
+  const deleteBudget = useCallback(
+    async (
+      newActiveBudgetId: string,
+      budgetTitleConfirmation: string
+    ): Promise<void> => {
+      if (!user) {
+        return
+      }
+
+      await deleteBudgetById(
+        user.uid,
+        newActiveBudgetId,
+        budgetId,
+        budgetInfo.title,
+        budgetTitleConfirmation
+      )
+    },
+    [budgetId, budgetInfo.title, user]
+  )
 
   const addNewItem = useCallback(
     async (className: string, newItem: DataContentOptions) =>
@@ -213,10 +236,12 @@ export const BudgetDataProvider: FC = ({ children }) => {
       setNoteToCategoryItem,
       updateBudgetInfo,
       addNewItem,
+      deleteBudget,
       deleteItem,
     }),
     [
       addNewItem,
+      deleteBudget,
       deleteItem,
       budgetData,
       expensesData,
