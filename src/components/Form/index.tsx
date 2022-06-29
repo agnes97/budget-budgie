@@ -89,9 +89,12 @@ export const Form: FC<FormProps> = ({
                 <select
                   name={identifier}
                   value={formData.identifier}
-                  placeholder={placeholder}
                   onChange={handleInputChange}
+                  defaultValue="defaultValue"
                 >
+                  <option disabled hidden value="defaultValue">
+                    {placeholder}
+                  </option>
                   {selectOptions &&
                     selectOptions.map(({ optionValue, optionTitle }) => (
                       <option key={optionValue} value={optionValue}>
