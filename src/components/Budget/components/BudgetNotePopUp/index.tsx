@@ -45,7 +45,7 @@ export const BudgetNotePopUp: FC<Props> = ({
 
   // HANDLE NOTE EDIT
   const handleNoteEdit = (newNote: string | null): void => {
-    if (!index) {
+    if (typeof index === 'undefined') {
       return
     }
 
@@ -56,7 +56,7 @@ export const BudgetNotePopUp: FC<Props> = ({
 
   // HANDLE ITEM DELETE
   const handleItemDelete = (): Promise<void> | undefined => {
-    if (!index) {
+    if (typeof index === 'undefined') {
       return
     }
 
@@ -65,7 +65,7 @@ export const BudgetNotePopUp: FC<Props> = ({
 
   // HANDLE NOTE DELETE
   const handleNoteDelete = (): void => {
-    if (!index) {
+    if (typeof index === 'undefined') {
       return
     }
 
@@ -76,7 +76,7 @@ export const BudgetNotePopUp: FC<Props> = ({
 
   // HANDLE SET ITEM AS DONE
   const handleSetItemAsDone = (): void => {
-    if (!index) {
+    if (typeof index === 'undefined') {
       return
     }
 
