@@ -30,7 +30,7 @@ type Props = PopUpData & {
 }
 
 export const EditBudgetPopUp: FC<Props> = ({ visibility, onClose }) => {
-  const { budgetInfo, updateBudgetInfo } = useBudgetData()
+  const { budgetInfo, updateBudgetInfo, deleteBudget } = useBudgetData()
   const { user } = useUser()
   const [usersBudgets, setUsersBudgets] = useState<Budget[]>([])
   const [titleDetailsOpen, setTitleDetailsOpen] = useState(false)
@@ -44,10 +44,13 @@ export const EditBudgetPopUp: FC<Props> = ({ visibility, onClose }) => {
     await updateBudgetInfo(type, newBudgetInfo)
   }
 
-  const handleDeleteBudget = (
+  const handleDeleteBudget = async (
     budgetTitleConfirmation: string,
-    newActiveBudgetTitle: string
-  ): void => void console.log(budgetTitleConfirmation, newActiveBudgetTitle)
+    newActiveBudgetId: string
+  ): Promise<void> =>
+    void (await deleteBudget(newActiveBudgetId, budgetTitleConfirmation)
+      .then(onClose)
+      .then(() => void window.location.reload()))
 
   useEffect(() => {
     const getBudgetsByUserList = async (): Promise<Budget[]> => {
@@ -182,7 +185,7 @@ export const EditBudgetPopUp: FC<Props> = ({ visibility, onClose }) => {
               identifier: 'newActiveBudgetBudgetId',
               label:
                 "Choose your new active budget! You can't delete your budget it you only have one.",
-              placeholder: 'New active budget',
+              placeholder: 'Please, select new active budget here!',
               required: true,
               selectOptions: findSelectableBudgets(),
             },
