@@ -1,5 +1,6 @@
 import type { DocumentReference, Unsubscribe } from 'firebase/firestore'
 import {
+  deleteDoc,
   addDoc,
   collection,
   getDoc,
@@ -156,7 +157,82 @@ export const cloneBudget = async (
   })
 }
 
-// void createNewBudget('gYE3GEqbfAbpxJHMgyk7UejaGpH2', 'Another budget')
+// REMOVE BUDGET FROM PROFILE
+// (e.g. when deleting budgets)
+export const removeBudgetFromProfile = async (
+  userId: string,
+  budgetToRemoveId: string
+): Promise<void> => {
+  const profileDocumentReference = doc(profilesCollection, userId)
+
+  try {
+    await runTransaction(firestore, async (transaction) => {
+      const profileDocumentSnapshot = await transaction.get(
+        profileDocumentReference
+      )
+
+      if (!profileDocumentSnapshot.exists()) {
+        return
+      }
+
+      const profileBudgetsArray = profileDocumentSnapshot.data().budgets
+
+      transaction.update(profileDocumentReference, {
+        ['budgets']: profileBudgetsArray.filter(
+          (budget) => budget.id !== budgetToRemoveId
+        ),
+      })
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// DELETE BUDGET
+export const deleteBudgetById = async (
+  userId: string,
+  newActiveBudgetId: string,
+  deletedBudgetId: string,
+  deletedBudgetTitle: string,
+  deletedBudgetTitleConfirmation: string
+): Promise<void> => {
+  const budgetDocumentReference = doc(budgetsCollection, deletedBudgetId)
+
+  const profileDocumentReference = doc(profilesCollection, userId)
+  const profileDocumentSnapshot = await getDoc(profileDocumentReference)
+
+  if (!profileDocumentSnapshot.exists()) {
+    throw new Error(
+      `User with ID "${userId}" doesn't exist or doesn't have profile!`
+    )
+  }
+
+  const budgetsByUserProfileReference = profileDocumentSnapshot.data().budgets
+
+  const doesUserOwnBudget = budgetsByUserProfileReference.find(
+    (usersBudgetById) => usersBudgetById.id === deletedBudgetId
+  )
+
+  if (!doesUserOwnBudget) {
+    throw new Error(
+      `You don't own budget "${deletedBudgetTitle}", therefore you cannot delete it!`
+    )
+  }
+
+  // Don't throw error here!
+  if (deletedBudgetTitle !== deletedBudgetTitleConfirmation) {
+    throw new Error(
+      `Budget title "${deletedBudgetTitle}" does not correspond with your confirmation "${deletedBudgetTitleConfirmation}"!`
+    )
+  }
+
+  // Set new active budget,
+  // > then delete current budget
+  // > then remove it from profile!
+  await setActiveBudgetByUserId(userId, newActiveBudgetId)
+    .then(() => void deleteDoc(budgetDocumentReference))
+    .then(() => void removeBudgetFromProfile(userId, deletedBudgetId))
+}
 
 // FIND ACTIVE BUDGET
 export const getActiveBudgetByUserId = async (
