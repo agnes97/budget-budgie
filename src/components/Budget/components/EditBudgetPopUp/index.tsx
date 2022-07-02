@@ -44,13 +44,13 @@ export const EditBudgetPopUp: FC<Props> = ({ visibility, onClose }) => {
     await updateBudgetInfo(type, newBudgetInfo)
   }
 
-  const handleDeleteBudget = async (
+  const handleDeleteBudget = (
     budgetTitleConfirmation: string,
     newActiveBudgetId: string
-  ): Promise<void> =>
-    void (await deleteBudget(newActiveBudgetId, budgetTitleConfirmation)
+  ): void =>
+    void deleteBudget(newActiveBudgetId, budgetTitleConfirmation)
       .then(onClose)
-      .then(() => void window.location.reload()))
+      .then(() => void window.location.reload())
 
   useEffect(() => {
     const getBudgetsByUserList = async (): Promise<Budget[]> => {
@@ -201,7 +201,7 @@ export const EditBudgetPopUp: FC<Props> = ({ visibility, onClose }) => {
         />
         <ButtonContainer
           buttonsParameters={[
-            { value: '✔️ EDIT', type: 'submit', form: 'deleteBudgetForm' },
+            { value: '✔️ DELETE', type: 'submit', form: 'deleteBudgetForm' },
             {
               value: '⛔ CANCEL',
               onClick: () => void setDeleteBudgetDetailsOpen(false),

@@ -230,8 +230,8 @@ export const deleteBudgetById = async (
   // > then delete current budget
   // > then remove it from profile!
   await setActiveBudgetByUserId(userId, newActiveBudgetId)
-    .then(() => void deleteDoc(budgetDocumentReference))
-    .then(() => void removeBudgetFromProfile(userId, deletedBudgetId))
+  await deleteDoc(budgetDocumentReference)
+  await removeBudgetFromProfile(userId, deletedBudgetId)
 }
 
 // FIND ACTIVE BUDGET
