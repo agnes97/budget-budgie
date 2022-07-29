@@ -52,10 +52,13 @@ export const GlobalStyles = createGlobalStyle`
         --h3-desktop: 1.5rem;
         --h4-desktop: 1.3rem;
 
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
         background-color: var(--background-primary-color);
+
+        & > div#root {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
         & h1, h2, h3, h4 {
             text-align: center;

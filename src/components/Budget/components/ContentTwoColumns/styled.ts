@@ -48,3 +48,14 @@ export const StyledContentTwoColumns = styled.div`
     }
   }
 `
+export const StyledAddItemToCategoryPopUpContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+
+  & > .submit-button {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--background-transparent-color);
+  }
+`

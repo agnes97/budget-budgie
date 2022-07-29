@@ -4,13 +4,18 @@
 import type { FC } from 'react'
 import { useState } from 'react'
 
-import { StyledContentTwoColumns } from './styled'
+import { Button } from 'components/Button'
+
+import {
+  StyledContentTwoColumns,
+  StyledAddItemToCategoryPopUpContainer,
+} from './styled'
 
 import type {
   Data,
   DataContentOptions,
 } from '../../../../services/budget/types'
-import { AddItemToCategory } from '../AddItemToCategory'
+import { AddItemToCategoryPopUp } from '../AddItemToCategoryPopUp'
 import type { PopUpData } from '../BudgetNotePopUp'
 import { BudgetNotePopUp } from '../BudgetNotePopUp'
 
@@ -20,15 +25,23 @@ interface Props {
 }
 
 export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
-  const [isPopUpVisible, setIsPopUpVisible] = useState(false)
+  const [isBudgetNotePopUpVisible, setIsBudgetNotePopUpVisible] =
+    useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
+  const [isNewItemPopUpVisible, setIsNewItemPopUpVisible] = useState(false)
 
-  const handlePopUpClosing = () => void setIsPopUpVisible(!isPopUpVisible)
+  // Budget Note PopUp
+  const handleBudgetNotePopUpClosing = () =>
+    void setIsBudgetNotePopUpVisible(!isBudgetNotePopUpVisible)
 
-  const handlePopUp = (data: PopUpData): void => {
+  const handleBudgetNotePopUp = (data: PopUpData): void => {
     setPopUpData(data)
-    setIsPopUpVisible(!isPopUpVisible)
+    setIsBudgetNotePopUpVisible(!isBudgetNotePopUpVisible)
   }
+
+  // New Item PopUp
+  const handleNewItemPopUpClosing = () =>
+    void setIsNewItemPopUpVisible(!isNewItemPopUpVisible)
 
   // const jsonEscape = (str: DataContentOptions["note"]) => (str ?? "").replace(/[\n]/g, '\\n')
 
@@ -52,7 +65,7 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
             <span
               className={item.note ? 'item italic' : 'item'}
               onClick={() =>
-                void handlePopUp({
+                void handleBudgetNotePopUp({
                   index,
                   emoji: item.emoji,
                   item: item.item,
@@ -66,13 +79,30 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
         </StyledContentTwoColumns>
       ))}
 
-      <AddItemToCategory category={column} />
+      {/* HIDDEN POP-UP */}
+      <StyledAddItemToCategoryPopUpContainer>
+        {isNewItemPopUpVisible ? (
+          <AddItemToCategoryPopUp
+            visibility={isNewItemPopUpVisible}
+            category={column}
+            onClose={handleNewItemPopUpClosing}
+          />
+        ) : (
+          <Button
+            className="submit-button"
+            shape="circular"
+            onClick={() => void setIsNewItemPopUpVisible(true)}
+          >
+            +
+          </Button>
+        )}
+      </StyledAddItemToCategoryPopUpContainer>
 
       {/* HIDDEN POP-UP */}
       <BudgetNotePopUp
         className={column}
-        visibility={isPopUpVisible}
-        onClose={handlePopUpClosing}
+        visibility={isBudgetNotePopUpVisible}
+        onClose={handleBudgetNotePopUpClosing}
         index={popUpData?.index}
         emoji={popUpData?.emoji}
         item={popUpData?.item}
