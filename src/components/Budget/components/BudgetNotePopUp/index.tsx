@@ -49,6 +49,10 @@ export const BudgetNotePopUp: FC<Props> = ({
       return
     }
 
+    if (newNote === null) {
+      return
+    }
+
     void setNoteToCategoryItem(className, index, newNote).then(
       () => void setCurrentNote(newNote)
     )
