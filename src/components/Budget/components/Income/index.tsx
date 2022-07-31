@@ -1,14 +1,12 @@
-// TODO: Fix following linting problems!
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import type { FC } from 'react'
 import { useState } from 'react'
 
 import { Button } from 'components/Button'
+import { useUser } from 'contexts/User'
 
 import { StyledArticleIncome } from './styled'
 
@@ -33,6 +31,10 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
   const [popUpData, setPopUpData] = useState<PopUpData>()
   const [isNewOwnerPopUpVisible, setIsNewOwnerPopUpVisible] = useState(false)
 
+  const { user } = useUser()
+
+  const content = incomeData.content
+
   // Budget Note PopUp
   const handleBudgetNotePopUpClosing = () =>
     void setIsBudgetNotePopUpVisible(!isBudgetNotePopUpVisible)
@@ -49,8 +51,9 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
   return (
     <StyledArticleIncome className={incomeData.class}>
       <ArticlesHeader title={incomeData.title} subtitle={incomeData.subtitle} />
+
       <div className="content">
-        {incomeData.content.map((person: DataContentOptions, index: number) => (
+        {content.map((person: DataContentOptions, index: number) => (
           <StyledContentTwoColumns
             key={person.name}
             className="content-two-columns"
@@ -74,23 +77,25 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
         ))}
 
         {/* HIDDEN ADD OWNER POP-UP */}
-        <StyledAddItemToCategoryPopUpContainer>
-          {isNewOwnerPopUpVisible ? (
-            <AddOwnersPopUp
-              visibility={isNewOwnerPopUpVisible}
-              categoryClass={incomeData.class}
-              onClose={handleNewOwnerPopUpClosing}
-            />
-          ) : (
-            <Button
-              className="submit-button"
-              shape="circular"
-              onClick={() => void setIsNewOwnerPopUpVisible(true)}
-            >
-              +
-            </Button>
-          )}
-        </StyledAddItemToCategoryPopUpContainer>
+        {user && (
+          <StyledAddItemToCategoryPopUpContainer>
+            {isNewOwnerPopUpVisible ? (
+              <AddOwnersPopUp
+                visibility={isNewOwnerPopUpVisible}
+                categoryClass={incomeData.class}
+                onClose={handleNewOwnerPopUpClosing}
+              />
+            ) : (
+              <Button
+                className="submit-button"
+                shape="circular"
+                onClick={() => void setIsNewOwnerPopUpVisible(true)}
+              >
+                +
+              </Button>
+            )}
+          </StyledAddItemToCategoryPopUpContainer>
+        )}
       </div>
 
       <ArticlesTotalFirstChild />

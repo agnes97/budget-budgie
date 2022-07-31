@@ -5,6 +5,7 @@ import type { FC } from 'react'
 import { useState } from 'react'
 
 import { Button } from 'components/Button'
+import { useUser } from 'contexts/User'
 
 import {
   StyledContentTwoColumns,
@@ -29,6 +30,8 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
     useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
   const [isNewItemPopUpVisible, setIsNewItemPopUpVisible] = useState(false)
+
+  const { user } = useUser()
 
   // Budget Note PopUp
   const handleBudgetNotePopUpClosing = () =>
@@ -78,23 +81,25 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
       ))}
 
       {/* HIDDEN POP-UP */}
-      <StyledAddItemToCategoryPopUpContainer>
-        {isNewItemPopUpVisible ? (
-          <AddItemToCategoryPopUp
-            visibility={isNewItemPopUpVisible}
-            category={column}
-            onClose={handleNewItemPopUpClosing}
-          />
-        ) : (
-          <Button
-            className="submit-button"
-            shape="circular"
-            onClick={() => void setIsNewItemPopUpVisible(true)}
-          >
-            +
-          </Button>
-        )}
-      </StyledAddItemToCategoryPopUpContainer>
+      {user && (
+        <StyledAddItemToCategoryPopUpContainer>
+          {isNewItemPopUpVisible ? (
+            <AddItemToCategoryPopUp
+              visibility={isNewItemPopUpVisible}
+              category={column}
+              onClose={handleNewItemPopUpClosing}
+            />
+          ) : (
+            <Button
+              className="submit-button"
+              shape="circular"
+              onClick={() => void setIsNewItemPopUpVisible(true)}
+            >
+              +
+            </Button>
+          )}
+        </StyledAddItemToCategoryPopUpContainer>
+      )}
 
       {/* HIDDEN POP-UP */}
       <BudgetNotePopUp

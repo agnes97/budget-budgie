@@ -6,6 +6,7 @@ import { useState } from 'react'
 // import { sortByEmoji, sortItemsBy } from 'services/budget'
 
 import { Button } from 'components/Button'
+import { useUser } from 'contexts/User'
 
 import { StyledContentOneColumn } from './styled'
 
@@ -30,6 +31,8 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
     useState(false)
   const [isNewItemPopUpVisible, setIsNewItemPopUpVisible] = useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
+
+  const { user } = useUser()
 
   // const handleSortItemsBy = (sortBy: keyof DataContentOptions) => () =>
   //   void setSortedArticle(sortItemsBy([...article], sortBy))
@@ -83,23 +86,25 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
       /> */}
 
       {/* HIDDEN POP-UP */}
-      <StyledAddItemToCategoryPopUpContainer>
-        {isNewItemPopUpVisible ? (
-          <AddItemToCategoryPopUp
-            visibility={isNewItemPopUpVisible}
-            category={column}
-            onClose={handleNewItemPopUpClosing}
-          />
-        ) : (
-          <Button
-            className="submit-button"
-            shape="circular"
-            onClick={() => void setIsNewItemPopUpVisible(true)}
-          >
-            +
-          </Button>
-        )}
-      </StyledAddItemToCategoryPopUpContainer>
+      {user && (
+        <StyledAddItemToCategoryPopUpContainer>
+          {isNewItemPopUpVisible ? (
+            <AddItemToCategoryPopUp
+              visibility={isNewItemPopUpVisible}
+              category={column}
+              onClose={handleNewItemPopUpClosing}
+            />
+          ) : (
+            <Button
+              className="submit-button"
+              shape="circular"
+              onClick={() => void setIsNewItemPopUpVisible(true)}
+            >
+              +
+            </Button>
+          )}
+        </StyledAddItemToCategoryPopUpContainer>
+      )}
 
       <BudgetNotePopUp
         className={column}
