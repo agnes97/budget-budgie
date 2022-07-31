@@ -1,12 +1,16 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import type { IEmojiData } from 'emoji-picker-react'
+import Picker from 'emoji-picker-react'
 import { useState } from 'react'
 import type { FC, InputHTMLAttributes } from 'react'
 
 import { Button } from 'components/Button'
 
-import { StyledForm } from './styled'
+import { StyledForm, StyledPickerContainer } from './styled'
 
 export interface FormInput extends InputHTMLAttributes<HTMLInputElement> {
-  typeOfInput: 'input' | 'textarea' | 'select'
+  typeOfInput: 'input' | 'textarea' | 'select' | 'emoji'
   identifier: string
   label: string
   selectOptions?: Array<{
@@ -37,6 +41,8 @@ export const Form: FC<FormProps> = ({
   submitButtonText,
 }) => {
   const [formData, setFormData] = useState<FormDataType>({})
+  const [emojiPickerVisibility, setEmojiPickerVisibility] =
+    useState<boolean>(false)
   const [titleAfterButtonText, setTitleAfterButtonText] = useState<
     string | null
   >(null)
@@ -64,11 +70,25 @@ export const Form: FC<FormProps> = ({
     }))
   }
 
+  const onEmojiClick = (
+    emojiEvent: React.MouseEvent<Element, MouseEvent>,
+    emojiObject: IEmojiData
+  ): void => {
+    emojiEvent.preventDefault()
+
+    setFormData((previousFormData) => ({
+      ...previousFormData,
+      emoji: emojiObject.emoji,
+    }))
+    setEmojiPickerVisibility(!emojiPickerVisibility)
+  }
+
   return (
     <StyledForm
       id={formIdentifier}
       onSubmit={(formEvent) => {
         formEvent.preventDefault()
+
         void handleFormData()
       }}
     >
@@ -111,6 +131,23 @@ export const Form: FC<FormProps> = ({
                   rows={4}
                   onChange={handleInputChange}
                 />
+              )}
+              {typeOfInput === 'emoji' && (
+                <StyledPickerContainer
+                  isEmojiChosen={formData.hasOwnProperty('emoji')}
+                  visibilityProp={emojiPickerVisibility}
+                >
+                  <Button
+                    className="emojiPickerVisibilityButton"
+                    onClick={() =>
+                      void setEmojiPickerVisibility(!emojiPickerVisibility)
+                    }
+                  >
+                    {formData.emoji ? formData.emoji : placeholder}
+                  </Button>
+
+                  <Picker onEmojiClick={onEmojiClick} />
+                </StyledPickerContainer>
               )}
             </div>
           )

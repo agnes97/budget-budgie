@@ -36,3 +36,40 @@ export const StyledForm = styled.form`
     text-transform: uppercase;
   }
 `
+
+interface Props {
+  visibilityProp: boolean
+  isEmojiChosen: boolean
+}
+
+export const StyledPickerContainer = styled.div<Props>`
+  width: 100%;
+
+  & > aside {
+    display: ${(props) => (props.visibilityProp ? 'block' : 'none')};
+    height: 30rem;
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    position: inherit;
+    overflow: auto;
+    border: none;
+    padding: 0.5rem;
+  }
+
+  & > .emojiPickerVisibilityButton {
+    justify-content: left;
+    width: 100%;
+    ${(props) =>
+      !props.isEmojiChosen && 'color: var(--text-transparent-color);'};
+  }
+
+  & * .active-category-indicator-wrapper {
+    display: none;
+  }
+
+  & * button.active {
+    background-color: var(--background-transparent-color);
+    border-radius: 10%;
+  }
+`

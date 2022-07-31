@@ -307,6 +307,7 @@ export const addNewItemToBudget = async (
           {
             done: 0,
             ...newContentOption,
+            emoji: newContentOption.emoji ? newContentOption.emoji : null,
             note: newContentOption.note ? newContentOption.note : null,
           },
         ],

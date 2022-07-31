@@ -15,6 +15,7 @@ export const StyledPopUp = styled.section`
   background-color: hsla(0, 0%, 100%, 0.5);
   opacity: 0;
   visibility: hidden;
+
   &.pop-up-open {
     opacity: 1;
     visibility: visible;
@@ -24,10 +25,10 @@ export const StyledPopUp = styled.section`
     max-height: 90%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     border: 1rem solid var(--background-transparent-color);
     padding: 2rem 1.5rem;
+    overflow-y: scroll;
 
     &.have-month-colors {
       background-color: var(--have-month-background);

@@ -4,7 +4,6 @@ import { Form } from 'components/Form'
 import { PopUp } from 'components/PopUp'
 import { useBudgetData } from 'contexts/Budget'
 import type { DataCategory, DataContentOptions } from 'services/budget/types'
-// import { listEmoji } from 'services/emoji'
 
 import { ButtonContainer } from '../ButtonContainer'
 
@@ -27,9 +26,8 @@ export const AddItemToCategoryPopUp: FC<AddItemToCategoryProps> = ({
     newItem: DataContentOptions
   ): void => {
     void addNewItem(itemCategory, newItem)
+    onClose()
   }
-
-  // const emojis = listEmoji()
 
   return (
     <PopUp
@@ -46,6 +44,7 @@ export const AddItemToCategoryPopUp: FC<AddItemToCategoryProps> = ({
             cost: Number(formData.cost),
             item: formData.item,
             note: formData.note,
+            emoji: formData.emoji,
           }
 
           void handleAddItem(category, newItem)
@@ -56,21 +55,28 @@ export const AddItemToCategoryPopUp: FC<AddItemToCategoryProps> = ({
             type: 'number',
             identifier: 'cost',
             label: 'COST',
-            placeholder: '123,-',
+            placeholder: 'ENTER NUMBER OR LEAVE EMPTY.',
             required: true,
+          },
+          {
+            typeOfInput: 'emoji',
+            identifier: 'emoji',
+            label: 'EMOJI',
+            placeholder: 'PICK AN EMOJI OR LEAVE EMPTY.',
+            required: false,
           },
           {
             typeOfInput: 'input',
             identifier: 'item',
             label: 'ITEM',
-            placeholder: 'ITEM',
+            placeholder: 'ENTER TEXT. THIS FIELD IS MANDATORY!',
             required: true,
           },
           {
             typeOfInput: 'textarea',
             identifier: 'note',
             label: 'NOTE',
-            placeholder: 'NOTE',
+            placeholder: 'ENTER TEXT OR LEAVE EMPTY.',
             required: false,
           },
         ]}
@@ -84,27 +90,6 @@ export const AddItemToCategoryPopUp: FC<AddItemToCategoryProps> = ({
           },
         ]}
       />
-
-      {/* 
-              <div>
-                <label htmlFor="cost">EMOJI:</label>
-                <select
-                  name="cost"
-                  onChange={(selectChangeEvent) =>
-                    void setNewItem({
-                      ...newItem,
-                      emoji: selectChangeEvent.target.value.toLocaleString(),
-                    })
-                  }
-                >
-                  {emojis.map((emoji) => (
-                    <option key={emoji} value={emoji}>
-                      {emoji}
-                    </option>
-                  ))}
-                </select>
-              </div>
-               */}
     </PopUp>
   )
 }
