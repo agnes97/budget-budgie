@@ -45,6 +45,7 @@ export const AddItemToCategoryPopUp: FC<AddItemToCategoryProps> = ({
           const newItem = {
             cost: Number(formData.cost),
             item: formData.item,
+            note: formData.note,
           }
 
           void handleAddItem(category, newItem)
@@ -64,6 +65,13 @@ export const AddItemToCategoryPopUp: FC<AddItemToCategoryProps> = ({
             label: 'ITEM',
             placeholder: 'ITEM',
             required: true,
+          },
+          {
+            typeOfInput: 'textarea',
+            identifier: 'note',
+            label: 'NOTE',
+            placeholder: 'NOTE',
+            required: false,
           },
         ]}
       />

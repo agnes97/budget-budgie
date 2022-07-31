@@ -305,9 +305,9 @@ export const addNewItemToBudget = async (
         [`categories.${className}`]: [
           ...contentOptions,
           {
-            note: null,
             done: 0,
             ...newContentOption,
+            note: newContentOption.note ? newContentOption.note : null,
           },
         ],
       })
