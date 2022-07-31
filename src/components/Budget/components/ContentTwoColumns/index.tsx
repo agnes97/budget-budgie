@@ -43,8 +43,6 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
   const handleNewItemPopUpClosing = () =>
     void setIsNewItemPopUpVisible(!isNewItemPopUpVisible)
 
-  // const jsonEscape = (str: DataContentOptions["note"]) => (str ?? "").replace(/[\n]/g, '\\n')
-
   return (
     <>
       {article.map((item: DataContentOptions, index) => (

@@ -1,10 +1,11 @@
-// TODO: Fix following linting problems!
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import type { FC } from 'react'
 import { useState } from 'react'
 
-import { sortByEmoji, sortItemsBy } from 'services/budget'
+// import { sortByEmoji, sortItemsBy } from 'services/budget'
+
+import { Button } from 'components/Button'
 
 import { StyledContentOneColumn } from './styled'
 
@@ -12,9 +13,11 @@ import type {
   Data,
   DataContentOptions,
 } from '../../../../services/budget/types'
+import { AddItemToCategoryPopUp } from '../AddItemToCategoryPopUp'
 import type { PopUpData } from '../BudgetNotePopUp'
 import { BudgetNotePopUp } from '../BudgetNotePopUp'
-import { ButtonContainer } from '../ButtonContainer'
+import { StyledAddItemToCategoryPopUpContainer } from '../ContentTwoColumns/styled'
+// import { ButtonContainer } from '../ButtonContainer'
 
 interface Props {
   article: DataContentOptions[]
@@ -22,71 +25,87 @@ interface Props {
 }
 
 export const ContentOneColumn: FC<Props> = ({ article, column }) => {
-  const [sortedArticle, setSortedArticle] = useState(article)
-  const [isPopUpVisible, setIsPopUpVisible] = useState(false)
+  // const [sortedArticle, setSortedArticle] = useState(article)
+  const [isBudgetNotePopUpVisible, setIsBudgetNotePopUpVisible] =
+    useState(false)
+  const [isNewItemPopUpVisible, setIsNewItemPopUpVisible] = useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
 
-  const handleSortItemsBy = (sortBy: keyof DataContentOptions) => () =>
-    void setSortedArticle(sortItemsBy([...article], sortBy))
+  // const handleSortItemsBy = (sortBy: keyof DataContentOptions) => () =>
+  //   void setSortedArticle(sortItemsBy([...article], sortBy))
 
-  const handleSortItemsByEmoji = () => () =>
-    void setSortedArticle(sortByEmoji([...article], '✈️'))
+  // const handleSortItemsByEmoji = () => () =>
+  //   void setSortedArticle(sortByEmoji([...article], '✈️'))
 
-  const handlePopUpClosing = () => void setIsPopUpVisible(!isPopUpVisible)
+  // Budget Note PopUp
+  const handleBudgetNotePopUpClosing = () =>
+    void setIsBudgetNotePopUpVisible(!isBudgetNotePopUpVisible)
 
-  const handlePopUp = (data: PopUpData): void => {
+  const handleBudgetNotePopUp = (data: PopUpData): void => {
     setPopUpData(data)
-    setIsPopUpVisible(!isPopUpVisible)
+    setIsBudgetNotePopUpVisible(!isBudgetNotePopUpVisible)
   }
+
+  // New Item PopUp
+  const handleNewItemPopUpClosing = () =>
+    void setIsNewItemPopUpVisible(!isNewItemPopUpVisible)
 
   return (
     <StyledContentOneColumn className="content-one-column">
-      <div>
-        {sortedArticle.map((item: DataContentOptions) => (
-          <div
-            key={item.item}
-            title={item.note}
-            className={`content-one-column-row ${item.done === 1 && 'done'}`}
-            onClick={() =>
-              void handlePopUp({
-                emoji: item.emoji,
-                item: item.item,
-                note: item.note,
-              })
-            }
-          >
-            <span className="emoji">{item.emoji}</span>
-            <span className={item.note ? 'item italic' : 'item'}>
-              {item.item}
-            </span>
-          </div>
-        ))}
-      </div>
-      <ButtonContainer
+      {article.map((item: DataContentOptions, index) => (
+        <div
+          key={item.item}
+          title={item.note}
+          className={`content-one-column-row ${item.done === 1 && 'done'}`}
+          onClick={() =>
+            void handleBudgetNotePopUp({
+              index,
+              emoji: item.emoji,
+              item: item.item,
+              note: item.note,
+            })
+          }
+        >
+          <span className="emoji">{item.emoji}</span>
+          <span className={item.note ? 'item italic' : 'item'}>
+            {item.item}
+          </span>
+        </div>
+      ))}
+
+      {/* <ButtonContainer
         title="SORT BY:"
         buttonsParameters={[
           { value: 'NAME', onClick: handleSortItemsBy('item') },
           { value: 'EMOJI', onClick: handleSortItemsBy('emoji') },
           { value: '✈️', onClick: handleSortItemsByEmoji() },
         ]}
-      />
+      /> */}
 
       {/* HIDDEN POP-UP */}
-      {/* TODO: Implement:
-        const handleNoteEdit = async (newNote: string) => {
-          const noteRef = doc(firestore, "budgets", "showcase")
+      <StyledAddItemToCategoryPopUpContainer>
+        {isNewItemPopUpVisible ? (
+          <AddItemToCategoryPopUp
+            visibility={isNewItemPopUpVisible}
+            category={column}
+            onClose={handleNewItemPopUpClosing}
+          />
+        ) : (
+          <Button
+            className="submit-button"
+            shape="circular"
+            onClick={() => void setIsNewItemPopUpVisible(true)}
+          >
+            +
+          </Button>
+        )}
+      </StyledAddItemToCategoryPopUpContainer>
 
-          await updateDoc(noteRef, {
-              // TODO: Classname should not be undefined!
-              [`categories.${className}`]:
-              [...orinal array without replaced element, replaced element with new note value]
-          })
-      }
-      */}
       <BudgetNotePopUp
         className={column}
-        visibility={isPopUpVisible}
-        onClose={handlePopUpClosing}
+        visibility={isBudgetNotePopUpVisible}
+        onClose={handleBudgetNotePopUpClosing}
+        index={popUpData?.index}
         emoji={popUpData?.emoji}
         item={popUpData?.item}
         note={popUpData?.note}

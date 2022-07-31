@@ -7,5 +7,4 @@ export const StyledContentOneColumn = styled.div`
   height: 100%;
   display: flex;
   flex-flow: column;
-  place-content: space-between;
 `
