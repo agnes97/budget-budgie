@@ -283,6 +283,40 @@ export const updateBudgetInfoByBudgetId = async (
   }
 }
 
+// ADD NEW OWNER TO BUDGET
+export const addNewOwnerToBudget = async (
+  budgetId: string,
+  className: string,
+  newOwner: DataContentOptions
+): Promise<void> => {
+  const budgetDocumentReference = doc(budgetsCollection, budgetId)
+
+  try {
+    await runTransaction(firestore, async (transaction) => {
+      const budgetSnapshot = await transaction.get(budgetDocumentReference)
+
+      if (!budgetSnapshot.exists()) {
+        return
+      }
+
+      const contentOptions = budgetSnapshot.data().categories[className]
+
+      transaction.update(budgetDocumentReference, {
+        [`categories.${className}`]: [
+          ...contentOptions,
+          {
+            ...newOwner,
+            emoji: newOwner.emoji ? newOwner.emoji : null,
+            note: newOwner.note ? newOwner.note : null,
+          },
+        ],
+      })
+    })
+  } catch (error) {
+    console.error('Transaction failed: ', error)
+  }
+}
+
 // ADD NEW ITEM TO BUDGET
 export const addNewItemToBudget = async (
   budgetId: string,

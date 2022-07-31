@@ -8,40 +8,55 @@
 import type { FC } from 'react'
 import { useState } from 'react'
 
+import { Button } from 'components/Button'
+
 import { StyledArticleIncome } from './styled'
 
 import type { DataContentOptions } from '../../../../services/budget/types'
+import { AddOwnersPopUp } from '../AddOwnersPopUp'
 import { ArticlesHeader } from '../ArticlesHeader'
 import { ArticlesTotalFirstChild } from '../ArticlesTotal'
 import type { PopUpData } from '../BudgetNotePopUp'
 import { BudgetNotePopUp } from '../BudgetNotePopUp'
-import { StyledContentTwoColumns } from '../ContentTwoColumns/styled'
+import {
+  StyledAddItemToCategoryPopUpContainer,
+  StyledContentTwoColumns,
+} from '../ContentTwoColumns/styled'
 
 interface IncomeProps {
   incomeData: any
 }
 
 export const Income: FC<IncomeProps> = ({ incomeData }) => {
-  const [isPopUpVisible, setIsPopUpVisible] = useState(false)
+  const [isBudgetNotePopUpVisible, setIsBudgetNotePopUpVisible] =
+    useState(false)
   const [popUpData, setPopUpData] = useState<PopUpData>()
+  const [isNewOwnerPopUpVisible, setIsNewOwnerPopUpVisible] = useState(false)
 
-  const handlePopUpClosing = () => void setIsPopUpVisible(!isPopUpVisible)
+  // Budget Note PopUp
+  const handleBudgetNotePopUpClosing = () =>
+    void setIsBudgetNotePopUpVisible(!isBudgetNotePopUpVisible)
 
-  const handlePopUp = (data: PopUpData): void => {
+  const handleBudgetNotePopUp = (data: PopUpData): void => {
     setPopUpData(data)
-    setIsPopUpVisible(!isPopUpVisible)
+    setIsBudgetNotePopUpVisible(!isBudgetNotePopUpVisible)
   }
+
+  // New Owner PopUp
+  const handleNewOwnerPopUpClosing = () =>
+    void setIsNewOwnerPopUpVisible(!isNewOwnerPopUpVisible)
 
   return (
     <StyledArticleIncome className={incomeData.class}>
       <ArticlesHeader title={incomeData.title} subtitle={incomeData.subtitle} />
       <div className="content">
-        {incomeData.content.map((person: DataContentOptions) => (
+        {incomeData.content.map((person: DataContentOptions, index: number) => (
           <StyledContentTwoColumns
             key={person.name}
             className="content-two-columns"
             onClick={() =>
-              void handlePopUp({
+              void handleBudgetNotePopUp({
+                index,
                 emoji: person.emoji,
                 item: person.name,
                 note: person.note,
@@ -52,28 +67,40 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
               <span className="emoji">{person.emoji}</span>
               <span className="name">{person.name}</span>
             </div>
-            <span className="wage">{person.wage?.toLocaleString()}</span>
+            <span className="wage">
+              {person.wage ? person.wage.toLocaleString() : 0}
+            </span>
           </StyledContentTwoColumns>
         ))}
+
+        {/* HIDDEN ADD OWNER POP-UP */}
+        <StyledAddItemToCategoryPopUpContainer>
+          {isNewOwnerPopUpVisible ? (
+            <AddOwnersPopUp
+              visibility={isNewOwnerPopUpVisible}
+              categoryClass={incomeData.class}
+              onClose={handleNewOwnerPopUpClosing}
+            />
+          ) : (
+            <Button
+              className="submit-button"
+              shape="circular"
+              onClick={() => void setIsNewOwnerPopUpVisible(true)}
+            >
+              +
+            </Button>
+          )}
+        </StyledAddItemToCategoryPopUpContainer>
       </div>
+
       <ArticlesTotalFirstChild />
 
-      {/* HIDDEN POP-UP */}
-      {/* TODO: Implement:
-                const handleNoteEdit = async (newNote: string) => {
-                const noteRef = doc(firestore, "budgets", "showcase")
-
-                await updateDoc(noteRef, {
-                    // TODO: Classname should not be undefined!
-                    [`categories.${className}`]:
-                    [...orinal array without replaced element, replaced element with new note value]
-                })
-            }
-            */}
+      {/* HIDDEN NOTE POP-UP */}
       <BudgetNotePopUp
         className={incomeData.class}
-        visibility={isPopUpVisible}
-        onClose={handlePopUpClosing}
+        visibility={isBudgetNotePopUpVisible}
+        onClose={handleBudgetNotePopUpClosing}
+        index={popUpData?.index}
         emoji={popUpData?.emoji}
         item={popUpData?.item}
         note={popUpData?.note}

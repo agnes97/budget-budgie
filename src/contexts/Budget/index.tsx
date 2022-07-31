@@ -12,6 +12,7 @@ import {
 import { useUser } from 'contexts/User'
 import {
   addNewItemToBudget,
+  addNewOwnerToBudget,
   deleteBudgetById,
   deleteItemFromBudget,
   getActiveBudgetByUserId,
@@ -34,6 +35,10 @@ interface BudgetContextType {
   expensesData: Data[]
   incomeData: Data | undefined
   budgetInfo: BudgetInfo
+  addNewOwner: (
+    className: string,
+    newOwner: DataContentOptions
+  ) => Promise<void>
   addNewItem: (className: string, newItem: DataContentOptions) => Promise<void>
   deleteBudget: (
     newActiveBudgetId: string,
@@ -69,6 +74,7 @@ const BudgetContext = createContext<BudgetContextType>({
     title: '',
     description: '',
   },
+  addNewOwner: async () => {},
   addNewItem: async () => {},
   deleteBudget: async () => {},
   deleteItem: async () => {},
@@ -188,6 +194,12 @@ export const BudgetDataProvider: FC = ({ children }) => {
     [budgetId, budgetInfo.title, user]
   )
 
+  const addNewOwner = useCallback(
+    async (className: string, newOwner: DataContentOptions) =>
+      void (await addNewOwnerToBudget(budgetId, className, newOwner)),
+    [budgetId]
+  )
+
   const addNewItem = useCallback(
     async (className: string, newItem: DataContentOptions) =>
       void (await addNewItemToBudget(budgetId, className, newItem)),
@@ -235,11 +247,13 @@ export const BudgetDataProvider: FC = ({ children }) => {
       setCategoryItemAsDone,
       setNoteToCategoryItem,
       updateBudgetInfo,
+      addNewOwner,
       addNewItem,
       deleteBudget,
       deleteItem,
     }),
     [
+      addNewOwner,
       addNewItem,
       deleteBudget,
       deleteItem,

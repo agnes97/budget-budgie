@@ -35,7 +35,6 @@ export const StyledBudget = styled.section`
     }
 
     & > .content {
-      height: 100%;
       line-height: 1.7;
 
       @media ${device.mobile} {
