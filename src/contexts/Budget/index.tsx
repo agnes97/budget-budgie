@@ -110,7 +110,7 @@ export const BudgetDataProvider: FC = ({ children }) => {
         setBudgetId(defaultBudgetId)
         setBudgetInfo({
           title: '',
-          description: '',
+          description: 'This is a Showcase budget meant to show you how your own budgets might look. :) After registration, you\'ll get your own copy of Showcase to play with.',
         })
         return
       }
