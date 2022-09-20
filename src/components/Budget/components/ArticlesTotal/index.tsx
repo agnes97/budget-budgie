@@ -11,6 +11,7 @@ export const ArticlesTotalFirstChild: FC = () => {
   const monthlyEarnings = countMonthlyWage(budgetData, 0)
   const yearlyEarning = countMonthlyWage(budgetData, 0) * 12
   const monthlyExpenses = countCost(budgetData, 1, 'cost') ?? 0
+  const monthlySavings = monthlyEarnings - monthlyExpenses
   const yearlyExpenses = monthlyExpenses * 12
   const yearlySavings = yearlyEarning - monthlyExpenses * 12
 
@@ -26,10 +27,14 @@ export const ArticlesTotalFirstChild: FC = () => {
           <span className="number expenses">
             {monthlyExpenses.toLocaleString()}
           </span>
+          <span className="number savings">
+            {monthlySavings.toLocaleString()}
+          </span>
         </div>
       </div>
       <div>
         <span className="title">YEARLY:</span>
+        <span className="subtitle">(calculated as monthly * 12)</span>
         <div className="numbers-container">
           <span className="number earnings">
             {yearlyEarning.toLocaleString()}
@@ -53,7 +58,7 @@ export const ArticlesTotal: FC = () => {
     // DISPLAY TOTAL COST OF MONTHLY NEEDS IN THE SECOND COLUMN
     <StyledArticleTotal>
       <span className="column-total">
-        {countCost(budgetData, 1, 'cost')?.toLocaleString()}
+        - {countCost(budgetData, 1, 'cost')?.toLocaleString()}
       </span>
     </StyledArticleTotal>
   )
