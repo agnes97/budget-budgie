@@ -11,4 +11,13 @@ export const StyledButtonContainer = styled.div`
     padding: 0.5rem;
     justify-content: center;
   }
+
+  & > .disabled-overlay > button {
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
 `
