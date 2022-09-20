@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import type { IEmojiData } from 'emoji-picker-react'
 import Picker from 'emoji-picker-react'
 import { useState } from 'react'
@@ -134,6 +132,7 @@ export const Form: FC<FormProps> = ({
               )}
               {typeOfInput === 'emoji' && (
                 <StyledPickerContainer
+                  // eslint-disable-next-line no-prototype-builtins
                   isEmojiChosen={formData.hasOwnProperty('emoji')}
                   visibilityProp={emojiPickerVisibility}
                 >

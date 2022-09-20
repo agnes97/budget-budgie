@@ -11,7 +11,7 @@
 	"scripts": {
 		"build": "react-scripts build",
 		"format": "prettier --write src/**/*.{js,ts,tsx,css,md,json}",
-		"lint": "eslint --ext .ts,.tsx src --report-unused-disable-directives",
+		"lint": "eslint --ext .ts,.tsx src",
 		"lint:css": "stylelint src",
 		"start": "react-scripts start"
 	},
