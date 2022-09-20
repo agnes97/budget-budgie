@@ -17,7 +17,7 @@ import {
   deleteItemFromBudget,
   getActiveBudgetByUserId,
   setActiveBudgetByUserId,
-  setBudgetCategoryItemAsDone,
+  setBudgetCategoryItemDone,
   setNoteToBudgetCategoryItem,
   subscribeData,
   updateBudgetInfoByBudgetId,
@@ -48,7 +48,8 @@ interface BudgetContextType {
   setActiveBudget: (newActiveBudgetId: string) => Promise<void>
   setCategoryItemAsDone: (
     className: string,
-    categoryItemIndex: number
+    categoryItemIndex: number,
+    done: 'setDone' | 'setUndone'
   ) => Promise<void>
   setNoteToCategoryItem: (
     className: string,
@@ -213,11 +214,12 @@ export const BudgetDataProvider: FC = ({ children }) => {
   )
 
   const setCategoryItemAsDone = useCallback(
-    async (className: string, categoryItemIndex: number): Promise<void> =>
-      void (await setBudgetCategoryItemAsDone(
+    async (className: string, categoryItemIndex: number, done: 'setDone' | 'setUndone'): Promise<void> =>
+      void (await setBudgetCategoryItemDone(
         budgetId,
         className,
-        categoryItemIndex
+        categoryItemIndex,
+        done
       )),
     [budgetId]
   )

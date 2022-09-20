@@ -418,10 +418,11 @@ export const setNoteToBudgetCategoryItem = async (
 }
 
 // SET BUDGET CATEGORY ITEM AS DONE
-export const setBudgetCategoryItemAsDone = async (
+export const setBudgetCategoryItemDone = async (
   budgetId: string,
   className: string,
-  contentOptionIndex: number
+  contentOptionIndex: number,
+  done: 'setDone' | 'setUndone'
 ): Promise<void> => {
   const budgetDocumentReference = doc(budgetsCollection, budgetId)
 
@@ -437,7 +438,7 @@ export const setBudgetCategoryItemAsDone = async (
 
       const newContentOption = {
         ...contentOptions[contentOptionIndex],
-        done: 1,
+        done: done === 'setDone' ? 1 : 0,
       }
 
       transaction.update(budgetDocumentReference, {

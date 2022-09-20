@@ -66,6 +66,7 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
               emoji: item.emoji,
               item: item.item,
               note: item.note,
+              done: item.done,
             })
           }
         >
@@ -114,6 +115,7 @@ export const ContentOneColumn: FC<Props> = ({ article, column }) => {
         emoji={popUpData?.emoji}
         item={popUpData?.item}
         note={popUpData?.note}
+        done={popUpData?.done}
       />
     </StyledContentOneColumn>
   )

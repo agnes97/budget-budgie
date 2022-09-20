@@ -16,6 +16,7 @@ export interface PopUpData {
   emoji?: DataContentOptions['emoji']
   item?: DataContentOptions['item']
   note?: DataContentOptions['note']
+  done?: DataContentOptions['done']
 }
 
 type Props = PopUpData & {
@@ -30,6 +31,7 @@ export const BudgetNotePopUp: FC<Props> = ({
   emoji,
   item,
   note,
+  done,
   visibility,
   onClose,
 }) => {
@@ -79,12 +81,12 @@ export const BudgetNotePopUp: FC<Props> = ({
   }
 
   // HANDLE SET ITEM AS DONE
-  const handleSetItemAsDone = (): void => {
+  const handleSetItemAsDone = (isItemDone: 'setDone' | 'setUndone'): void => {
     if (typeof index === 'undefined') {
       return
     }
 
-    void setCategoryItemAsDone(className, index).then(onClose)
+    void setCategoryItemAsDone(className, index, isItemDone).then(onClose)
   }
 
   return (
@@ -121,8 +123,8 @@ export const BudgetNotePopUp: FC<Props> = ({
           },
           { value: '🚫 ERASE NOTE', onClick: () => void handleNoteDelete() },
           {
-            value: '✔️ MARK ITEM AS DONE',
-            onClick: () => void handleSetItemAsDone(),
+            value: done ? '❌ MARK ITEM AS NOT DONE' : '✔️ MARK ITEM AS DONE',
+            onClick: () => void handleSetItemAsDone(done ? 'setUndone' : 'setDone'),
           },
           { value: '⛔ DELETE ITEM', onClick: () => handleItemDelete() },
         ]}

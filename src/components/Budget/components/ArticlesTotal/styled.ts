@@ -35,6 +35,12 @@ export const StyledArticleTotal = styled.div`
       background-color: var(--background-transparent-color);
     }
 
+    & > .subtitle {
+      font-weight: normal;
+      font-style: italic;
+      padding-bottom: 0.5rem;
+    }
+
     & > .title::after {
       content: ' (czk)';
       font-size: 1.2rem;
