@@ -41,7 +41,7 @@ export const AddItemToCategoryPopUp: FC<AddItemToCategoryProps> = ({
         formIdentifier="addItemToCategoryForm"
         actionOnSubmit={(formData) => {
           const newItem = {
-            cost: Number(formData.cost),
+            cost: Number(formData.cost.replace(/\s/u, '')),
             item: formData.item,
             note: formData.note,
             emoji: formData.emoji,
