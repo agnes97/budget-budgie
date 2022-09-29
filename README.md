@@ -1,52 +1,45 @@
-# BUDGET BUDGIE
+<h1>
+<img align="top" src="src/assets/budgie.png" width="60">
+<span>𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔾𝕀𝔼</span>
+<img align="top" src="src/assets/budgie.png" width="60">
+</h1>
 
-...
+*__Budget Budgie__ is a personal "pet" project to customise handling of household budget in an effective way.*
 
-## Prerequisites ⚙️
+*Feel free to use it, but be aware that it also servers as a way to learn coding and therefore some features might end up sacrificing the best, fastest solutions in favor of trying out multiple/new approaches/proofs of concept.*
 
--   [Node.js](https://nodejs.org/en/download/)
--   [Yarn](https://classic.yarnpkg.com/en/docs/getting-started) package manager
+*Budgie has also been documenting my "junior software dev to be" learning curve for over a year and I am aware of some bad naming, architectural decisions and other almost-legacy-code I could do better now that I simply didn't have time to refactor yet. It might take time before I get to fixing bugs that don't "bug me that much" (pun intended) in my free time.*
 
-## Getting Started 🚀
+***
 
--   type `yarn` to install dependencies
--   type `yarn start` and open [http://localhost:3000](http://localhost:3000) to view project in the browser.
+## 𝕓𝕦𝕚𝕝𝕕 𝕨𝕚𝕥𝕙
 
-## Available Scripts 📃
+- [React.js](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
+- [Firebase](https://firebase.google.com/) (Auth & Firestore DB)
+- [Netlify](https://www.netlify.com/) (hosting)
+
+***
+
+## 𝕡𝕣𝕖𝕣𝕖𝕢𝕦𝕚𝕤𝕚𝕥𝕖𝕤
+
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en/download/)
+- [Yarn](https://classic.yarnpkg.com/en/docs/getting-started)
+
+***
+
+## 𝕚𝕟𝕤𝕥𝕒𝕝𝕝𝕒𝕥𝕚𝕠𝕟
+
+1. type `yarn` to install dependencies
+2. create local `.env.development` file and fill it with correct envinronment variables that can be found in `Firebase console > Project settings` (or ask for them)
+3. type `yarn start` to open [http://localhost:3000](http://localhost:3000) and view project in the browser
+
+***
+
+## 𝕒𝕧𝕒𝕚𝕝𝕒𝕓𝕝𝕖 𝕤𝕔𝕣𝕚𝕡𝕥𝕤
 
 In the project directory, you can run:
-
--   `yarn start`
-
-    -   🚀 Runs the app in the development mode.\
-        Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-        The page will reload if you make edits.\
-        You will also see any lint errors in the console.
-
--   `yarn test`
-
-    -   🧪 Launches the test runner in the interactive watch mode.\
-        See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
--   `yarn code:fix`
-
-    -   💅 Formats the code according to the set rules
-
--   `yarn build`
-
-    -   🏗️ Builds the app for production to the `build` folder.\
-        It correctly bundles React in production mode and optimizes the build for the best performance.
-
-        The build is minified and the filenames include the hashes.\
-        Your app is ready to be deployed!
-
-        See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
--   `yarn eject` ⚠️ **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-    -   ☝️ If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-        Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-        You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- yarn `start` (opens localhost)
+- yarn `format` (formats with Prettier)
+- yarn `lint` (lints with ESLint)
+- yarn `lint:css` (lints with StyleLint)
