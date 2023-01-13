@@ -72,6 +72,7 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
                   item: item.item,
                   note: item.note,
                   done: item.done,
+                  cost: item.cost,
                 })
               }
             >
@@ -112,6 +113,7 @@ export const ContentTwoColumns: FC<Props> = ({ article, column }) => {
         item={popUpData?.item}
         note={popUpData?.note}
         done={popUpData?.done}
+        cost={popUpData?.cost}
       />
     </>
   )

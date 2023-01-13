@@ -63,7 +63,8 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
                 emoji: person.emoji,
                 item: person.name,
                 note: person.note,
-                done: person.done
+                done: person.done,
+                wage: person.wage,
               })
             }
           >
@@ -111,6 +112,7 @@ export const Income: FC<IncomeProps> = ({ incomeData }) => {
         item={popUpData?.item}
         note={popUpData?.note}
         done={popUpData?.done}
+        cost={popUpData?.wage}
       />
     </StyledArticleIncome>
   )

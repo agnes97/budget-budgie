@@ -17,12 +17,26 @@ export interface PopUpData {
   item?: DataContentOptions['item']
   note?: DataContentOptions['note']
   done?: DataContentOptions['done']
+  cost?: DataContentOptions['cost']
+  wage?: DataContentOptions['wage']
 }
 
 type Props = PopUpData & {
   className: Data['class']
   onClose: () => void
   visibility: boolean
+}
+
+const createHeaderTitleText = (
+  title: string,
+  cost?: number,
+  wage?: number
+): string => {
+  if (cost) return `${title} [ ${cost.toLocaleString()} czk ]`
+  if (wage) return `${title} [ ${wage.toLocaleString()} czk ]`
+
+  // if there is neither cost nor wage return:
+  return `${title} [ ??? ]`
 }
 
 export const BudgetNotePopUp: FC<Props> = ({
@@ -32,6 +46,8 @@ export const BudgetNotePopUp: FC<Props> = ({
   item,
   note,
   done,
+  cost,
+  wage,
   visibility,
   onClose,
 }) => {
@@ -94,7 +110,7 @@ export const BudgetNotePopUp: FC<Props> = ({
       visibility={visibility}
       backgroundColor={className}
       headerTitleEmoji={emoji}
-      headerTitleText={item ?? ''}
+      headerTitleText={item ? createHeaderTitleText(item, cost, wage) : ''}
       onClose={onClose}
     >
       <article className="note-container">
@@ -124,7 +140,8 @@ export const BudgetNotePopUp: FC<Props> = ({
           { value: '🚫 ERASE NOTE', onClick: () => void handleNoteDelete() },
           {
             value: done ? '❌ MARK ITEM AS NOT DONE' : '✔️ MARK ITEM AS DONE',
-            onClick: () => void handleSetItemAsDone(done ? 'setUndone' : 'setDone'),
+            onClick: () =>
+              void handleSetItemAsDone(done ? 'setUndone' : 'setDone'),
           },
           { value: '⛔ DELETE ITEM', onClick: () => handleItemDelete() },
         ]}
